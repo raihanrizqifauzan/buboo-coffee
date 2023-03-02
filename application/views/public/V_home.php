@@ -4,8 +4,8 @@
     <div class="container py-5">
       <div class="row px-4 px-lg-5">
         <div class="col-lg-6">
-          <p class="small text-uppercase mb-2">Promo Maret 2023</p>
-          <h1 class="h2 text-uppercase mb-3">Diskon 20% semua menu</h1><a class="btn btn-dark" href="shop.html">Selengkapnya</a>
+          <p class="small text-uppercase mb-2">WELCOME TO</p>
+          <h1 class="h2 text-uppercase mb-3">BUBOO COFFEE</h1><a class="btn btn-dark" href="<?= base_url('daftar-menu') ?>">Lihat Menu</a>
         </div>
       </div>
     </div>
@@ -37,74 +37,46 @@
     </header>
     <div class="row">
       <!-- PRODUCT-->
-      <div class="col-xl-3 col-lg-4 col-sm-6">
-        <div class="product text-center">
-          <div class="position-relative mb-3">
+      <div class="col-6 col-md-3">
+        <div class="text-center">
+          <div class="mb-3">
             <!-- <div class="badge text-white bg-primary">Sale</div> -->
-            <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="<?= base_url('assets/public/') ?>img/es-coklat.png" alt="..."></a>
-            <div class="product-overlay">
-              <ul class="mb-0 list-inline">
-                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="cart.html">Add to cart</a></li>
-                <li class="list-inline-item me-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i class="fas fa-expand"></i></a></li>
-              </ul>
-            </div>
+            <a class="d-block" href="<?= base_url('detail-menu') ?>"><img class="img-fluid w-100" src="<?= base_url('assets/public/') ?>img/es-coklat.png" alt="..."></a>
           </div>
-          <h6> <a class="reset-anchor" href="detail.html">Chocolate Ice</a></h6>
+          <h6> <a class="reset-anchor" href="<?= base_url('detail-menu') ?>">Chocolate Ice</a></h6>
           <p class="small text-muted">Rp15.000</p>
         </div>
       </div>
       <!-- PRODUCT-->
-      <div class="col-xl-3 col-lg-4 col-sm-6">
-        <div class="product text-center">
-          <div class="position-relative mb-3">
+      <div class="col-6 col-md-3">
+        <div class="text-center">
+          <div class="mb-3">
             <!-- <div class="badge text-white bg-primary">Sale</div> -->
-            <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="<?= base_url('assets/public/') ?>img/cappucino.jfif" alt="..."></a>
-            <div class="product-overlay">
-              <ul class="mb-0 list-inline">
-                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="cart.html">Add to cart</a></li>
-                <li class="list-inline-item me-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i class="fas fa-expand"></i></a></li>
-              </ul>
-            </div>
+            <a class="d-block" href="<?= base_url('detail-menu') ?>"><img class="img-fluid w-100" src="<?= base_url('assets/public/') ?>img/cappucino.jfif" alt="..."></a>
           </div>
-          <h6> <a class="reset-anchor" href="detail.html">Cappucino</a></h6>
+          <h6> <a class="reset-anchor" href="<?= base_url('detail-menu') ?>">Cappucino</a></h6>
           <p class="small text-muted">Rp15.000</p>
         </div>
       </div>
       <!-- PRODUCT-->
-      <div class="col-xl-3 col-lg-4 col-sm-6">
-        <div class="product text-center">
-          <div class="position-relative mb-3">
+      <div class="col-6 col-md-3">
+        <div class="text-center">
+          <div class="mb-3">
             <!-- <div class="badge text-white bg-primary">Sale</div> -->
-            <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="<?= base_url('assets/public/') ?>img/taro.jpg" alt="..."></a>
-            <div class="product-overlay">
-              <ul class="mb-0 list-inline">
-                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="cart.html">Add to cart</a></li>
-                <li class="list-inline-item me-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i class="fas fa-expand"></i></a></li>
-              </ul>
-            </div>
+            <a class="d-block" href="<?= base_url('detail-menu') ?>"><img class="img-fluid w-100" src="<?= base_url('assets/public/') ?>img/taro.jpg" alt="..."></a>
           </div>
-          <h6> <a class="reset-anchor" href="detail.html">Taro</a></h6>
+          <h6> <a class="reset-anchor" href="<?= base_url('detail-menu') ?>">Taro</a></h6>
           <p class="small text-muted">Rp15.000</p>
         </div>
       </div>
       <!-- PRODUCT-->
-      <div class="col-xl-3 col-lg-4 col-sm-6">
-        <div class="product text-center">
-          <div class="position-relative mb-3">
+      <div class="col-6 col-md-3">
+        <div class="text-center">
+          <div class="mb-3">
             <!-- <div class="badge text-white bg-primary">Sale</div> -->
-            <a class="d-block" href="detail.html"><img class="img-fluid w-100" src="<?= base_url('assets/public/') ?>img/greentea.jfif" alt="..."></a>
-            <div class="product-overlay">
-              <ul class="mb-0 list-inline">
-                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="#!"><i class="far fa-heart"></i></a></li>
-                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-dark" href="cart.html">Add to cart</a></li>
-                <li class="list-inline-item me-0"><a class="btn btn-sm btn-outline-dark" href="#productView" data-bs-toggle="modal"><i class="fas fa-expand"></i></a></li>
-              </ul>
-            </div>
+            <a class="d-block" href="<?= base_url('detail-menu') ?>"><img class="img-fluid w-100" src="<?= base_url('assets/public/') ?>img/greentea.jfif" alt="..."></a>
           </div>
-          <h6> <a class="reset-anchor" href="detail.html">Green Tea</a></h6>
+          <h6> <a class="reset-anchor" href="<?= base_url('detail-menu') ?>">Green Tea</a></h6>
           <p class="small text-muted">Rp15.000</p>
         </div>
       </div>

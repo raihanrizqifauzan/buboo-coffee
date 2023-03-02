@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Buboo Coffee</title>
+    <title><?= $title_of_page ?></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -23,5 +23,5 @@
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="<?= base_url('assets/public/') ?>css/custom.css">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="<?= base_url('assets/public/') ?><?= base_url('assets/public/') ?>img/favicon.png">
+    <link rel="shortcut icon" href="<?= base_url('assets/public/') ?>img/logo.jpg">
   </head>

@@ -8,18 +8,20 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto">
                   <li class="nav-item">
-                    <!-- Link--><a class="nav-link active" href="index.html">Home</a>
+                    <a class="nav-link <?= $this->uri->segment('1') == '' ? 'active' : '' ?>" href="<?= base_url('') ?>">Home</a>
                   </li>
                   <li class="nav-item">
-                    <!-- Link--><a class="nav-link" href="shop.html">Menu</a>
+                    <a class="nav-link <?= $this->uri->segment('1') == 'daftar-menu' ? 'active' : '' ?>" href="<?= base_url('daftar-menu') ?>">Daftar Menu</a>
                   </li>
-                  <!-- <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" id="pagesDropdown" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
-                    <div class="dropdown-menu mt-3 shadow-sm" aria-labelledby="pagesDropdown"><a class="dropdown-item border-0 transition-link" href="index.html">Homepage</a><a class="dropdown-item border-0 transition-link" href="shop.html">Category</a><a class="dropdown-item border-0 transition-link" href="detail.html">Product detail</a><a class="dropdown-item border-0 transition-link" href="cart.html">Shopping cart</a><a class="dropdown-item border-0 transition-link" href="checkout.html">Checkout</a></div>
-                  </li> -->
+                  <li class="nav-item">
+                    <a class="nav-link <?= $this->uri->segment('1') == 'contact' ? 'active' : '' ?>" href="<?= base_url('contact') ?>">Kontak</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link <?= $this->uri->segment('1') == 'about' ? 'active' : '' ?>" href="<?= base_url('about') ?>">Tentang Kami</a>
+                  </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">               
                   <li class="nav-item"><a class="nav-link" href="cart.html"> <i class="fas fa-shopping-cart me-1"></i><small class="fw-normal">(2)</small></a></li>
-                  <!-- <li class="nav-item"><a class="nav-link" href="#!"> <i class="far fa-heart me-1"></i><small class=" fw-normal"> (0)</small></a></li> -->
                   <li class="nav-item"><a class="nav-link" href="#!"> <i class="fas fa-user me-1"></i></a></li>
                 </ul>
               </div>
