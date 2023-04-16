@@ -4272,7 +4272,7 @@ fieldset:disabled .btn {
   }
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .navbar-expand-md {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4324,9 +4324,9 @@ fieldset:disabled .btn {
     padding: 0;
     overflow-y: visible;
   }
-}
+} */
 
-@media (min-width: 992px) {
+/* @media (min-width: 992px) {
   .navbar-expand-lg {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4486,7 +4486,7 @@ fieldset:disabled .btn {
     padding: 0;
     overflow-y: visible;
   }
-}
+} */
 
 .navbar-expand {
   flex-wrap: nowrap;
@@ -10879,12 +10879,12 @@ button:focus, button:active {
 }
 
 @media (min-width: 992px) {
-  .navbar-brand {
+  /* .navbar-brand {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
+  } */
 }
 
 .navbar .dropdown-menu {

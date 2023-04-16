@@ -19,9 +19,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;700&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martel+Sans:wght@300;400;800&amp;display=swap">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="<?= base_url('assets/public/') ?>css/style.default.css" id="theme-stylesheet">
+    <link rel="stylesheet" href="<?= base_url('assets/public/') ?>css/style.green.css" id="theme-stylesheet">
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="<?= base_url('assets/public/') ?>css/custom.css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="<?= base_url('assets/public/') ?>img/logo.jpg">
+    <script src="<?= base_url() ?>assets/admin/libs/jquery/dist/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>

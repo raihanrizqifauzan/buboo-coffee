@@ -1,44 +1,27 @@
-<footer class="bg-dark text-white">
-    <div class="container py-4">
-      <!-- <div class="row py-5">
-        <div class="col-md-4 mb-3 mb-md-0">
-          <h6 class="text-uppercase mb-3">Customer services</h6>
-          <ul class="list-unstyled mb-0">
-            <li><a class="footer-link" href="#!">Help &amp; Contact Us</a></li>
-            <li><a class="footer-link" href="#!">Returns &amp; Refunds</a></li>
-            <li><a class="footer-link" href="#!">Online Stores</a></li>
-            <li><a class="footer-link" href="#!">Terms &amp; Conditions</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 mb-3 mb-md-0">
-          <h6 class="text-uppercase mb-3">Company</h6>
-          <ul class="list-unstyled mb-0">
-            <li><a class="footer-link" href="#!">What We Do</a></li>
-            <li><a class="footer-link" href="#!">Available Services</a></li>
-            <li><a class="footer-link" href="#!">Latest Posts</a></li>
-            <li><a class="footer-link" href="#!">FAQs</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4">
-          <h6 class="text-uppercase mb-3">Social media</h6>
-          <ul class="list-unstyled mb-0">
-            <li><a class="footer-link" href="#!">Twitter</a></li>
-            <li><a class="footer-link" href="#!">Instagram</a></li>
-            <li><a class="footer-link" href="#!">Tumblr</a></li>
-            <li><a class="footer-link" href="#!">Pinterest</a></li>
-          </ul>
-        </div>
-      </div> -->
-      <div class="pt-2" style="border-color: #1d1d1d !important">
-        <div class="row">
-          <div class="col-md-6 text-center text-md-start">
-            <p class="small text-muted mb-0">&copy; 2023 All rights reserved.</p>
-          </div>
-          <div class="col-md-6 text-center text-md-end">
-            <p class="small text-muted mb-0">by <a class="text-white reset-anchor" href="https://instagram.com/raihanrizqifauzan">Raihan Rizqi Fauzan</a></p>
-            <!-- If you want to remove the backlink, please purchase the Attribution-Free License. See details in readme.txt or license.txt. Thanks!-->
-          </div>
-        </div>
+<style>
+  footer a {
+    color: #000;
+  }
+
+  .text-menu-active {
+    color:#429244;
+  }
+</style>
+<footer class="fixed-bottom mt-2" style="background-color:#FFF;box-shadow:0px -4px 17px 0px #c0c0c094">
+    <div class="container p-2 px-4">
+      <div class="d-flex justify-content-between text-center">
+        <a class="d-block w-100 <?= $this->uri->segment('1') == 'daftar-menu' ? 'text-menu-active' : '' ?>" href="<?= base_url('daftar-menu') ?>">
+          <div><span class="fa fa-coffee"></span></div>
+          <div><small>Menu</small></div>
+        </a>
+        <a class="d-block w-100 <?= $this->uri->segment('1') == 'scan' ? 'text-menu-active' : '' ?>" href="<?= base_url('scan') ?>">
+          <div><span class="fa fa-qrcode"></span></div>
+          <div><small>Scan Meja</small></div>
+        </a>
+        <a class="d-block w-100 <?= $this->uri->segment('1') == 'keranjang' ? 'text-menu-active' : '' ?>" href="#">
+          <div><span class="fa fa-shopping-cart"></span></div>
+          <div><small>Keranjang</small></div>
+        </a>
       </div>
     </div>
     </footer>
@@ -77,7 +60,25 @@
     <!-- FontAwesome CSS - loading as last, so it doesn't block rendering-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+      function formatRupiah(angka, prefix){
+        var number_string = angka.toString(),
+        split   		= number_string.split(','),
+        sisa     		= split[0].length % 3,
+        rupiah     		= split[0].substr(0, sisa),
+        ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+    
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+    
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+      }
+    </script>
 </div>
 </body>
 </html>

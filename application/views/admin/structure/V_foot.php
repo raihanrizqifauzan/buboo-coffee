@@ -17,7 +17,6 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="<?= base_url() ?>assets/admin/libs/jquery/dist/jquery.min.js"></script>
     <script src="<?= base_url() ?>assets/admin/libs/popper.js/dist/umd/popper.min.js"></script>
     <script src="<?= base_url() ?>assets/admin/libs/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- apps -->
@@ -37,6 +36,7 @@
     <script src="<?= base_url() ?>assets/admin/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="<?= base_url('assets/admin/') ?>dist/js/pages/dashboards/dashboard1.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 
     <?php 
     if(!empty($this->session->flashdata('notif_icon'))) {
