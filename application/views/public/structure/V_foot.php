@@ -7,7 +7,7 @@
     color:#429244;
   }
 </style>
-<footer class="fixed-bottom mt-2" style="background-color:#FFF;box-shadow:0px -4px 17px 0px #c0c0c094">
+<footer class="fixed-bottom foot-menu mt-2" style="background-color:#FFF;box-shadow:0px -4px 17px 0px #c0c0c094">
     <div class="container p-2 px-4">
       <div class="d-flex justify-content-between text-center">
         <a class="d-block w-100 <?= $this->uri->segment('1') == 'daftar-menu' ? 'text-menu-active' : '' ?>" href="<?= base_url('daftar-menu') ?>">
@@ -18,8 +18,16 @@
           <div><span class="fa fa-qrcode"></span></div>
           <div><small>Scan Meja</small></div>
         </a>
-        <a class="d-block w-100 <?= $this->uri->segment('1') == 'keranjang' ? 'text-menu-active' : '' ?>" href="#">
-          <div><span class="fa fa-shopping-cart"></span></div>
+        <?php 
+        if (isset($_COOKIE["keranjang"]) && !empty($_COOKIE["keranjang"])) {
+          $decode_keranjang = json_decode($_COOKIE["keranjang"], TRUE);
+          $counter = count($decode_keranjang);
+        } else {
+          $counter = 0;
+        }
+        ?>
+        <a class="d-block w-100 <?= $this->uri->segment('1') == 'order' ? 'text-menu-active' : '' ?>" href="<?= base_url('order') ?>">
+          <div><span class="fa fa-shopping-cart"></span> <small id="cart_counter" class="badge-default"> <?= $counter ?></small></div>
           <div><small>Keranjang</small></div>
         </a>
       </div>

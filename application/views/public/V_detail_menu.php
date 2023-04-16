@@ -18,12 +18,12 @@
             <div class="border d-flex align-items-center justify-content-between py-1 px-3 bg-white border-white"><span class="small text-uppercase text-gray mr-4 no-select">Qty :</span>
               <div class="quantity">
                 <button class="dec-btn p-0"><i class="fas fa-caret-left"></i></button>
-                <input class="form-control border-0 shadow-0 p-0" type="text" value="1">
+                <input class="form-control border-0 shadow-0 p-0" type="text" value="1" id="quantity">
                 <button class="inc-btn p-0"><i class="fas fa-caret-right"></i></button>
               </div>
             </div>
           </div>
-          <div class="col-6 pr-0 mr-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" href="#"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Order</a></div>
+          <div class="col-6 pr-0 mr-0"><a class="btn btn-dark btn-sm btn-block h-100 d-flex align-items-center justify-content-center px-0" id="btnAdd" href="#"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Order</a></div>
         </div>
       </div>
       <div class="col-12">
@@ -122,3 +122,58 @@
     ?>
   </div>
 </section>
+
+<script>
+  var id_menu = "<?= $menu->id_menu ?>";
+
+  function messageError(msg) {
+    return Swal.fire({
+      title: 'Oops',
+      text: msg,
+      icon: 'warning',
+    })
+  }
+    
+    function messageSuccess(msg) {
+      return Swal.fire({
+        title: 'Berhasil',
+        icon: 'success',
+        text: msg,
+      })
+    }
+
+  $("#btnAdd").click(function () {
+    var qty = $("#quantity").val();
+
+    $.ajax({
+      type: 'POST',
+      url: `<?= base_url() ?>order/add_to_cart`,
+      data: { 
+        id_menu: id_menu, 
+        quantity: qty,
+      },
+      beforeSend: function() {
+        Swal.fire({
+          title: 'Mohon Tunggu...',
+          width: 600,
+          padding: '3em',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+      },
+      success: function(response) {
+        var res = JSON.parse(response);
+        if (res.status) {
+          var data = res.data;
+          messageSuccess(res.message).then(function () {
+            $("#cart_counter").removeClass("d-none").html(data.total_keranjang);
+          })
+        } else {
+          messageError(res.message);
+        }
+      }
+    });
+  })
+</script>

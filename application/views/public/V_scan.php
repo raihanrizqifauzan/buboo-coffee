@@ -24,6 +24,10 @@
     #html5-qrcode-anchor-scan-type-change {
         display:none !important;
     }
+
+    .info-no-meja {
+        display:none;
+    }
 </style>
 <section class="pt-2 pb-5" style="min-height:500px;">
   <div class="container">
@@ -49,7 +53,7 @@
     let html5QrcodeScanner = new Html5QrcodeScanner(
         "reader", { 
             fps: 10, 
-            // qrbox: {width: 480, height: 250} 
+            qrbox: {width: 250, height: 250} 
         },
     false);
     

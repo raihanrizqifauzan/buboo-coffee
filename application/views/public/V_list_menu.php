@@ -12,10 +12,10 @@
       <div class="row">
         <div class="mb-5 mb-lg-0">
           <div class="row mb-4 align-items-center w-100" style="padding-left:0!important;padding-right:0!important">
-            <div class="col-8 mb-2 mb-lg-0">
+            <div class="col-8 mb-2 mb-lg-0 px-1">
               <input type="text" class="form-control" id="search_menu" placeholder="Cari Menu..." autocomplete="off">
             </div>
-            <div class="col-4 mb-2 mb-lg-0 p-0">
+            <div class="col-4 mb-2 mb-lg-0 p-0 px-1">
               <select class="form-control w-100" id="selectpicker">
                 <option value>Sort By </option>
                 <!-- <option value="popularity">Popularity </option> -->

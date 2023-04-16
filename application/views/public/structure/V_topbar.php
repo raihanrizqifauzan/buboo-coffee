@@ -1,3 +1,18 @@
+<style>
+  .badge-info, .badge-default {
+    padding: 0px 5px;
+    border-radius: 3px;
+    color: #fff;
+  }
+
+  .badge-info{
+    background: #007bff;
+  }
+
+  .badge-default {
+    background: #343a40;
+  }
+</style>
 <body id="body-container">
     <div class="page-holder">
         <!-- navbar-->
@@ -21,11 +36,17 @@
                     <a class="nav-link <?= $this->uri->segment('1') == 'about' ? 'active' : '' ?>" href="<?= base_url('about') ?>">Tentang Kami</a>
                   </li>
                 </ul>
-                <ul class="navbar-nav ms-auto">               
-                  <li class="nav-item"><a class="nav-link" href="javascript:void(0)"> <i class="fas fa-shopping-cart me-1"></i><small class="fw-normal">(2)</small></a></li>
-                  <li class="nav-item"><a class="nav-link" href="#!"> <i class="fas fa-user me-1"></i></a></li>
-                </ul>
               </div>
             </nav>
           </div>
         </header>
+
+        <div class="px-2 mb-3">
+        <?php 
+        if ($this->session->userdata('no_meja')) { ?>
+          <span class="badge-info">No. Meja : <?= $this->session->userdata('no_meja') ?></span>
+        <?php } else {?>
+          <span class="badge-default">No. Meja : Belum di Scan</span>
+        <?php }
+        ?>
+        </div>
