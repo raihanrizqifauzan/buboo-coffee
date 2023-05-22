@@ -78,6 +78,14 @@ class M_kategori extends CI_Model
         return $this->db->get()->row();
     }
 
+	public function getKategoriByName($nama_kategori)
+    {
+        $this->db->select("*");
+        $this->db->from("tb_kategori");
+        $this->db->where("nama_kategori", $nama_kategori);
+        return $this->db->get()->row();
+    }
+
     public function updateKategori($id, $data)
     {
         $this->db->set($data);

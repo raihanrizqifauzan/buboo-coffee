@@ -11,6 +11,8 @@ class Welcome extends CI_Controller
 	public function index()
 	{
 		$data['title_of_page'] = 'Home | Buboo Coffee';
+		$data['list_kategori'] = $this->M_kategori->getAllKategori();
+		$data['list_recommendation'] = $this->M_menu->getBestSellerMenu();
 		$this->load->view('public/structure/V_head', $data);
 		$this->load->view('public/structure/V_topbar');
 		$this->load->view('public/V_home');

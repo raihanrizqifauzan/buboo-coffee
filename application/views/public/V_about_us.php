@@ -1,6 +1,6 @@
 <div class="container">
     <!-- HERO SECTION-->
-    <section class="py-5 bg-light">
+    <section class="py-2 bg-light">
         <div class="container">
           <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
             <div class="col-lg-6">
@@ -17,8 +17,8 @@
           </div>
         </div>
     </section>
-    <section class="py-5">
-        <div class="row">
+    <section class="py-2">
+        <div class="row mb-5">
             <div class="col-md-12 text-justify">
                 <?= $data->content_about ?>
             </div>

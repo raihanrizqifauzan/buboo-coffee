@@ -35,7 +35,7 @@
                 <?php 
                 $image_menu = json_decode($menu->json_gambar);
                 foreach ($image_menu as $key => $img) { ?>
-                  <div class="swiper-slide h-auto swiper-thumb-item mb-3"><img class="w-100" src="<?= base_url('assets/public/') ?>img/<?= $img ?>" alt="..."></div>
+                  <div class="swiper-slide h-auto swiper-thumb-item mb-3"><img class="w-100" src="<?= base_url('assets/public/') ?>img/menu/<?= $img ?>" alt="..."></div>
                 <?php }
                 ?>
               </div>
@@ -47,7 +47,7 @@
                 <?php 
                 $image_menu = json_decode($menu->json_gambar);
                 foreach ($image_menu as $key => $img) { ?>
-                  <div class="swiper-slide h-auto"><a class="glightbox product-view" href="<?= base_url('assets/public/') ?>img/<?= $img ?>" data-gallery="gallery2" data-glightbox="Product item 1"><img class="img-fluid" src="<?= base_url('assets/public/') ?>img/<?= $img ?>" alt="..."></a></div>
+                  <div class="swiper-slide h-auto"><a class="glightbox product-view" href="<?= base_url('assets/public/') ?>img/<?= $img ?>" data-gallery="gallery2" data-glightbox="Product item 1"><img class="img-fluid" src="<?= base_url('assets/public/') ?>img/menu/<?= $img ?>" alt="..."></a></div>
                 <?php }
                 ?>
               </div>

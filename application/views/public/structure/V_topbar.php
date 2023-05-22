@@ -41,12 +41,12 @@
           </div>
         </header>
 
-        <div class="px-2 mb-3">
+        <!-- <div class="px-2 mb-3"> -->
         <?php 
         if ($this->session->userdata('no_meja')) { ?>
-          <span class="badge-info">No. Meja : <?= $this->session->userdata('no_meja') ?></span>
+          <!-- <span class="badge-info">No. Meja : <?= $this->session->userdata('no_meja') ?></span> -->
         <?php } else {?>
-          <span class="badge-default">No. Meja : Belum di Scan</span>
+          <!-- <span class="badge-default">No. Meja : Belum di Scan</span> -->
         <?php }
         ?>
-        </div>
+        <!-- </div> -->

@@ -10,13 +10,21 @@
 <footer class="fixed-bottom foot-menu mt-2" style="background-color:#FFF;box-shadow:0px -4px 17px 0px #c0c0c094">
     <div class="container p-2 px-4">
       <div class="d-flex justify-content-between text-center">
+        <a class="d-block w-100 <?= $this->uri->segment('1') == '' ? 'text-menu-active' : '' ?>" href="<?= base_url('daftar-menu') ?>">
+          <div><span class="fa fa-home"></span></div>
+          <div><small>Home</small></div>
+        </a>
         <a class="d-block w-100 <?= $this->uri->segment('1') == 'daftar-menu' ? 'text-menu-active' : '' ?>" href="<?= base_url('daftar-menu') ?>">
           <div><span class="fa fa-coffee"></span></div>
           <div><small>Menu</small></div>
         </a>
         <a class="d-block w-100 <?= $this->uri->segment('1') == 'scan' ? 'text-menu-active' : '' ?>" href="<?= base_url('scan') ?>">
           <div><span class="fa fa-qrcode"></span></div>
-          <div><small>Scan Meja</small></div>
+          <div><small>Pesan</small></div>
+        </a>
+        <a class="d-block w-100 <?= $this->uri->segment('1') == 'order/history' ? 'text-menu-active' : '' ?>" href="<?= base_url('order') ?>">
+          <div><span class="fa fa-shopping-cart"></span></div>
+          <div><small>My Order</small></div>
         </a>
         <?php 
         if (isset($_COOKIE["keranjang"]) && !empty($_COOKIE["keranjang"])) {
@@ -85,6 +93,34 @@
     
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+      }
+
+      function showLoading() {
+        return Swal.fire({
+          title: 'Processing...',
+          width: 600,
+          padding: '3em',
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+      }
+
+      function messageError(msg){
+        return Swal.fire({
+          title: 'Oops',
+          text: msg,
+          icon: 'warning',
+        })
+      }
+
+      function messageSuccess(msg){
+        return Swal.fire({
+          title: 'Success',
+          text: msg,
+          icon: 'success',
+        })
       }
     </script>
 </div>

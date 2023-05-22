@@ -77,6 +77,7 @@
                             }
                             ?>
                         </select>
+                        <small>Referensi Icon : <a href="https://openmoji.org/library/#group=food-drink%2Fdrink" target="_blank">Klik Disini</a></small>
                     </div>
                 </div>
                 <div class="modal-footer">

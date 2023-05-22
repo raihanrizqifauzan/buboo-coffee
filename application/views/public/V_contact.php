@@ -1,6 +1,6 @@
 <div class="container">
     <!-- HERO SECTION-->
-    <section class="py-5 bg-light">
+    <section class="py-2 bg-light">
         <div class="container">
           <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
             <div class="col-lg-6">
@@ -17,8 +17,8 @@
           </div>
         </div>
     </section>
-    <section class="py-5">
-        <div class="row" style="margin:0 auto;">
+    <section class="py-2">
+        <div class="row mb-5" style="margin:0 auto;">
             <div class="col-md-6 col-sm-12" style="padding:0px;!important">
                 <iframe id="maps_viewer" src="https://maps.google.com/maps?q=<?= $data->latitude_longitude ?>&z=15&output=embed" style="border:0;position: relative; height: 100%; width: 100%;"></iframe>
             </div>

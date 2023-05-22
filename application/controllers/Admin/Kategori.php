@@ -13,9 +13,9 @@ class Kategori extends CI_Controller
 
 	public function index()
 	{
-        $json = file_get_contents(base_url('assets/admin/kategori.json'));
-        $arr_icon = json_decode($json, TRUE)['4.7.0'];
-        $data['list_icon'] = $arr_icon;
+        $json = file_get_contents(base_url('assets/admin/openmoji.json'));
+        $arr_icon = json_decode($json, TRUE)['icons'];
+        $data['list_icon'] = array_keys($arr_icon);
         $data['title_page'] = "Manajemen Kategori - Buboo Coffee";
         $this->load->view('admin/structure/V_head', $data);
         $this->load->view('admin/structure/V_topbar');
@@ -39,9 +39,18 @@ class Kategori extends CI_Controller
             redirect(base_url('admin/kategori'));
         } 
 
+        $nama_kategori = $this->input->post('nama_kategori', TRUE);
+        $icon_kategori = $this->input->post('icon_kategori', TRUE);
+        $check_kategori = $this->M_kategori->getKategoriByName($nama_kategori);
+        if (!empty($check_kategori)) {
+            $flashdata = ['notif_message' => "Kategori $nama_kategori sudah ada", 'notif_icon' => "warning"];
+			$this->session->set_flashdata($flashdata);
+            redirect(base_url('admin/kategori'));
+        }
+
         $data = [
-            'nama_kategori' => $this->input->post('nama_kategori', TRUE),
-            'icon_kategori' => $this->input->post('icon_kategori', TRUE),
+            'nama_kategori' => $nama_kategori,
+            'icon_kategori' => $icon_kategori,
         ];
 
         $this->M_kategori->createKategori($data);
@@ -59,7 +68,7 @@ class Kategori extends CI_Controller
         foreach ($list as $item) {
             $row = array();
             $row[] = $item->nama_kategori;
-            $row[] = '<i class="fa '.$item->icon_kategori.'">';
+            $row[] = '<span class="iconify fa-2x" data-icon="openmoji:'.$item->icon_kategori.'"></span>';
             $row[] = '
             <div class="text-center">
                 <button class="btn btn-sm btn-circle btn-info editKategori" data-id="'.$item->id_kategori.'"><i class="fa fa-edit"></i></button>
@@ -111,6 +120,49 @@ class Kategori extends CI_Controller
         $this->M_kategori->deleteKategori($id_kategori);
 
         $flashdata = ['notif_message' => "Berhasil menghapus kategori", 'notif_icon' => "success"];
+        $this->session->set_flashdata($flashdata);
+        redirect(base_url('admin/kategori'));
+    }
+
+    public function update()
+    {
+        $this->load->library('form_validation');
+        $rules = [
+            [ 'field' => 'nama_kategori', 'label' => 'Nama Kategori', 'rules' => 'required'],
+            [ 'field' => 'icon_kategori', 'label' => 'Icon Kategori', 'rules' => 'required'],
+        ];
+        $this->form_validation->set_rules($rules);
+
+        if ($this->form_validation->run() === FALSE) {
+            $flashdata = ['notif_message' => validation_errors(), 'notif_icon' => "error"];
+			$this->session->set_flashdata($flashdata);
+            redirect(base_url('admin/kategori'));
+        } 
+
+        $id_kategori = $this->input->post('id_kategori', TRUE);
+        $nama_kategori = $this->input->post('nama_kategori', TRUE);
+        $icon_kategori = $this->input->post('icon_kategori', TRUE);
+        $check_kategori = $this->M_kategori->getKategoriById($id_kategori);
+        if (empty($check_kategori)) {
+            $flashdata = ['notif_message' => "Kategori tidak ditemukan", 'notif_icon' => "warning"];
+			$this->session->set_flashdata($flashdata);
+            redirect(base_url('admin/kategori'));
+        }
+
+        $check_kategori_name = $this->M_kategori->getKategoriByName($nama_kategori);
+        if (!empty($check_kategori) && $check_kategori->id_kategori != $id_kategori) {
+            $flashdata = ['notif_message' => "Kategori $nama_kategori sudah ada", 'notif_icon' => "warning"];
+			$this->session->set_flashdata($flashdata);
+            redirect(base_url('admin/kategori'));
+        }
+        $data = [
+            'nama_kategori' => $this->input->post('nama_kategori', TRUE),
+            'icon_kategori' => $this->input->post('icon_kategori', TRUE),
+        ];
+
+        $this->M_kategori->updateKategori($id_kategori, $data);
+
+        $flashdata = ['notif_message' => "Berhasil mengupdate Kategori", 'notif_icon' => "success"];
         $this->session->set_flashdata($flashdata);
         redirect(base_url('admin/kategori'));
     }
