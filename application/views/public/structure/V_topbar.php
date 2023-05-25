@@ -16,7 +16,7 @@
 <body id="body-container">
     <div class="page-holder">
         <!-- navbar-->
-        <header class="header bg-white">
+        <!-- <header class="header bg-white">
           <div class="container px-lg-3">
             <nav class="navbar navbar-expand-lg navbar-light py-3 px-lg-0">
               <a style="background: #444;padding: 5px;border-radius: 25px;" class="navbar-brand" href="<?= base_url() ?>"><img src="<?= base_url('assets/public/img/logo.jpg') ?>" alt="" width="30px;"></a>
@@ -39,7 +39,29 @@
               </div>
             </nav>
           </div>
-        </header>
+        </header> -->
+        <?php 
+        if (!empty($back_url) && !empty($judul_halaman)) { 
+          $icon_pesanan = "";
+          if ($this->router->fetch_method() == "daftar_menu") {
+            $icon_pesanan = '<a class="text-dark" href="'.base_url('my-order').'"><span class="iconify fa-2x" data-icon="icon-park-outline:transaction-order"></span></a>';
+          }
+          ?>
+          <div class="container pt-2 menu-navigation">
+            <div class="d-flex py-2">
+              <div class="sec-1" style="margin-right: 10px;">
+                <a class="text-dark" href="<?= $back_url ?>"><span class="iconify fa-2x" data-icon="carbon:arrow-left"></span></a>
+              </div>
+              <div class="d-flex justify-content-between w-100 sec-2">
+                <div>
+                  <h4 class="mt-1"><?= $judul_halaman ?></h4>
+                </div>
+                <div class="px-2"><?= $icon_pesanan ?></div>
+              </div>
+            </div>
+          </div>
+        <?php }
+        ?>
 
         <!-- <div class="px-2 mb-3"> -->
         <?php 

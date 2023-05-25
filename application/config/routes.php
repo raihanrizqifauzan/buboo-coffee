@@ -57,4 +57,6 @@ $route['detail-menu/(:any)'] = 'welcome/detail_menu/$1';
 $route['contact'] = 'welcome/contact';
 $route['about'] = 'welcome/about';
 $route['scan'] = 'welcome/scan';
+$route['cart'] = 'welcome/cart';
+$route['my-order'] = 'welcome/my_order';
 $route['admin'] = 'admin/dashboard/index';

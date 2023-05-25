@@ -2,39 +2,9 @@
     .foot-menu.fixed-bottom {
         display:none;
     }
-
-    .form-control {
-        border-radius: 8px;
-    }
 </style>
-<section class="container pb-5 mb-5" style="min-height:100vh;">
-    <div class="p-2">
-        <div class="mt-2">
-            <div class="form-group mb-1">
-                <small style="font-weight:bold;">Nama</small>
-                <input type="text" id="nama_customer" class="form-control">
-            </div>
-            <div class="form-group mb-1">
-                <small style="font-weight:bold;">No.HP</small>
-                <input type="text" id="no_hp" class="form-control" value="<?= $this->session->userdata('no_hp') ?>" readonly>
-                <small class="text-muted">Kami akan mengirimkan Rincian Pesanan melalui Whatsapp</small>
-            </div>
-        </div>
-        <hr>
-        <div class="mt-2">
-            <div class="d-flex justify-content-between">
-                <div><small><b>Tipe Pesanan</b></small></div>
-                <div><small><b><a href="<?= base_url('') ?>" class="text-danger">Ganti</a></b></small></div>
-            </div>
-            
-            <?php
-            $no_meja = $this->session->userdata('no_meja') == "take-away" ? "Take Away" : "Meja No.". $this->session->userdata('no_meja');
-            ?>
-            <div class="mt-2">
-                <?= $no_meja ?>
-            </div>
-        </div>
-        <hr>
+<section class="pb-5">
+    <div class="container pt-2" style="min-height:100vh">
         <?php 
         $total_order = 0;
         if (empty($keranjang)) { ?>
@@ -43,45 +13,51 @@
             <small>Anda belum memilih menu </small>
         </div>
         <?php } else {
-            echo '<small><b>Produk</b></small>';
             foreach ($keranjang as $key => $cart) { 
                 $total_order += $cart->harga * $cart->quantity;
                 $image_menu = json_decode($cart->json_gambar)[0];
                 ?>
-                <div class="mt-2">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="d-flex align-items-start">
+                <div style="border-bottom:1px solid silver">
+                    <div class="d-flex justify-content-between py-3 align-items-end">
+                        <div class="d-flex align-items-end">
                             <div>
-                                <img src="<?= base_url('assets/public/') ?>img/menu/<?= $image_menu ?>" height="90px" width="90px" style="border-radius:8px;" alt="">
+                                <img src="<?= base_url('assets/public/') ?>img/menu/<?= $image_menu ?>" height="90px" width="90px" alt="" style="border-radius:10px;">
                             </div>
                             <div class="mx-2">
                                 <b><?= $cart->nama_menu ?></b>
-                                <div class="text-muted"><small>X <?= $cart->quantity ?></small></div>
+                                <div class="text-muted">
+                                    <small>Rp<?= number_format($cart->harga) ?></small>
+                                </div>
+                                <div class="border d-flex align-items-center justify-content-between mt-3 px-3 bg-white border-white">
+                                    <span class="small text-uppercase text-gray no-select"></span>
+                                    <div class="quantity">
+                                        <button class="dec-btn p-0" data-id="<?= $cart->id_menu ?>"><i class="fas fa-caret-left"></i></button>
+                                        <input class="form-control border-0 shadow-0 p-0 quantity-cart" type="text" value="<?= $cart->quantity ?>" min="1" data-id="<?= $cart->id_menu ?>">
+                                        <button class="inc-btn p-0" data-id="<?= $cart->id_menu ?>"><i class="fas fa-caret-right"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="mx-2">
-                            <small>Rp<?= number_format($cart->harga) ?></small>
+                            <a href="#" class="delete-cart" style="color:#000" data-id="<?= $cart->id_menu ?>">
+                                <span class="iconify" style="font-size:20px;" data-icon="ph:trash-bold"></span>
+                            </a>
                         </div>
                     </div>
                 </div>
             <?php }
-            ?>
-            <div class="mt-2 d-flex justify-content-between align-items-center">
-                <div><small class="text-muted">Total</small></div>
-                <div><b>Rp<?= number_format($total_order) ?></b></div>
-            </div>
-            <hr>
-            <div class="form-group mb-1">
-                <small style="font-weight:bold;">Catatan</small>
-                <textarea class="form-control" id="catatan" col="3" placeholder="Dapat Dikosongkan(Opsional)"></textarea>
-            </div>
-            <?php
         }?>
 
         <footer class="fixed-bottom mt-2" style="background-color:#FFF;box-shadow:0px -4px 17px 0px #c0c0c094">
             <div class="container p-2 px-4">
-                <div>
-                    <button class="btn btn-primary w-100" style="border-radius:6px;" id="submitOrder">Pesan</button>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted">Total Order</small>
+                        <div><b id="totalorder">Rp<?= number_format($total_order) ?></b></div>
+                    </div>
+                    <div>
+                        <a href="<?= base_url('order') ?>"><button class="px-5 btn btn-primary" style="border-radius:6px;">Pesan</button></a>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -140,10 +116,25 @@
 		};
 	}
 
+    $(".dec-btn").click(function () {
+        var value = $(this).closest(".quantity").find(".quantity-cart").val();
+        $(this).closest(".quantity").find(".quantity-cart").val(value).trigger("change");
+    })
+
+    $(".inc-btn").click(function () {
+        var value = $(this).closest(".quantity").find(".quantity-cart").val();
+        $(this).closest(".quantity").find(".quantity-cart").val(value).trigger("change");
+    })
+
     $(".quantity-cart").on("keyup change", delay(async function () {
         var id_menu = $(this).data('id');
         var quantity = $(this).val();
         var obj = $(this);
+
+        if (quantity < 1) {
+            $(this).val("1").trigger("change");
+            return false;
+        }
 
         $.ajax({
             type: 'POST',
@@ -160,29 +151,4 @@
             },
         });
     }, 50));
-
-    $("#submitOrder").click(function () {
-        var nama_customer = $("#nama_customer").val();
-        var no_hp = $("#no_hp").val();
-        var catatan = $("#catatan").val();
-
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url() ?>order/create_order',
-            data: {nama_customer, no_hp, catatan},
-            beforeSend: function() {
-                showLoading();
-            },
-            success: function(response) {
-                var res = JSON.parse(response);
-                if (res.status) {
-                    messageSuccess(res.message).then(() => {
-                        window.location.href = res.data.redirect_url;
-                    });
-                } else {
-                    messageError(res.message);
-                }
-            },
-        });
-    })
 </script>

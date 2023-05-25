@@ -85,10 +85,13 @@ class M_menu extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function countTotalMenu(Type $var = null)
+    public function countTotalMenu($id_kategori = null)
     {
         $this->db->select("*");
         $this->db->from("tb_menu");
+        if ($id_kategori) {
+            $this->db->where("id_kategori", $id_kategori);
+        }
         return $this->db->get()->num_rows();
     }
 

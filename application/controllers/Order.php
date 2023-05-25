@@ -10,8 +10,17 @@ class Order extends CI_Controller
 
     public function index()
     {
+        if (!$this->session->userdata('no_hp')) {
+            redirect(base_url('login'));
+        }
+
+        if (!$this->session->userdata('no_meja')) {
+            redirect(base_url());
+        }
         $data['data'] = $this->M_infoweb->getInfoWeb();
 		$data['title_of_page'] = 'Checkout | Buboo Coffee';
+		$data['judul_halaman'] = 'Checkout';
+		$data['back_url'] = base_url('cart');
         $total_order = 0;
         $result_keranjang = [];
         if (isset($_COOKIE["keranjang"]) && !empty($_COOKIE["keranjang"])) {

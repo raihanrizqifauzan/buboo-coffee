@@ -4,19 +4,39 @@
     color: #429244 !important;
     border-bottom: 2px solid #429244;
   }
+
+  .desc-product, .title-product {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+
+  .desc-product {
+    -webkit-line-clamp: 2;
+  }
+  
+  .title-product {
+    -webkit-line-clamp: 2;
+  }
+
+  .price-product {
+    position: absolute;
+    bottom: 0;
+  }
 </style>
 
-<div class="container pb-5">
-  <section class="pt-2 pb-5 menu-page">
+<div class="container pb-5" style="min-height:100vh">
+  <section class="pt-2 menu-page">
     <div class="">
-      <div class="row">
+      <div class="">
         <div class="mb-5 mb-lg-0">
-          <div class="row mb-4 align-items-center w-100" style="padding-left:0!important;padding-right:0!important">
-            <div class="col-8 mb-2 mb-lg-0 px-1">
-              <input type="text" class="form-control" id="search_menu" placeholder="Cari Menu..." autocomplete="off">
+          <div class="row mb-2 align-items-center w-100">
+            <div class="col-8 mb-2 mb-lg-0">
+              <input type="text" class="form-control w-100" id="search_menu" placeholder="Cari Menu..." autocomplete="off">
             </div>
             <div class="col-4 mb-2 mb-lg-0 p-0 px-1">
-              <select class="form-control w-100" id="selectpicker">
+              <select class="form-control" id="selectpicker">
                 <option value>Sort By </option>
                 <!-- <option value="popularity">Popularity </option> -->
                 <option value="low-high">Harga Terendah </option>
@@ -40,7 +60,7 @@
           </ul>
           <!-- End Tab Categories -->
   
-          <div class="row mt-4" id="view-product" style="min-height:250px;padding-left:0!important;padding-right:0!important">
+          <div class="row mt-4" id="view-product" style="padding-left:0!important;padding-right:0!important">
             
           </div>
           <!-- PAGINATION-->
@@ -131,17 +151,21 @@
       list_menu.forEach(e => {
         var url_menu = e.nama_menu.toLowerCase().replace(" ", "-")+"."+e.id_menu;
         html += `
-        <div class="col-6 mb-2">
-          <a href="${detail_url+url_menu}" style="color:#000">
-            <div class="card-menu w-100" style="border:1px solid #e5e5e5">
-              <img class="" height="200px" width="100%" src="<?= base_url('assets/public/') ?>img/menu/${e.thumbnail}" alt="..." style="border-radius:10px;">
-              <div class="p-2">
-                <div><small class="small text-muted">${e.nama_menu}</small></div>
-                <div><b class="small" style="margin-top:-15px;">Rp${formatRupiah(e.harga)}</b></div>
+        <div class="mb-4">
+          <a href="${detail_url+url_menu}" class="text-dark">
+            <div class="d-flex w-100">
+              <div>
+                <img src="<?= base_url('assets/public/img/menu/') ?>${e.thumbnail}" style="border-radius:10px;" width="130" height="130">
+              </div>
+              <div class="w-100" style="padding-left:10px;position:relative">
+                <b><small class="title-product">${e.nama_menu}</small></b>
+                <div class="desc-product"><small class="text-muted">${e.deskripsi}</small></div>
+                <div class="pb-2 price-product"><b>Rp${formatRupiah(e.harga)}</b></div>
               </div>
             </div>
           </a>
         </div>`;
+        
       });
     }
     $("#view-product").html(html);

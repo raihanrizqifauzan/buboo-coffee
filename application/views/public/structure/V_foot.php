@@ -7,9 +7,9 @@
     color:#429244;
   }
 </style>
-<footer class="fixed-bottom foot-menu mt-2" style="background-color:#FFF;box-shadow:0px -4px 17px 0px #c0c0c094">
-    <div class="container p-2 px-4">
-      <div class="d-flex justify-content-between text-center">
+<footer class="fixed-bottom foot-menu mt-2" style="background-color:transparent;">
+    <div class="p-4 px-4">
+      <!-- <div class="d-flex justify-content-between text-center">
         <a class="d-block w-100 <?= $this->uri->segment('1') == '' ? 'text-menu-active' : '' ?>" href="<?= base_url('daftar-menu') ?>">
           <div><span class="fa fa-home"></span></div>
           <div><small>Home</small></div>
@@ -25,7 +25,7 @@
         <a class="d-block w-100 <?= $this->uri->segment('1') == 'order/history' ? 'text-menu-active' : '' ?>" href="<?= base_url('order') ?>">
           <div><span class="fa fa-shopping-cart"></span></div>
           <div><small>My Order</small></div>
-        </a>
+        </a> -->
         <?php 
         if (isset($_COOKIE["keranjang"]) && !empty($_COOKIE["keranjang"])) {
           $decode_keranjang = json_decode($_COOKIE["keranjang"], TRUE);
@@ -34,9 +34,8 @@
           $counter = 0;
         }
         ?>
-        <a class="d-block w-100 <?= $this->uri->segment('1') == 'order' ? 'text-menu-active' : '' ?>" href="<?= base_url('order') ?>">
-          <div><span class="fa fa-shopping-cart"></span> <small id="cart_counter" class="badge-default"> <?= $counter ?></small></div>
-          <div><small>Keranjang</small></div>
+        <a id="btn-cart" style="display:none;border-radius:8px;" class="btn btn-block btn-primary w-100" href="<?= base_url('cart') ?>">
+          <div><small>Keranjang <span class="badge bg-danger cart_counter"><?= $counter ?></span></small></div>
         </a>
       </div>
     </div>
@@ -122,6 +121,21 @@
           icon: 'success',
         })
       }
+
+      $(document).ready(function () {
+        $.ajax({
+          type: 'GET',
+          url: '<?= base_url() ?>welcome/count_keranjang',
+          success: function(response) {
+            var res = JSON.parse(response);
+            if (res.data > 0) {
+              $("#btn-cart").show();
+            } else {
+              $("#btn-cart").hide();
+            }
+          },
+        });
+      })
     </script>
 </div>
 </body>

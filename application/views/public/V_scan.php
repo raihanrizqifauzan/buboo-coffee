@@ -29,7 +29,7 @@
         display:none;
     }
 </style>
-<section class="pt-2 pb-5" style="min-height:500px;">
+<section class="container pt-2 pb-5" style="min-height:100vh;">
   <div class="container">
     <div class="d-flex mb-5 w-100">
         <div id="reader"></div>

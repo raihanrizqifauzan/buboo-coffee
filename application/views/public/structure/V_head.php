@@ -23,7 +23,8 @@
     <!-- Custom stylesheet - for your changes-->
     <link rel="stylesheet" href="<?= base_url('assets/public/') ?>css/custom.css">
     <!-- Favicon-->
-    <link rel="shortcut icon" href="<?= base_url('assets/public/') ?>img/logo.jpg">
+    <link rel="shortcut icon" href="<?= base_url('assets/public/') ?>img/logo2.png">
     <script src="<?= base_url() ?>assets/admin/libs/jquery/dist/jquery.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
   </head>
