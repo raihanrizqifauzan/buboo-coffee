@@ -256,9 +256,15 @@ class Order extends CI_Controller
                 $temponesignal[] = $idonesignal->user_id;
             }
             $title = "Hi, Ada Pesanan Baru";
-            $message = "Pesanan baru dari meja No. $no_meja";
+            if ($no_meja == "take-away") {
+                $message = "Pesanan baru dari Take Away";
+            } else {
+                $message = "Pesanan baru dari meja No. $no_meja";
+            }
             $url_notif = base_url()."admin/pesanan";
             send_message($message, $title, $temponesignal, $url_notif);
+            $message_whatsapp = "Pesananmu dengan No. Order $no_pesanan berhasil dibuat. Silahkan lakukan pembayaran di sini : ".$data['redirect_url'];
+            send_whatsapp($no_hp, $message_whatsapp);
             echo json_encode(['status' => true, 'message' => "Berhasil melakukan order", 'data' => $data]);
         } catch (Exception $e) {
             echo json_encode(['status' => false, 'message' => $e->getMessage()]);
@@ -270,7 +276,7 @@ class Order extends CI_Controller
         $no_pesanan = $this->input->get('id', TRUE);
         $no_pesanan = base64_decode($no_pesanan);
         $data_order = $this->M_order->getOrderByNoPesanan($no_pesanan);
-		$data['title_of_page'] = 'Success Order | Buboo Coffee';
+		$data['title_of_page'] = 'Terimakasih | Buboo Coffee';
         if (empty($data_order)) {
             $flashdata = ['notif_message' => "Pesanan tidak ditemukan", 'notif_icon' => "error"];
             $this->session->set_flashdata($flashdata);
@@ -278,6 +284,7 @@ class Order extends CI_Controller
         }
 
         $data['order'] = $data_order;
+        $data['detail_order'] = $this->M_order->getDetailOrder($data_order->id_order);
 		$this->load->view('public/structure/V_head', $data);
 		$this->load->view('public/structure/V_topbar');
 		$this->load->view('public/V_success_order');

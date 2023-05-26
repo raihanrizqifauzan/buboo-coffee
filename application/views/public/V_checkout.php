@@ -56,11 +56,11 @@
                             </div>
                             <div class="mx-2">
                                 <b><?= $cart->nama_menu ?></b>
-                                <div class="text-muted"><small>X <?= $cart->quantity ?></small></div>
+                                <div class="text-muted"><small>X <?= number_format($cart->quantity, 0,',','.') ?></small></div>
                             </div>
                         </div>
                         <div class="mx-2">
-                            <small>Rp<?= number_format($cart->harga) ?></small>
+                            <small>Rp<?= number_format($cart->harga, 0,',','.') ?></small>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
             ?>
             <div class="mt-2 d-flex justify-content-between align-items-center">
                 <div><small class="text-muted">Total</small></div>
-                <div><b>Rp<?= number_format($total_order) ?></b></div>
+                <div><b>Rp<?= number_format($total_order, 0,',','.'); ?></b></div>
             </div>
             <hr>
             <div class="form-group mb-1">

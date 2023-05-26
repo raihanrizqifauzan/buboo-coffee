@@ -163,23 +163,41 @@ class Welcome extends CI_Controller
 
 	public function send_otp(Type $var = null)
 	{
+		date_default_timezone_set('Asia/Jakarta');
 		$no_hp = $this->input->post('no_hp');
 
-		do {
-			$kode_otp = $this->generateRandomString();
-			$check_otp = $this->M_notif->checkKodeOTP($kode_otp);
-		} while (!empty($check_otp));
+		$check_otp_exist = $this->M_notif->getKodeOTPByNoHP($no_hp);
+		if (!empty($check_otp_exist)) {
+			$checker_date = date($check_otp_exist->datetime_last_send, strtotime("+1 min"));
+			$tgl_sekarang = date("Y-m-d H:i:s");
+			if ($tgl_sekarang <= $checker_date) {
+				echo json_encode(['status' => false, 'Harap tunggu 1 untuk request ulang OTP']);die;
+			}
 
-        date_default_timezone_set('Asia/Jakarta');
-		$datetime_expired = date('Y-m-d H:i:s', strtotime("+5 min"));
-		$data = [
-			'kode_otp' => $kode_otp,
-			'no_hp' => $no_hp,
-			'datetime_expired' => $datetime_expired
-		];
+			$data = [
+				'count_send' => $check_otp_exist->count_send + 1,
+				'datetime_last_send' => $tgl_sekarang
+			];
+			$this->M_notif->updateOTP($check_otp_exist->id, $data);
+			$kode_otp = $check_otp_exist->kode_otp;
+		} else {
+			do {
+				$kode_otp = $this->generateRandomString();
+				$check_otp = $this->M_notif->checkKodeOTP($kode_otp);
+			} while (!empty($check_otp));
+			$datetime_expired = date('Y-m-d H:i:s', strtotime("+15 min"));
+			$data = [
+				'kode_otp' => $kode_otp,
+				'no_hp' => $no_hp,
+				'datetime_expired' => $datetime_expired
+			];
+			$this->M_notif->createOTP($data);
+			$kode_otp = $kode_otp;
+		}
 
-		$this->M_notif->createOTP($data);
-		echo json_encode(['status' => true]);
+		$message = "$kode_otp adalah kode OTP kamu. Kode OTP berlaku selama 15 menit";
+		$test = send_whatsapp($no_hp, $message); //kirim OTP
+		echo json_encode(['status' => true, 'message' => 'Berhasil kirim OTP', 'data' => $test]);
 	}
 
 	public function pakai_otp(Type $var = null)
@@ -200,7 +218,6 @@ class Welcome extends CI_Controller
 
 		$data = [
 			'is_used' => 'yes',
-			'count_send' => $check_otp->count_send + 1,
 		];
 		$id_otp = $check_otp->id;
 
@@ -217,5 +234,12 @@ class Welcome extends CI_Controller
 			$randomString .= $characters[random_int(0, $charactersLength - 1)];
 		}
 		return $randomString;
+	}
+
+	public function test_whatsapp(Type $var = null)
+	{
+		$url = "https://23c9-140-213-47-236.ngrok-free.app/buboo-coffee/";
+		$message = "Pesananmu dengan No. Order 20230526002 berhasil dibuat. Silahkan lakukan pembayaran di sini : ".$url."order/success?id=MjAyMzA1MjYwMDI";
+		echo send_whatsapp("+6281802136200", $message);
 	}
 }

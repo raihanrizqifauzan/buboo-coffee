@@ -28,7 +28,7 @@
                                 <div class="text-muted">
                                     <small>Rp<?= number_format($cart->harga) ?></small>
                                 </div>
-                                <div class="border d-flex align-items-center justify-content-between mt-3 px-3 bg-white border-white">
+                                <div class="d-flex align-items-center justify-content-between mt-3 px-1 bg-white border-white">
                                     <span class="small text-uppercase text-gray no-select"></span>
                                     <div class="quantity">
                                         <button class="dec-btn p-0" data-id="<?= $cart->id_menu ?>"><i class="fas fa-caret-left"></i></button>

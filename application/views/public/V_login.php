@@ -41,13 +41,65 @@
         </div>
         <div class="form-group px-4">
             <small class="">Silahkan cek whatsapp anda</small>
-            <div><small class="">Kirim ulang dalam <b><span class="countdown text-danger">5 detik</span></b></small></div>
+            <div id="container-countdown"><small class="">Kirim ulang dalam <b><span class="countdown text-danger">60 detik</span></b></small></div>
+            <div id="btn-resend" class="my-2 text-center"><a href="javascript:void(0)" id="resendOTP"><b><small>Kirim Ulang OTP</small></b></a></div>
             <button class="btn btn-primary w-100" id="btnLanjutkan">Lanjutkan</button>
         </div>
     </div>
 </section>
 
 <script>
+    var timing;
+    var myTimer;
+    
+    function beginCountdown() {
+        timing = 60;
+        $("#btn-resend").hide();
+        $("#container-countdown").show();
+        $(".countdown").html("60 detik");
+        myTimer = setInterval(function() {
+            --timing;
+            $(".countdown").html(`${timing} detik`);
+            if (timing === 0) {
+                clearInterval(myTimer);
+                $("#btn-resend").show();
+                $("#container-countdown").hide();
+            }
+        }, 1000);
+    }
+
+    async function sendOTP(no_hp) {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: 'POST',
+                url: `<?= base_url() ?>welcome/send_otp`,
+                data: { 
+                    no_hp: no_hp,
+                },
+                beforeSend: function() {
+                    Swal.fire({
+                        title: 'Mohon Tunggu...',
+                        width: 600,
+                        padding: '3em',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                },
+                success: function(response) {
+                    Swal.close();
+                    var res = JSON.parse(response);
+                    resolve(res);
+                },
+                error: function () {
+                    Swal.close();
+                }
+            });
+    
+        });
+    }
+     
     function showError(msg) {
         $(".text-error").html(msg)
         $('.text-error').show();
@@ -55,7 +107,8 @@
             $('.text-error').hide();
         }, 1500);
     }
-    $("#btnKirimOTP").click(function () {
+
+    $("#btnKirimOTP").click(async function () {
         var no_hp = $("#no_hp").val();
         if (no_hp == "" || no_hp.length < 8) {
             showError("No. HP minimal 8 digit");
@@ -67,34 +120,26 @@
             showError("No. HP harus dimulai dengan angka 8");
             return false;
         }
+        no_hp = "+62"+no_hp;
+        sendOTP(no_hp).then(function(res) {
+            if (res.status) {
+                beginCountdown();
+                $(".step1").hide();
+                $(".step2").show();
+            } else {
+                messageError(res.message);
+            }
+        });
+    })
 
-        $.ajax({
-            type: 'POST',
-            url: `<?= base_url() ?>welcome/send_otp`,
-            data: { 
-                no_hp: "+62"+no_hp,
-            },
-            beforeSend: function() {
-                Swal.fire({
-                    title: 'Mohon Tunggu...',
-                    width: 600,
-                    padding: '3em',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-            },
-            success: function(response) {
-                var res = JSON.parse(response);
-                if (res.status) {
-                    Swal.close();
-                    var data = res.data;
-                    $(".step1").hide();
-                    $(".step2").show();
-                } else {
-                    messageError(res.message);
-                }
+    
+    $("#resendOTP").click(async function () {
+        var no_hp = $("#no_hp").val();
+        sendOTP("+62"+no_hp).then(function(res) {
+            if (res.status) {
+                beginCountdown();
+            } else {
+                messageError(res.message);
             }
         });
     })

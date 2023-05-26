@@ -42,6 +42,14 @@ class M_order extends CI_Model
         $this->db->where("no_pesanan", $no_pesanan);
         return $this->db->get()->row();
     }
+
+    public function getDetailOrder($id_order)
+    {
+        $this->db->select("*");
+        $this->db->from("tb_detailorder");
+        $this->db->where("id_order", $id_order);
+        return $this->db->get()->result();
+    }
 }
 
 ?>

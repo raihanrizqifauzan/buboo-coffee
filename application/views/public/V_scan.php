@@ -6,20 +6,6 @@
     #reader video {
         width: 100%;
     }
-    
-    #html5-qrcode-button-camera-start, #html5-qrcode-button-camera-stop {
-        border:none;
-        background: #444;
-        color: #FFF;
-        padding: 5px;
-        border-radius: 4px;
-    }
-    
-    #html5-qrcode-button-camera-start:hover, #html5-qrcode-button-camera-stop:hover {
-        background: #FFF;
-        color: #000;
-        border: 1px solid #000;
-    }
 
     #html5-qrcode-anchor-scan-type-change {
         display:none !important;
@@ -27,6 +13,22 @@
 
     .info-no-meja {
         display:none;
+    }
+
+    #btn-cart {
+        display: none!important;
+    }
+
+    #html5-qrcode-button-camera-start, #html5-qrcode-button-camera-stop, #html5-qrcode-button-camera-permission {
+        background: #429244;
+        border:none;
+        padding:5px 20px;
+        border-radius: 8px;
+        color:#FFF;
+    }
+
+    #html5-qrcode-button-camera-start:hover, #html5-qrcode-button-camera-stop:hover, #html5-qrcode-button-camera-permission:hover {
+        background: #387c3a;
     }
 </style>
 <section class="container pt-2 pb-5" style="min-height:100vh;">
