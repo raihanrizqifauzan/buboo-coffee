@@ -75,6 +75,16 @@
                 <small style="font-weight:bold;">Catatan</small>
                 <textarea class="form-control" id="catatan" col="3" placeholder="Dapat Dikosongkan(Opsional)"></textarea>
             </div>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center p-2" style="border:1px solid #222;border-radius:10px;">
+                <div>
+                    <span class="iconify fa-2x" data-icon="mingcute:coupon-line"></span>
+                    <small><b> Makin Murah dengan Voucher</b></small>
+                </div>
+                <div>
+                    <span class="iconify" data-icon="fa:chevron-right"></span>
+                </div>
+            </div>
             <?php
         }?>
 

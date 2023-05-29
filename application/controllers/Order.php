@@ -56,7 +56,7 @@ class Order extends CI_Controller
 
         $array_meja = ['no_meja' => $no_meja];
         $this->session->set_userdata($array_meja);
-        redirect(base_url());
+        redirect(base_url('daftar-menu'));
 	}
 
     public function add_to_cart()
