@@ -47,6 +47,7 @@
     <script src="<?= base_url('assets/public/') ?>vendor/swiper/swiper-bundle.min.js"></script>
     <script src="<?= base_url('assets/public/') ?>vendor/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="<?= base_url('assets/public/') ?>js/front.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.all.min.js"></script>
     <script>
     // ------------------------------------------------------- //
     //   Inject SVG Sprite - 
@@ -95,30 +96,28 @@
       }
 
       function showLoading() {
-        return Swal.fire({
-          title: 'Processing...',
-          width: 600,
-          padding: '3em',
-          allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          }
-        });
+        return swal({
+          title: "Loading...",
+          text: "Please wait",
+          imageUrl: "https://www.boasnotas.com/img/loading2.gif",
+          showConfirmButton: false,
+          allowOutsideClick: true
+        }); 
       }
 
       function messageError(msg){
-        return Swal.fire({
+        return swal({
           title: 'Oops',
           text: msg,
-          icon: 'warning',
+          type: 'warning',
         })
       }
 
       function messageSuccess(msg){
-        return Swal.fire({
+        return swal({
           title: 'Success',
           text: msg,
-          icon: 'success',
+          type: 'success',
         })
       }
 

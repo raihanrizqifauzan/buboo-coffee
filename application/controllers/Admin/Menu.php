@@ -41,14 +41,30 @@ class Menu extends CI_Controller
 				<input type="checkbox" class="status_aktif" data-id="'.$item->id_menu.'" data-status="'.$item->status.'" '.$checked.'>
 				<span class="slider round"></span>
 			</label>';
-            $row[] = '<div class="text-center"><a href="'.base_url('assets/public/img/menu/'.$thumbnail).'" target="_blank"><img src="'.base_url('assets/public/img/menu/'.$thumbnail).'" width="50px"></a></div>';
-            $row[] = '<div class="mb-2"><span class="badge badge-secondary"><i class="fa fa-tag"></i> '.$item->nama_kategori.'</span><div>
-            <div>'.$item->nama_menu.'<div>';
-            $row[] = "Rp".number_format($item->harga, 0, '', '.');
-            $row[] = '<div class="text-center">'.$switch_status.'</div>';
+            // $row[] = '<div class="text-center"><a href="'.base_url('assets/public/img/menu/'.$thumbnail).'" target="_blank"><img src="'.base_url('assets/public/img/menu/'.$thumbnail).'" width="50px"></a></div>';
+            // $row[] = '<div class="mb-2"><span class="badge badge-secondary"><i class="fa fa-tag"></i> '.$item->nama_kategori.'</span><div>
+            // <div>'.$item->nama_menu.'<div>';
+            // $row[] = "Rp".number_format($item->harga, 0, '', '.');
+            // $row[] = '<div class="text-center">'.$switch_status.'</div>';
+            // $row[] = '
+            // <div class="text-center">
+            //     <a href="'.base_url('admin/menu/edit/').$item->id_menu.'" class="btn btn-sm btn-circle btn-info editMenu" data-id="'.$item->id_menu.'"><i class="fa fa-edit"></i></a>
+            // </div>';
             $row[] = '
-            <div class="text-center">
-                <a href="'.base_url('admin/menu/edit/').$item->id_menu.'" class="btn btn-sm btn-circle btn-info editMenu" data-id="'.$item->id_menu.'"><i class="fa fa-edit"></i></a>
+            <div class="d-flex justify-content-between ">
+                <div>
+                    <img src="'.base_url('assets/public/img/menu/'.$thumbnail).'" alt="" width="100" height="100">
+                </div>
+                <div class="mx-2 w-100">
+                    '.$item->nama_menu.'
+                    <div><small>Rp'.number_format($item->harga, 0, "", ".").'</small></div>
+                </div>
+                <div class="w-100 d-flex justify-content-end" style="position:relative">
+                    '.$switch_status.'
+                    <div style="position:absolute;bottom:0px;">
+                        <a class="" href="'.base_url('admin/menu/edit/').$item->id_menu.'" class="text-dark editMenu" data-id="'.$item->id_menu.'"><i class="fa fa-edit"></i></a>
+                    </div>
+                </div>
             </div>';
             $data[] = $row;
         }

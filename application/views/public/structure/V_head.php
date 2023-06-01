@@ -25,6 +25,8 @@
     <!-- Favicon-->
     <link rel="shortcut icon" href="<?= base_url('assets/public/') ?>img/logo2.png">
     <script src="<?= base_url() ?>assets/admin/libs/jquery/dist/jquery.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.css" />
   </head>

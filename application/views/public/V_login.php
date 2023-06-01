@@ -77,23 +77,15 @@
                     no_hp: no_hp,
                 },
                 beforeSend: function() {
-                    Swal.fire({
-                        title: 'Mohon Tunggu...',
-                        width: 600,
-                        padding: '3em',
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
+                    showLoading();
                 },
                 success: function(response) {
-                    Swal.close();
+                    swal.close();
                     var res = JSON.parse(response);
                     resolve(res);
                 },
                 error: function () {
-                    Swal.close();
+                    swal.close();
                 }
             });
     
@@ -161,20 +153,12 @@
                 kode_otp: kode_otp,
             },
             beforeSend: function() {
-                Swal.fire({
-                    title: 'Mohon Tunggu...',
-                    width: 600,
-                    padding: '3em',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
+                showLoading()
             },
             success: function(response) {
                 var res = JSON.parse(response);
                 if (res.status) {
-                    Swal.close();
+                    swal.close();
                     var data = res.data;
                     window.location.href = "<?= base_url('order') ?>";
                 } else {

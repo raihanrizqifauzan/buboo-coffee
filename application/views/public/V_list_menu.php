@@ -112,19 +112,6 @@
     get_list_menu();
   })
 
-  function showLoading() {
-    return Swal.fire({
-      title: 'Loading...',
-      width: 600,
-      padding: '3em',
-      allowOutsideClick: false,
-      timer: 500,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
-  }
-
   function get_list_menu() {
     $.ajax({
       url: `<?= base_url('welcome/ajax_get_menu') ?>?page=${page}&id_kategori=${filter_kategori}&search=${filter_search}&order_by=${order_by}`,
@@ -132,7 +119,6 @@
         // showLoading()
       },
       success: function(response){
-        Swal.close();
         var res = JSON.parse(response);
         generateViewMenu(res);
       }

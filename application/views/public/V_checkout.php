@@ -76,7 +76,7 @@
                 <textarea class="form-control" id="catatan" col="3" placeholder="Dapat Dikosongkan(Opsional)"></textarea>
             </div>
             <hr>
-            <div class="d-flex justify-content-between align-items-center p-2" style="border:1px solid #222;border-radius:10px;">
+            <!-- <div class="d-flex justify-content-between align-items-center p-2" style="border:1px solid #222;border-radius:10px;">
                 <div>
                     <span class="iconify fa-2x" data-icon="mingcute:coupon-line"></span>
                     <small><b> Makin Murah dengan Voucher</b></small>
@@ -84,7 +84,7 @@
                 <div>
                     <span class="iconify" data-icon="fa:chevron-right"></span>
                 </div>
-            </div>
+            </div> -->
             <?php
         }?>
 
@@ -107,16 +107,16 @@
 
     $(".delete-cart").click(function () {
         var id_menu = $(this).data("id");
-        Swal.fire({
+        swal({
             title: '',
             html: "Menu akan dihapus dari keranjang ?",
-            icon: 'warning',
+            type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ff0050',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Ya, Hapus'
         }).then((result) => {
-            if (result.isConfirmed) {
+            if (result.value) {
                 $.ajax({
                     type: 'POST',
                     url: '<?= base_url() ?>order/delete_from_cart',
@@ -127,7 +127,7 @@
                     success: function(response) {
                         var res = JSON.parse(response);
                         if (res.status) {
-                            Swal.close();
+                            swal.close();
                             hitungTotalOrder(res.data.subtotal);
                             location.reload()
                         } else {

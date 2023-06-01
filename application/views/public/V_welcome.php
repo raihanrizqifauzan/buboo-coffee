@@ -39,5 +39,10 @@
     $(".pilih-opsi").click(function () {
         var url = $(this).data("url");
         window.location.href = `<?= base_url() ?>` + url;
+        // return swal({
+        //     title: "Good job!",
+        //     text: "You clicked the button!",
+        //     type: "success",
+        // });
     })
 </script>

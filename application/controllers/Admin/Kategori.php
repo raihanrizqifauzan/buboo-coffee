@@ -13,9 +13,9 @@ class Kategori extends CI_Controller
 
 	public function index()
 	{
-        $json = file_get_contents(base_url('assets/admin/openmoji.json'));
-        $arr_icon = json_decode($json, TRUE)['icons'];
-        $data['list_icon'] = array_keys($arr_icon);
+        // $json = file_get_contents(base_url('assets/admin/openmoji.json'));
+        // $arr_icon = json_decode($json, TRUE)['icons'];
+        // $data['list_icon'] = array_keys($arr_icon);
         $data['title_page'] = "Manajemen Kategori - Buboo Coffee";
         $this->load->view('admin/structure/V_head', $data);
         $this->load->view('admin/structure/V_topbar');
@@ -29,7 +29,6 @@ class Kategori extends CI_Controller
         $this->load->library('form_validation');
         $rules = [
             [ 'field' => 'nama_kategori', 'label' => 'Nama Kategori', 'rules' => 'required'],
-            [ 'field' => 'icon_kategori', 'label' => 'Icon Kategori', 'rules' => 'required'],
         ];
         $this->form_validation->set_rules($rules);
 
@@ -50,7 +49,6 @@ class Kategori extends CI_Controller
 
         $data = [
             'nama_kategori' => $nama_kategori,
-            'icon_kategori' => $icon_kategori,
         ];
 
         $this->M_kategori->createKategori($data);
@@ -67,12 +65,24 @@ class Kategori extends CI_Controller
         $no = $_POST['start'];
         foreach ($list as $item) {
             $row = array();
-            $row[] = $item->nama_kategori;
-            $row[] = '<span class="iconify fa-2x" data-icon="openmoji:'.$item->icon_kategori.'"></span>';
+            // $row[] = $item->nama_kategori;
+            // $row[] = '<span class="iconify fa-2x" data-icon="openmoji:'.$item->icon_kategori.'"></span>';
+            // $row[] = '
+            // <div class="text-center">
+            //     <button class="btn btn-sm btn-circle btn-info editKategori" data-id="'.$item->id_kategori.'"><i class="fa fa-edit"></i></button>
+            //     <button class="btn btn-sm btn-circle btn-danger deleteKategori" data-id="'.$item->id_kategori.'"><i class="fa fa-trash"></i></button>
+            // </div>';
             $row[] = '
-            <div class="text-center">
-                <button class="btn btn-sm btn-circle btn-info editKategori" data-id="'.$item->id_kategori.'"><i class="fa fa-edit"></i></button>
-                <button class="btn btn-sm btn-circle btn-danger deleteKategori" data-id="'.$item->id_kategori.'"><i class="fa fa-trash"></i></button>
+            <div class="d-flex justify-content-between">
+                <div>'.$item->nama_kategori.'</div>
+                <div class="dropdown">
+                    <span class="iconify dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-icon="basil:other-2-solid"></span>
+                    
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a href="javascript:void(0)" class="dropdown-item editKategori" data-id="'.$item->id_kategori.'">Edit</a>
+                        <a href="javascript:void(0)" class="dropdown-item deleteKategori" data-id="'.$item->id_kategori.'">Hapus</a>
+                    </div>
+                </div>
             </div>';
             $data[] = $row;
         }
@@ -129,7 +139,6 @@ class Kategori extends CI_Controller
         $this->load->library('form_validation');
         $rules = [
             [ 'field' => 'nama_kategori', 'label' => 'Nama Kategori', 'rules' => 'required'],
-            [ 'field' => 'icon_kategori', 'label' => 'Icon Kategori', 'rules' => 'required'],
         ];
         $this->form_validation->set_rules($rules);
 
@@ -141,7 +150,6 @@ class Kategori extends CI_Controller
 
         $id_kategori = $this->input->post('id_kategori', TRUE);
         $nama_kategori = $this->input->post('nama_kategori', TRUE);
-        $icon_kategori = $this->input->post('icon_kategori', TRUE);
         $check_kategori = $this->M_kategori->getKategoriById($id_kategori);
         if (empty($check_kategori)) {
             $flashdata = ['notif_message' => "Kategori tidak ditemukan", 'notif_icon' => "warning"];
@@ -157,7 +165,6 @@ class Kategori extends CI_Controller
         }
         $data = [
             'nama_kategori' => $this->input->post('nama_kategori', TRUE),
-            'icon_kategori' => $this->input->post('icon_kategori', TRUE),
         ];
 
         $this->M_kategori->updateKategori($id_kategori, $data);

@@ -73,16 +73,16 @@
 
     $(".delete-cart").click(function () {
         var id_menu = $(this).data("id");
-        Swal.fire({
+        swal({
             title: '',
             html: "Menu akan dihapus dari keranjang ?",
-            icon: 'warning',
+            type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ff0050',
             cancelButtonColor: '#6c757d',
             confirmButtonText: 'Ya, Hapus'
         }).then((result) => {
-            if (result.isConfirmed) {
+            if (result.value) {
                 $.ajax({
                     type: 'POST',
                     url: '<?= base_url() ?>order/delete_from_cart',
@@ -93,7 +93,7 @@
                     success: function(response) {
                         var res = JSON.parse(response);
                         if (res.status) {
-                            Swal.close();
+                            swal.close();
                             hitungTotalOrder(res.data.subtotal);
                             location.reload()
                         } else {

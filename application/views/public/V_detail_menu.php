@@ -71,20 +71,30 @@
   var id_menu = "<?= $menu->id_menu ?>";
 
   function messageError(msg) {
-    return Swal.fire({
+    return swal({
       title: 'Oops',
-      text: msg,
+      type: msg,
       icon: 'warning',
     })
   }
-    
-    function messageSuccess(msg) {
-      return Swal.fire({
-        title: 'Berhasil',
-        icon: 'success',
-        text: msg,
-      })
-    }
+  
+  function messageSuccess(msg) {
+    return swal({
+      title: 'Berhasil',
+      type: 'success',
+      text: msg,
+    })
+  }
+
+  function showLoading() {
+    return swal({
+      title: "Loading...",
+      text: "Please wait",
+      imageUrl: "https://www.boasnotas.com/img/loading2.gif",
+      showConfirmButton: false,
+      allowOutsideClick: true
+    }); 
+  }
 
   $("#btnAdd").click(function () {
     var qty = $("#quantity").val();
@@ -97,15 +107,7 @@
         quantity: qty,
       },
       beforeSend: function() {
-        Swal.fire({
-          title: 'Mohon Tunggu...',
-          width: 600,
-          padding: '3em',
-          allowOutsideClick: false,
-          didOpen: () => {
-            Swal.showLoading();
-          }
-        });
+        showLoading();
       },
       success: function(response) {
         var res = JSON.parse(response);
