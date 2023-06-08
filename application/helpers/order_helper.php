@@ -37,3 +37,8 @@ function send_whatsapp($no_hp, $message) {
     curl_close($ch);
     return $res;
 }
+
+function tgl_sekarang() {
+    date_default_timezone_set('Asia/Jakarta');
+    return date('Y-m-d H:i:s');
+}

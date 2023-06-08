@@ -32,7 +32,13 @@
               </div>
             </div>
           </div>
-          <div class="col-8 pr-0 mr-0"><a class="btn btn-dark btn-sm h-100 d-flex align-items-center justify-content-center px-0" id="btnAdd" href="#"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Order</a></div>
+          <div class="col-8 pr-0 mr-0">
+            <?php if ($menu->status == "aktif") { ?>
+              <a class="btn btn-dark btn-sm h-100 d-flex align-items-center justify-content-center px-0" id="btnAdd" href="#"><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Order</a>
+            <?php } else { ?>
+              <button class="btn btn-sm w-100 btn-danger" disabled><span class="iconify" data-icon="system-uicons:no-sign"></span>&nbsp;&nbsp; Stok Habis</button>
+            <?php } ?>
+          </div>
         </div>
       </div>
       

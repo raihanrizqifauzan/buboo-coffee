@@ -15,6 +15,8 @@ class Dashboard extends CI_Controller
 	public function index()
 	{
         $data['title_page'] = "Halaman Dashboard - Buboo Coffee";
+        $data['judul'] = "Buboo Coffee";
+        $data['back_url'] = "";
         $this->load->view('admin/structure/V_head', $data);
         $this->load->view('admin/structure/V_topbar');
         $this->load->view('admin/structure/V_sidebar');

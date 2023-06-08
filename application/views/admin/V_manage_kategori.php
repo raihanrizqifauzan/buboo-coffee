@@ -1,33 +1,48 @@
-<div class="page-breadcrumb">
-    <div class="row">
-        <div class="col-12 col-md-6 align-self-center">
-            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Manage Kategori</h4>
-        </div>
-        <div class="col-12 col-md-6 align-self-center">
-            <div class="d-flex align-items-center justify-content-end">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb m-0 p-0">
-                        <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>" class="text-muted">Home</a></li>
-                        <li class="breadcrumb-item text-muted active" aria-current="page">Manage Kategori</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-</div>
+<style>
+    .col-sm-12, .col-12 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .container-fluid {
+        padding: 30px;
+    }
+
+    .card-body {
+        padding: 10px;
+    }
+
+    th {
+        display:none;
+        border:none;
+    }
+
+    td {
+        padding: 10px 3px !important;
+    }
+    
+    #tbKategori_filter label {
+        width:100%!important;
+    }
+
+    [type=search] {
+        margin-left:0px!important;
+        width:100%!important;
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <div>
+                        <div class="w-100">
                             <h4 class="card-title">Kategori</h4>
-                            <h6 class="card-subtitle">Manage Kategori menu makanan dan minuman</h6>
+                            <h6 class="card-subtitle">Kelola kategori Menu di Tokomu</h6>
                         </div>
-                        <div>
+                        <div class="mx-2">
                             <button type="button" id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#modalKategori">
-                                Tambah Kategori
+                                <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
@@ -35,9 +50,7 @@
                         <table class="table" width="100%" id="tbKategori">
                             <thead>
                                 <tr>
-                                    <th>Nama Kategori</th>
-                                    <th>Icon Kategori</th>
-                                    <th>Action</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,7 +80,7 @@
                         <label for="">Nama Kategori</label>
                         <input type="text" name="nama_kategori" class="form-control" autocomplete="off">
                     </div>
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="">Icon Kategori</label>
                         <select name="icon_kategori" class="form-control">
                             <option value="">- Pilih Icon -</option>
@@ -78,7 +91,7 @@
                             ?>
                         </select>
                         <small>Referensi Icon : <a href="https://openmoji.org/library/#group=food-drink%2Fdrink" target="_blank">Klik Disini</a></small>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -102,6 +115,7 @@
         bDestroy: true,
         order: [[ 0, "desc" ]],
         bInfo: false,
+        bLengthChange: false,
         processing: true,
         serverSide: true,
         ajax: {
@@ -110,21 +124,9 @@
         },
     });
 
-    function showLoading() {
-        return Swal.fire({
-            title: 'Loading...',
-            width: 600,
-            padding: '3em',
-            allowOutsideClick: false,
-            timer: 500,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-    }
-
     $("#btnAdd").click(function () {
         $("#formKategori").attr("action", "<?= base_url('admin/kategori/create') ?>");
+        $(".modal-title").html("Tambah Kategori");
     })
 
     $(document).on("click", ".editKategori", function (e) {
@@ -138,15 +140,16 @@
             success: function(response){
                 var res = JSON.parse(response);
                 if (res.status) {
-                    Swal.close();
+                    swal.close();
                     var data = res.data;
                     $("[name='id_kategori']").val(data.id_kategori);
                     $("[name='nama_kategori']").val(data.nama_kategori);
                     $("[name='icon_kategori']").val(data.icon_kategori).trigger("change");
                     $("#modalKategori").modal("show");
                     $("#formKategori").attr("action", "<?= base_url('admin/kategori/update') ?>");
+                    $(".modal-title").html("Edit Kategori");
                 } else {
-                    Swal.fire("Oops...", res.message, "error").then(function () {
+                    swal("Oops...", res.message, "error").then(function () {
                         $("#modalKategori").modal("hide");
                     });
                 }
@@ -157,16 +160,16 @@
     $(document).on('click', '.deleteKategori', function(e) {
         e.stopImmediatePropagation();
         var id = $(this).data("id");
-        Swal.fire({
+        swal({
             title: 'Konfirmasi',
             html: "Kategori akan dihapus ?",
-            icon: 'warning',
+            type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Hapus'
         }).then((result) => {
-            if (result.isConfirmed) {
+            if (result.value) {
                 let link = "<?= base_url('admin/kategori/delete/') ?>" + id;
                 location.assign(link);
             }

@@ -150,6 +150,28 @@ class M_menu extends CI_Model
             return false;
         }
     }
+
+    public function countTerjual($id_menu)
+    {
+        $this->db->select("SUM(CASE 
+            WHEN tb_order.status_order != 'cancel' 
+            THEN tb_detailorder.quantity 
+            ELSE 0 
+        END) AS total_terjual");
+        $this->db->from("tb_detailorder");
+        $this->db->join("tb_order", "tb_detailorder.id_order = tb_order.id_order");
+        $this->db->where("id_menu", $id_menu);
+        $this->db->group_by("tb_detailorder.id_menu");
+        return $this->db->get()->row();
+    }
+
+    public function updateTotalView($id_menu)
+    {
+        $fieldToIncrease = "total_view";
+        $this->db->set($fieldToIncrease, $fieldToIncrease."+1", FALSE);
+        $this->db->where('id_menu', $id_menu);
+        return $this->db->update('tb_menu');
+    }
 }
 
 ?>

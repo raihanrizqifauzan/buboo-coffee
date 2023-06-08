@@ -5,17 +5,18 @@ class M_pesanan extends CI_Model
 {
 
     // Datatable Function //
-	public function _query_get_menu($status = "")
+	public function _query_get_pesanan($status = "")
 	{
         $column_order = array('datetime_order');
-        $column_search = array('no_pesanan');
+        $column_search = array('no_pesanan', 'nama_customer');
         $order_by = array('datetime_order' => 'desc');
 
-        $this->db->select('tb_order.*, DISTINCT(tb_detailorder.nama_kategori)');
-        $this->db->from('tb_menu');
-        $this->db->join('tb_kategori', 'tb_kategori.id_kategori = tb_menu.id_kategori');
+        $this->db->select('tb_order.*, tb_detailorder.nama_menu, tb_detailorder.nama_kategori, tb_menu.thumbnail');
+        $this->db->from('tb_order');
+        $this->db->join('tb_detailorder', 'tb_detailorder.id_order = tb_order.id_order');
+        $this->db->join('tb_menu', 'tb_menu.id_menu = tb_detailorder.id_menu');
         if (!empty($status)) {
-            $this->db->where('tb_menu.status', $status);
+            $this->db->where('tb_order.status_order', $status);
         }
 		$i = 0;
 		foreach ($column_search as $item) { // loop column 
@@ -31,6 +32,8 @@ class M_pesanan extends CI_Model
 			}
 			$i++;
 		}
+
+		$this->db->group_by('tb_order.id_order');
 
 		if (isset($_POST['order'])) { // here order processing
 			$this->db->order_by($column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
@@ -58,9 +61,9 @@ class M_pesanan extends CI_Model
 
 	public function count_all_pesanan($status = "")
 	{
-        $this->db->from('tb_menu');
+        $this->db->from('tb_order');
         if (!empty($status)) {
-            $this->db->where('status', $status);
+            $this->db->where('status_order', $status);
         }
 		return $this->db->count_all_results();
 	}

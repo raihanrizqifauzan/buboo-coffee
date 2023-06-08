@@ -1,18 +1,61 @@
+<style>
+    .col-sm-12, .col-12 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .container-fluid {
+        padding: 30px;
+    }
+
+    .card-body {
+        padding: 10px;
+    }
+
+    th {
+        display:none;
+        border:none;
+    }
+
+    td {
+        padding: 10px 3px !important;
+    }
+
+    #tbMenu_filter label {
+        width:100%!important;
+    }
+    [type=search] {
+        margin-left:0px!important;
+        width:100%!important;
+    }
+
+    .filter-status {
+        cursor:pointer;
+    }
+    .filter-status.active {
+        background: #5f76e8;
+    }
+
+    .filter-status.active a{
+        color:#FFF!important;
+    }
+
+    .title-product {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+    }
+
+    .title-product {
+        -webkit-line-clamp: 2;
+    }
+</style>
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-12 col-md-6 align-self-center">
             <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Menu</h4>
             <h6 class="card-subtitle">Kelola Menu yang tersedia</h6>
-        </div>
-        <div class="col-12 col-md-6 align-self-center">
-            <div class="d-flex align-items-center justify-content-end">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb m-0 p-0">
-                        <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>" class="text-muted">Home</a></li>
-                        <li class="breadcrumb-item text-muted active" aria-current="page">Manage Menu</li>
-                    </ol>
-                </nav>
-            </div>
         </div>
     </div>
 </div>
@@ -21,7 +64,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-end align-items-center mb-2">
+                    <div class="d-flex justify-content-end align-items-center mb-4">
                         <div>
                             <a type="button" href="<?= base_url('admin/menu/add/') ?>" class="btn btn-primary">
                                 Tambah Menu
@@ -29,41 +72,37 @@
                         </div>
                     </div>
 
-                    <ul class="nav nav-tabs nav-bordered mb-2">
-                        <li class="nav-item filter-status" data-filter="">
-                            <a href="#home" data-toggle="tab" aria-expanded="false" class="nav-link active">
-                                <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
-                                <span class="d-none d-lg-block">Semua</span>
+                    <div class="d-flex justify-content-between w-100 text-center">
+                        <div class="w-100 nav-item filter-status active p-2" data-filter="">
+                            <a href="#home" data-toggle="tab" aria-expanded="false" class="">
+                                <i class="mdi mdi-home-variant mr-1"></i>
+                                <span class="">Semua</span>
                             </a>
-                        </li>
-                        <li class="nav-item filter-status" data-filter="aktif">
-                            <a href="#home" data-toggle="tab" aria-expanded="false" class="nav-link">
-                                <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
-                                <span class="d-none d-lg-block">Dijual</span>
+                        </div>
+                        <div class="w-100 nav-item filter-status p-2" data-filter="aktif">
+                            <a href="#home" data-toggle="tab" aria-expanded="false" class="">
+                                <i class="mdi mdi-home-variant mr-1"></i>
+                                <span class="">Dijual</span>
                             </a>
-                        </li>
-                        <li class="nav-item filter-status" data-filter="nonaktif">
-                            <a href="#profile" data-toggle="tab" aria-expanded="true" class="nav-link">
-                                <i class="mdi mdi-account-circle d-lg-none d-block mr-1"></i>
-                                <span class="d-none d-lg-block">Tidak Dijual</span>
+                        </div>
+                        <div class="w-100 nav-item filter-status p-2" data-filter="nonaktif">
+                            <a href="#profile" data-toggle="tab" aria-expanded="true" class="">
+                                <i class="mdi mdi-account-circle mr-1"></i>
+                                <span class="">Nonaktif</span>
                             </a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
+                    <hr>
                     
-                    <div class="tab-content">
+                    <div class="">
                         <div class="table-responsive">
-                            <table class="table" width="100%" id="tbMenu">
+                            <table class="table" id="tbMenu" width="100%">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Thumbnail</th>
-                                        <th>Nama Menu</th>
-                                        <th>Harga</th>
-                                        <th class="text-center">Status</th>
-                                        <th class="text-center">Action</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -71,6 +110,26 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalEditStok">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditStok">Edit Stok</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="id-menu" class="form-control">
+        <input type="number" id="edit-stok" class="form-control">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btnCloseStok" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="btnSaveStok">Simpan</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -85,6 +144,7 @@
             "search": ""
         },
         bDestroy: true,
+        bLengthChange: false,
         order: [[ 0, "desc" ]],
         bInfo: false,
         processing: true,
@@ -96,25 +156,17 @@
                 data.filter_status = filter_status
             }
         },
+        initComplete: function( settings ) {
+            $("[type='search']").attr("placeholder", "Cari Disini")
+        }
     });
 
     $(".filter-status").click(function () {
+        $(".filter-status").removeClass("active");
+        $(this).addClass("active");
         filter_status = $(this).data("filter");
         tbMenu.ajax.reload();
     })
-
-    function showLoading() {
-        return Swal.fire({
-            title: 'Loading...',
-            width: 600,
-            padding: '3em',
-            allowOutsideClick: false,
-            timer: 500,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-    }
 
     $("#btnAdd").click(function () {
         $("#formKategori").attr("action", "<?= base_url('admin/kategori/create') ?>");
@@ -131,7 +183,7 @@
             success: function(response){
                 var res = JSON.parse(response);
                 if (res.status) {
-                    Swal.close();
+                    swal.close();
                     var data = res.data;
                     $("[name='id_kategori']").val(data.id_kategori);
                     $("[name='nama_kategori']").val(data.nama_kategori);
@@ -139,7 +191,7 @@
                     $("#modalKategori").modal("show");
                     $("#formKategori").attr("action", "<?= base_url('admin/kategori/update') ?>");
                 } else {
-                    Swal.fire("Oops...", res.message, "error").then(function () {
+                    swal("Oops...", res.message, "error").then(function () {
                         $("#modalKategori").modal("hide");
                     });
                 }
@@ -150,16 +202,16 @@
     $(document).on('click', '.deleteKategori', function(e) {
         e.stopImmediatePropagation();
         var id = $(this).data("id");
-        Swal.fire({
+        swal({
             title: 'Konfirmasi',
             html: "Kategori akan dihapus ?",
-            icon: 'warning',
+            type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Hapus'
         }).then((result) => {
-            if (result.isConfirmed) {
+            if (result.value) {
                 let link = "<?= base_url('admin/kategori/delete/') ?>" + id;
                 location.assign(link);
             }
@@ -179,33 +231,70 @@
             var message = "Menu yang di nonaktifkan tidak dapat dilihat dan diorder oleh customer";
         }
 
-        Swal.fire({
+        swal({
             title: "",
             text: "Update Status Menu ?",
-            icon: "warning",
+            type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Ya",
             cancelButtonText: "Batal",
             closeOnConfirm: false,
         }).then((result) => {
-            if (result.isConfirmed) {
+            if (result.value) {
                 $.ajax({
                     type: 'GET',
                     url: `<?= base_url('admin/menu/update_status_menu') ?>?id=${id_menu}`,
                     dataType: "JSON",
                     success: function(res) {
                         if (res.status) {
-                            Swal.fire("Sukses", res.message, "success").then(function () {
+                            swal("Sukses", res.message, "success").then(function () {
                                 tbMenu.ajax.reload();
                             });
                         } else {
-                            Swal.fire("Oops...", res.message, "error").then(function () {
+                            swal("Oops...", res.message, "error").then(function () {
                                 tbMenu.ajax.reload();
                             });
                         }
                     }
                 });
+            }
+        });
+    })
+
+    $(document).on("click", ".editStok", function () {
+        var stok = $(this).data("stok");
+        var id_menu = $(this).data("id");
+        $("#id-menu").val(id_menu)
+        $("#edit-stok").val(stok)
+        $("#modalEditStok").modal("show")
+    })
+
+    $("#btnCloseStok").click(function () {
+        $("#id-menu").val("")
+        $("#edit-stok").val("")
+        $("#modalEditStok").modal("hide")
+    })
+
+    $("#btnSaveStok").click(function () {
+        var id_menu = $("#id-menu").val();
+        var stok = $("#edit-stok").val();
+        $.ajax({
+            type: 'POST',
+            url: `<?= base_url('admin/menu/update_stok') ?>`,
+            data: {id_menu: id_menu, stok: stok},
+            success: function(response) {
+                var res = JSON.parse(response);
+                if (res.status) {
+                    swal("Sukses", res.message, "success").then(function () {
+                        $("#modalEditStok").modal("hide")
+                        tbMenu.ajax.reload();
+                    });
+                } else {
+                    swal("Oops...", res.message, "error").then(function () {
+                        // tbMenu.ajax.reload();
+                    });
+                }
             }
         });
     })

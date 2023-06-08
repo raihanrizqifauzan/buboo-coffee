@@ -13,10 +13,9 @@ class Kategori extends CI_Controller
 
 	public function index()
 	{
-        // $json = file_get_contents(base_url('assets/admin/openmoji.json'));
-        // $arr_icon = json_decode($json, TRUE)['icons'];
-        // $data['list_icon'] = array_keys($arr_icon);
         $data['title_page'] = "Manajemen Kategori - Buboo Coffee";
+        $data['judul'] = "Kategori Menu";
+        $data['back_url'] = base_url('admin');
         $this->load->view('admin/structure/V_head', $data);
         $this->load->view('admin/structure/V_topbar');
         $this->load->view('admin/structure/V_sidebar');

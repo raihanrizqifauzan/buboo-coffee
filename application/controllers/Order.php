@@ -27,6 +27,22 @@ class Order extends CI_Controller
             $decode_keranjang = json_decode($_COOKIE["keranjang"], TRUE);
             foreach ($decode_keranjang as $key => $c) {
                 $data_menu = $this->M_menu->getMenuById($c['id_menu']);
+                $sisa_stock = $data_menu->stock - $c['quantity'];
+                if ($data_menu->status == "nonaktif") {
+                    $flashdata = ['notif_message' => $data_menu->nama_menu." sudah habis", 'notif_icon' => "error"];
+                    $this->session->set_flashdata($flashdata);
+                    redirect(base_url('cart'));
+                } else if ($sisa_stock < 0) {
+                    if ($data_menu->stock == 0) {
+                        $flashdata = ['notif_message' => $data_menu->nama_menu." sudah habis", 'notif_icon' => "error"];
+                        $this->session->set_flashdata($flashdata);
+                        redirect(base_url('cart'));
+                    } else {
+                        $flashdata = ['notif_message' => $data_menu->nama_menu." tersisa ".$data_menu->stock, 'notif_icon' => "error"];
+                        $this->session->set_flashdata($flashdata);
+                        redirect(base_url('cart'));
+                    }
+                }
                 $temp = $data_menu;
                 $temp->quantity = $c['quantity'];
                 $result_keranjang[] = $temp;
@@ -78,6 +94,8 @@ class Order extends CI_Controller
                 } else {
                     throw new Exception("$menu->nama_menu stoknya habis");
                 }
+            } else if ($menu->status == "nonaktif") {
+                throw new Exception("$menu->nama_menu sudah habis");
             }
 
             $cari_index = false;
@@ -182,6 +200,7 @@ class Order extends CI_Controller
         $no_meja = $this->session->userdata('no_meja');
 
         try {
+			$this->db->trans_start();
             if (empty($nama_customer) || empty($no_hp)) {
                 throw new Exception("Nama dan No HP wajib diisi");
             }
@@ -192,10 +211,22 @@ class Order extends CI_Controller
 
             $list_menu_order = [];
             $total_order = 0;
+            $data_stock = [];
             if (isset($_COOKIE["keranjang"]) && !empty($_COOKIE["keranjang"])) {
                 $decode_keranjang = json_decode($_COOKIE["keranjang"], TRUE);
                 foreach ($decode_keranjang as $i => $cart) {
                     $data_menu = $this->M_menu->getMenuById($cart['id_menu']);
+                    $sisa_stock = $data_menu->stock - $cart['quantity'];
+                    if ($data_menu->status == "nonaktif") {
+                        throw new Exception($data_menu->nama_menu." sudah habis");
+                    } else if ($sisa_stock < 0) {
+                        if ($data_menu->stock == 0) {
+                            throw new Exception($data_menu->nama_menu." sudah habis");
+                        } else {
+                            throw new Exception($data_menu->nama_menu." tersisa ".$data_menu->stock);
+                        }
+                    }
+
                     $total_order += $data_menu->harga * $cart['quantity'];
                     $temp = [
                         'id_menu' => $cart['id_menu'],
@@ -205,6 +236,7 @@ class Order extends CI_Controller
                         'harga' => $data_menu->harga,
                         'quantity' => $cart['quantity'],
                     ];
+                    $data_stock[$cart['id_menu']] = $data_menu->stock;
                     $list_menu_order[] = $temp;
                     $total_order += $temp['harga'];
                 }
@@ -231,16 +263,35 @@ class Order extends CI_Controller
             }
 
             $detail_order = [];
+            $log_perubahan_stock = [];
             foreach ($list_menu_order as $key => $detail) {
                 $temp = $detail;
                 $temp['id_order'] = $id_order_inserted;
                 $detail_order[] = $temp;
+
+                $stock_akhir = $data_stock[$detail['id_menu']] - $detail['quantity'];
+                $selisih_stock = $data_stock[$detail['id_menu']] - $stock_akhir;
+                $log_stock = [
+                    'id_menu' => $detail['id_menu'],
+                    'keterangan' => "Pesanan No. $id_order_inserted",
+                    'stock_awal' => $data_stock[$detail['id_menu']],
+                    'selisih' => $selisih_stock,
+                    'stock_akhir' => $stock_akhir,
+                    'url_action' => base_url('order/create_order'),
+                    'datetime_action' => $tgl_sekarang
+                ];
+                $log_perubahan_stock[] = $log_stock;
             }
 
             $save_detailorder = $this->M_order->insertBatchDetailOrder($detail_order);
             if ($save_detailorder === false) {
                 throw new Exception("Terjadi Kesalahan saat menyimpan data");
             }
+
+            $this->M_order->insertBatchLogStock($log_perubahan_stock);
+
+            $this->db->trans_complete();
+            $this->db->trans_commit();
 
             $encode_id = base64_encode($no_pesanan);
             $encode_id = str_replace("=", "", $encode_id);
@@ -267,6 +318,7 @@ class Order extends CI_Controller
             send_whatsapp($no_hp, $message_whatsapp);
             echo json_encode(['status' => true, 'message' => "Berhasil melakukan order", 'data' => $data]);
         } catch (Exception $e) {
+            $this->db->trans_rollback();
             echo json_encode(['status' => false, 'message' => $e->getMessage()]);
         }
     }

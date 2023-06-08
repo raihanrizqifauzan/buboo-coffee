@@ -50,17 +50,17 @@
                             <div class="img-preview d-flex justify-content-center align-items-center" style="padding:5px;width:100px;height:100px;border:1px solid #e4e7ed">
                                 <div class="mx-1"><a href="javascript:void(0)" class="text-dark change-img"><span class="iconify" data-icon="material-symbols:edit-square-outline"></span></div></a>
                             </div>
-                            <div class="img-preview d-flex justify-content-center align-items-center" style="padding:5px;width:100px;height:100px;border:1px solid #e4e7ed">
+                            <!-- <div class="img-preview d-flex justify-content-center align-items-center" style="padding:5px;width:100px;height:100px;border:1px solid #e4e7ed">
                                 <div class="mx-1"><a href="javascript:void(0)" class="text-dark change-img"><span class="iconify" data-icon="material-symbols:edit-square-outline"></span></div></a>
                             </div>
                             <div class="img-preview d-flex justify-content-center align-items-center" style="padding:5px;width:100px;height:100px;border:1px solid #e4e7ed">
                                 <div class="mx-1"><a href="javascript:void(0)" class="text-dark change-img"><span class="iconify" data-icon="material-symbols:edit-square-outline"></span></div></a>
-                            </div>
+                            </div> -->
                         </div>
                         <div style="display:none">
                             <input type="file" class="form-control gambar_menu">
-                            <input type="file" class="form-control gambar_menu">
-                            <input type="file" class="form-control gambar_menu">
+                            <!-- <input type="file" class="form-control gambar_menu">
+                            <input type="file" class="form-control gambar_menu"> -->
                         </div>
                         <div class="area-gambar"></div>
                     </div>
@@ -96,25 +96,11 @@
         CKEDITOR.config.removePlugins = 'image, iframe, anchor, forms, newpage, save, exportpdf, preview, print, templates';
     });
 
-
-    function showLoading() {
-        return Swal.fire({
-            title: 'Loading...',
-            width: 600,
-            padding: '3em',
-            allowOutsideClick: false,
-            timer: 500,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-    }
-
     $("#addGambar").click(function () {
         var length_gambar = $(".gambar_menu").length;
         if (length_gambar == 3) {
-            Swal.fire({
-                icon: "warning",
+            swal({
+                type: "warning",
                 text: "Maksimal 3 gambar",
             });
             return false;
@@ -179,11 +165,11 @@
             success: function(response){
                 var res = JSON.parse(response);
                 if (res.status) {
-                    Swal.fire("Berhasil", res.message, "success").then(function () {
+                    swal("Berhasil", res.message, "success").then(function () {
                         window.location.href = "<?= base_url('admin/menu') ?>"
                     });
                 } else {
-                    Swal.fire("Oops...", res.message, "error").then(function () {
+                    swal("Oops...", res.message, "error").then(function () {
                     });
                 }
             }

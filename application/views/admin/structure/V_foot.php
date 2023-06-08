@@ -35,7 +35,9 @@
     <script src="<?= base_url() ?>assets/admin/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="<?= base_url() ?>assets/admin/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
     <script src="<?= base_url('assets/admin/') ?>dist/js/pages/dashboards/dashboard1.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+    <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.all.min.js"></script>
     <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
@@ -135,6 +137,53 @@
         });
     </script>
 
+    <script>
+        
+
+        function showLoading() {
+            return swal({
+                title: "Loading...",
+                text: "Please wait",
+                imageUrl: "https://www.boasnotas.com/img/loading2.gif",
+                showConfirmButton: false,
+                allowOutsideClick: true
+            }); 
+        }
+
+        function messageError(msg){
+            return swal({
+                title: 'Oops',
+                text: msg,
+                type: 'warning',
+            })
+        }
+
+        function messageSuccess(msg){
+            return swal({
+                title: 'Success',
+                text: msg,
+                type: 'success',
+            })
+        }
+
+        function formatRupiah(angka, prefix){
+            var number_string = angka.toString(),
+            split   		= number_string.split(','),
+            sisa     		= split[0].length % 3,
+            rupiah     		= split[0].substr(0, sisa),
+            ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+        
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if(ribuan){
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+        
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+    </script>
+
 
     <?php 
     if(!empty($this->session->flashdata('notif_icon'))) {
@@ -151,8 +200,8 @@
         var msg_flashdata = "<?= $message ?>";
         var error = $("#alert-flashdata").length;
         if (error > 0) {
-            Swal.fire({
-                icon: icon_flashdata,
+            swal({
+                type: icon_flashdata,
                 text: msg_flashdata,
             })
         }

@@ -38,7 +38,7 @@
                         <span class="hide-menu">Manage Kategori</span>
                     </a>
                 </li>
-                <li class="sidebar-item"> 
+                <!-- <li class="sidebar-item"> 
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <i data-feather="coffee" class="feather-icon"></i>
                         <span class="hide-menu">Manage Menu </span>
@@ -55,9 +55,15 @@
                             </a>
                         </li>
                     </ul>
+                </li> -->
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link sidebar-link" href="<?= base_url('admin/menu/') ?>" aria-expanded="false">
+                        <i data-feather="coffee" class="feather-icon"></i>
+                        <span class="hide-menu">Manage Menu</span>
+                    </a>
                 </li>
                 <li class="sidebar-item"> 
-                    <a class="sidebar-link sidebar-link" href="index.html" aria-expanded="false">
+                    <a class="sidebar-link sidebar-link" href="<?= base_url('admin/pesanan/') ?>" aria-expanded="false">
                         <i data-feather="phone-incoming" class="feather-icon"></i>
                         <span class="hide-menu">Manage Pesanan</span>
                     </a>

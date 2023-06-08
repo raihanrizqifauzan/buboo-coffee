@@ -1,63 +1,73 @@
 
-<div class="page-breadcrumb">
-    <div class="row">
-        <div class="col-7 align-self-center">
-            <h3 class="page-title text-truncate text-dark font-weight-medium mb-1">Good Morning Jason!</h3>
-            <div class="d-flex align-items-center">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb m-0 p-0">
-                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a>
-                        </li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <div class="col-5 align-self-center">
-            <div class="customize-input float-right">
-                <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
-                    <option selected>Aug 19</option>
-                    <option value="1">July 19</option>
-                    <option value="2">Jun 19</option>
-                </select>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ============================================================== -->
-<!-- End Bread crumb and right sidebar toggle -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
 <!-- Container fluid  -->
 <!-- ============================================================== -->
-<div class="container-fluid">
+<div class="custom-container p-3">
     <!-- *************************************************************** -->
     <!-- Start First Cards -->
     <!-- *************************************************************** -->
+    <div class="row">
+        <div class="col-4" onclick="loadMenu('kategori')">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="iconify fa-2x" data-icon="bx:category"></span>
+                    <div class="mt-1">Kategori</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4" onclick="loadMenu('menu')">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="iconify fa-2x" data-icon="carbon:product"></span>
+                    <div class="mt-1">Menu</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4" onclick="loadMenu('pesanan')">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="iconify fa-2x" data-icon="ion:cart-outline"></span>
+                    <div class="mt-1">Pesanan</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4" onclick="loadMenu('kasir')">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="iconify fa-2x" data-icon="streamline:money-cashier-shop-shopping-pay-payment-cashier-store-cash-register-machine"></span>
+                    <div class="mt-1">Kasir</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4" onclick="loadMenu('promo')">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="iconify fa-2x" data-icon="system-uicons:graph-increase"></span>
+                    <div class="mt-1">Promo</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4" onclick="loadMenu('setting')">
+            <div class="card">
+                <div class="card-body text-center">
+                    <span class="iconify fa-2x" data-icon="uil:setting"></span>
+                    <div class="mt-1">Setting</div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="card-group">
         <div class="card border-right">
             <div class="card-body">
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
-                        <div class="d-inline-flex align-items-center">
-                            <h2 class="text-dark mb-1 font-weight-medium">236</h2>
-                            <span
-                                class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">+18.33%</span>
-                        </div>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">New Clients</h6>
-                    </div>
-                    <div class="ml-auto mt-md-3 mt-lg-0">
-                        <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card border-right">
-            <div class="card-body">
-                <div class="d-flex d-lg-flex d-md-block align-items-center">
-                    <div>
                         <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><sup
-                                class="set-doller">$</sup>18,306</h2>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Earnings of Month
+                                class="set-doller">Rp</sup>150.000</h2>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Omset
                         </h6>
                     </div>
                     <div class="ml-auto mt-md-3 mt-lg-0">
@@ -71,27 +81,13 @@
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
                         <div class="d-inline-flex align-items-center">
-                            <h2 class="text-dark mb-1 font-weight-medium">1538</h2>
-                            <span
-                                class="badge bg-danger font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">-18.33%</span>
+                            <h2 class="text-dark mb-1 font-weight-medium">40</h2>
+                            <span class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">18.33%</span>
                         </div>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">New Projects</h6>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Jumlah Order</h6>
                     </div>
                     <div class="ml-auto mt-md-3 mt-lg-0">
                         <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex d-lg-flex d-md-block align-items-center">
-                    <div>
-                        <h2 class="text-dark mb-1 font-weight-medium">864</h2>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Projects</h6>
-                    </div>
-                    <div class="ml-auto mt-md-3 mt-lg-0">
-                        <span class="opacity-7 text-muted"><i data-feather="globe"></i></span>
                     </div>
                 </div>
             </div>
@@ -103,7 +99,7 @@
     <!-- *************************************************************** -->
     <!-- Start Sales Charts Section -->
     <!-- *************************************************************** -->
-    <div class="row">
+    <div class="row px-3">
         <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-body">
@@ -211,6 +207,12 @@
 </div>
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
+
+<script>
+    function loadMenu(url) {
+        window.location.href = "<?= base_url('admin/') ?>" + url;
+    }
+</script>
         
         
         

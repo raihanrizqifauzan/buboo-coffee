@@ -136,6 +136,28 @@
         });
       })
     </script>
+
+  <?php 
+    if(!empty($this->session->flashdata('notif_icon'))) {
+      $icon = $this->session->flashdata('notif_icon');
+      $message = $this->session->flashdata('notif_message');
+      echo '<button id="alert-flashdata" class="d-none"></button>';
+    } else {
+      $icon = "";
+      $message = "";
+    } ?>
+
+  <script>
+    var icon_flashdata = "<?= $icon ?>";
+    var msg_flashdata = "<?= $message ?>";
+    var error = $("#alert-flashdata").length;
+    if (error > 0) {
+      swal({
+        type: icon_flashdata,
+        text: msg_flashdata,
+      })
+    }
+  </script>
 </div>
 </body>
 </html>

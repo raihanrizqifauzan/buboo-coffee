@@ -37,18 +37,39 @@ class M_order extends CI_Model
 
     public function getOrderByNoPesanan($no_pesanan)
 	{
-        $this->db->select("*");
+        $this->db->select("tb_order.*, tb_detailorder.nama_menu, tb_detailorder.nama_kategori, tb_menu.thumbnail");
         $this->db->from("tb_order");
-        $this->db->where("no_pesanan", $no_pesanan);
+        $this->db->join('tb_detailorder', 'tb_detailorder.id_order = tb_order.id_order');
+        $this->db->join('tb_menu', 'tb_menu.id_menu = tb_detailorder.id_menu');
+        $this->db->where("tb_order.no_pesanan", $no_pesanan);
+		$this->db->group_by('tb_order.id_order');
         return $this->db->get()->row();
     }
 
     public function getDetailOrder($id_order)
     {
-        $this->db->select("*");
+        $this->db->select("tb_detailorder.*, tb_menu.thumbnail");
         $this->db->from("tb_detailorder");
+        $this->db->join('tb_menu', 'tb_menu.id_menu = tb_detailorder.id_menu');
         $this->db->where("id_order", $id_order);
         return $this->db->get()->result();
+    }
+
+    public function insertBatchLogStock($data)
+    {
+        return $this->db->insert_batch("log_perubahan_stock", $data);
+    }
+
+    public function updateDataOrder($id_order, $data)
+    {
+        $this->db->set($data);
+        $this->db->where('id_order', $id_order);
+        return $this->db->update('tb_order');
+    }
+
+    public function saveLogStatusOrder($data)
+    {
+        return $this->db->insert("log_status_order", $data);
     }
 }
 

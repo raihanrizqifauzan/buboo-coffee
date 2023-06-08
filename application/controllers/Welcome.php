@@ -50,6 +50,7 @@ class Welcome extends CI_Controller
 		$data['title_of_page'] = 'Detail Menu | Buboo Coffee';
 		$data['judul_halaman'] = 'Detail Menu';
 		$data['back_url'] = base_url('daftar-menu');
+		$this->M_menu->updateTotalView($id_menu);
 		$this->load->view('public/structure/V_head', $data);
 		$this->load->view('public/structure/V_topbar');
 		$this->load->view('public/V_detail_menu');
@@ -144,7 +145,7 @@ class Welcome extends CI_Controller
         } 
         $data['keranjang'] = $result_keranjang;
 		$data['judul_halaman'] = 'Keranjang';
-		$data['back_url'] = isset($_SERVER['HTTP_REFERER']) ? base_url('daftar-menu') :$_SERVER['HTTP_REFERER'];
+		$data['back_url'] = base_url('daftar-menu');
 		$this->load->view('public/structure/V_head', $data);
 		$this->load->view('public/structure/V_topbar');
 		$this->load->view('public/V_cart');

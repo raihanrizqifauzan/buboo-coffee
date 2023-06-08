@@ -5,7 +5,7 @@ class Menu extends CI_Controller
 {
     public function __construct(Type $var = null) {
         parent::__construct();
-        $this->load->model(["M_kategori", "M_menu"]);
+        $this->load->model(["M_kategori", "M_menu", "M_order"]);
         if(empty($this->session->userdata('username'))) {
             redirect(base_url('admin/login'));
         }
@@ -14,6 +14,8 @@ class Menu extends CI_Controller
     public function index()
 	{
         $data['title_page'] = "Manajemen Menu - Buboo Coffee";
+        $data['judul'] = "Menu";
+        $data['back_url'] = base_url('admin');
         $this->load->view('admin/structure/V_head', $data);
         $this->load->view('admin/structure/V_topbar');
         $this->load->view('admin/structure/V_sidebar');
@@ -30,42 +32,62 @@ class Menu extends CI_Controller
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $item) {
+            $get_terjual = $this->M_menu->countTerjual($item->id_menu);
+            if (empty($get_terjual)) {
+                $total_terjual = 0;
+            } else {
+                $total_terjual = $get_terjual->total_terjual;
+            }
+
             $row = array();
             $thumbnail = json_decode($item->json_gambar, TRUE)[0];
             $checked = "";
             if ($item->status == "aktif") {
                 $checked = "checked";
             }
+
             $switch_status = '
 			<label class="switch">
 				<input type="checkbox" class="status_aktif" data-id="'.$item->id_menu.'" data-status="'.$item->status.'" '.$checked.'>
 				<span class="slider round"></span>
 			</label>';
-            // $row[] = '<div class="text-center"><a href="'.base_url('assets/public/img/menu/'.$thumbnail).'" target="_blank"><img src="'.base_url('assets/public/img/menu/'.$thumbnail).'" width="50px"></a></div>';
-            // $row[] = '<div class="mb-2"><span class="badge badge-secondary"><i class="fa fa-tag"></i> '.$item->nama_kategori.'</span><div>
-            // <div>'.$item->nama_menu.'<div>';
-            // $row[] = "Rp".number_format($item->harga, 0, '', '.');
-            // $row[] = '<div class="text-center">'.$switch_status.'</div>';
-            // $row[] = '
-            // <div class="text-center">
-            //     <a href="'.base_url('admin/menu/edit/').$item->id_menu.'" class="btn btn-sm btn-circle btn-info editMenu" data-id="'.$item->id_menu.'"><i class="fa fa-edit"></i></a>
-            // </div>';
+
+
             $row[] = '
-            <div class="d-flex justify-content-between ">
+            <div class="d-flex justify-content-between">
                 <div>
                     <img src="'.base_url('assets/public/img/menu/'.$thumbnail).'" alt="" width="100" height="100">
                 </div>
-                <div class="mx-2 w-100">
-                    '.$item->nama_menu.'
-                    <div><small>Rp'.number_format($item->harga, 0, "", ".").'</small></div>
-                </div>
-                <div class="w-100 d-flex justify-content-end" style="position:relative">
-                    '.$switch_status.'
-                    <div style="position:absolute;bottom:0px;">
-                        <a class="" href="'.base_url('admin/menu/edit/').$item->id_menu.'" class="text-dark editMenu" data-id="'.$item->id_menu.'"><i class="fa fa-edit"></i></a>
+                <div class="mx-3 w-100" style="position:relative">
+                    <div class="d-flex justify-content-between">
+                        <div class="w-100 title-product mr-2">
+                            <b>'.$item->nama_menu.'</b>
+                        </div>
+                        <div class="w-100 text-right">
+                            <a href="'.base_url('admin/menu/edit/').$item->id_menu.'" class="btn btn-sm btn-info editMenu" data-id="'.$item->id_menu.'"><small>Edit</small></a>
+                        </div>
+                    </div>
+                    <div>Rp'.number_format($item->harga, 0, "", ".").'</div>
+                    <div class="w-100 justify-content-between d-flex align-items-end" style="position:absolute;bottom:0;">
+                        <div>
+                            <small>Stok : '.number_format($item->stock, 0, "", ".").'</small> <a href="javascript:void(0)" class="text-info editStok" data-stok="'.$item->stock.'" data-id="'.$item->id_menu.'"><i class="fa fa-edit"></i></a>
+                        </div>
+                        '.$switch_status.'
                     </div>
                 </div>
-            </div>';
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <span class="iconify mr-1" style="margin-top:-3px;" data-icon="ph:eye"></span> Dilihat '.$item->total_view.'
+                </div>
+                <div>
+                    <span class="iconify mr-1" style="margin-top:-3px;" data-icon="bi:shop"></span> Terjual '.$total_terjual.'
+                </div>
+            </div>
+            <hr>
+            
+            ';
             $data[] = $row;
         }
 
@@ -175,6 +197,7 @@ class Menu extends CI_Controller
             $data_log = json_decode(json_encode($menu_inserted), TRUE);
             unset($data_log['datetime_create']);
             unset($data_log['nama_kategori']);
+            unset($data_log['total_view']);
             $data_log['username_admin'] = $this->session->userdata('username');
             
             $insert_log = $this->M_menu->insertLogMenu($data_log);
@@ -224,6 +247,7 @@ class Menu extends CI_Controller
             $data_log = json_decode(json_encode($menu_updated), TRUE);
             unset($data_log['datetime_create']);
             unset($data_log['nama_kategori']);
+            unset($data_log['total_view']);
             $data_log['username_admin'] = $this->session->userdata('username');
             
             $insert_log = $this->M_menu->insertLogMenu($data_log);
@@ -321,6 +345,7 @@ class Menu extends CI_Controller
             $data_log = json_decode(json_encode($menu_updated), TRUE);
             unset($data_log['datetime_create']);
             unset($data_log['nama_kategori']);
+            unset($data_log['total_view']);
             $data_log['username_admin'] = $this->session->userdata('username');
             
             $insert_log = $this->M_menu->insertLogMenu($data_log);
@@ -339,6 +364,67 @@ class Menu extends CI_Controller
                     unlink('./assets/public/img/menu/'.$img);
                 }
             }
+            $this->db->trans_rollback();
+            echo json_encode(['status' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function update_stok()
+    {
+        $id_menu = $this->input->post('id_menu', TRUE);
+        $stok = $this->input->post('stok', TRUE);
+
+        try {
+			$this->db->trans_start();
+
+            $data_menu = $this->M_menu->getMenuById($id_menu);
+            if (empty($data_menu)) {
+                throw new Exception("Menu tidak ditemukan");
+            }
+
+            if ($stok === "") {
+                throw new Exception("Harap masukan stok baru");
+            }
+
+            if (!is_numeric($stok)) {
+                throw new Exception("Stok tidak valid");
+            }
+
+
+            $data = [
+                'stock' => $stok,
+            ];
+
+            $update_menu = $this->M_menu->updateMenu($id_menu, $data);
+            if ($update_menu == false) {
+                throw new Exception("Terjadi kesalahan saat menyimpan data ke database");   
+            }
+            
+            $stock_akhir = $stok;
+            $selisih_stock = $stok - $data_menu->stock;
+            $log_stock = [
+                'id_menu' => $data_menu->id_menu,
+                'keterangan' => "Adjustment Stock",
+                'stock_awal' => $data_menu->stock,
+                'selisih' => $selisih_stock,
+                'stock_akhir' => $stock_akhir,
+                'url_action' => base_url('admin/menu/update_stok'),
+                'datetime_action' => tgl_sekarang(),
+                'user_action' => $this->session->userdata('username'),
+            ];
+            $log_perubahan_stock[] = $log_stock;
+            $this->M_order->insertBatchLogStock($log_perubahan_stock);
+
+            $this->db->trans_complete();
+            if ($this->db->trans_status() === FALSE) {
+                $this->db->trans_rollback();
+                throw new Exception("Terjadi kesalahan saat menyimpan data ke database");   
+            } else {
+                $this->db->trans_commit();
+                $response = ['status' => true, 'message' => 'Berhasil Menyimpan Stok'];
+            }
+            echo json_encode($response);die;
+        } catch (Exception $e) {
             $this->db->trans_rollback();
             echo json_encode(['status' => false, 'message' => $e->getMessage()]);
         }

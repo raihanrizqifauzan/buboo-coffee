@@ -13,27 +13,39 @@
             <small>Anda belum memilih menu </small>
         </div>
         <?php } else {
+            $jumlah_stok_habis = 0;
             foreach ($keranjang as $key => $cart) { 
                 $total_order += $cart->harga * $cart->quantity;
                 $image_menu = json_decode($cart->json_gambar)[0];
+
+                $img_habis = "";
+                $ket_habis = "";
+                $disabled = "";
+                if ($cart->status == "nonaktif" || $cart->stock <= 0) {
+                    $jumlah_stok_habis++;
+                    $img_habis = '<div style="position:absolute;top:35%;background:#FFF;padding:0px 22px;opacity:.5">HABIS</div>';
+                    $ket_habis = '<span class="text-danger"><small><i>(Stok Habis)</i></small></span>';
+                    $disabled = "disabled";
+                }
                 ?>
                 <div style="border-bottom:1px solid silver">
                     <div class="d-flex justify-content-between py-3 align-items-end">
                         <div class="d-flex align-items-end">
-                            <div>
+                            <div style="position:relative">
                                 <img src="<?= base_url('assets/public/') ?>img/menu/<?= $image_menu ?>" height="90px" width="90px" alt="" style="border-radius:10px;">
+                                <?= $img_habis ?>
                             </div>
                             <div class="mx-2">
                                 <b><?= $cart->nama_menu ?></b>
                                 <div class="text-muted">
-                                    <small>Rp<?= number_format($cart->harga) ?></small>
+                                    <small>Rp<?= number_format($cart->harga) ?> <?= $ket_habis ?></small>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mt-3 px-0 bg-white border-white">
                                     <span class="small text-uppercase text-gray no-select"></span>
                                     <div class="quantity w-100">
-                                        <button class="dec-btn p-0" data-id="<?= $cart->id_menu ?>"><i class="fas fa-caret-left"></i></button>
-                                        <input class="form-control border-0 shadow-0 p-0 quantity-cart" type="text" value="<?= $cart->quantity ?>" min="1" data-id="<?= $cart->id_menu ?>">
-                                        <button class="inc-btn p-0" data-id="<?= $cart->id_menu ?>"><i class="fas fa-caret-right"></i></button>
+                                        <button <?= $disabled ?> class="dec-btn p-0" data-id="<?= $cart->id_menu ?>"><i class="fas fa-caret-left"></i></button>
+                                        <input <?= $disabled ?> class="form-control border-0 shadow-0 p-0 quantity-cart" type="text" value="<?= $cart->quantity ?>" min="1" data-id="<?= $cart->id_menu ?>">
+                                        <button <?= $disabled ?> class="inc-btn p-0" data-id="<?= $cart->id_menu ?>"><i class="fas fa-caret-right"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +68,12 @@
                         <div><b id="totalorder">Rp<?= number_format($total_order) ?></b></div>
                     </div>
                     <div>
-                        <a href="<?= base_url('order') ?>"><button class="px-5 btn btn-primary" style="border-radius:6px;">Pesan</button></a>
+                        <?php 
+                        if ($total_order == 0 || $jumlah_stok_habis > 0) { ?>
+                            <button class="px-5 btn btn-primary" style="border-radius:6px;" disabled>Pesan</button>
+                        <?php } else { ?>
+                            <a href="<?= base_url('order') ?>"><button class="px-5 btn btn-primary" style="border-radius:6px;">Pesan</button></a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

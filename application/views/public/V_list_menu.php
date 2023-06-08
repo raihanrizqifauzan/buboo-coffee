@@ -136,16 +136,24 @@
     } else {
       list_menu.forEach(e => {
         var url_menu = e.nama_menu.toLowerCase().replace(" ", "-")+"."+e.id_menu;
+        var img_habis = "";
+        var ket_habis = "";
+        if (e.status == "nonaktif" || e.stock <= 0) {
+          img_habis = `<div style="position:absolute;top:32%;left:20px;background:#FFF;padding:5px 20px;opacity:.5">HABIS</div>`;
+          ket_habis = `<span class="text-danger"><small><i>(Stok Habis)</i></small></span>`;
+        }
         html += `
         <div class="mb-4">
           <a href="${detail_url+url_menu}" class="text-dark">
             <div class="d-flex w-100">
-              <div>
+              <div style="position: relative;">
                 <img src="<?= base_url('assets/public/img/menu/') ?>${e.thumbnail}" style="border-radius:10px;" width="130" height="130">
+                ${img_habis}
               </div>
               <div class="w-100" style="padding-left:10px;position:relative">
                 <b><small class="title-product">${e.nama_menu}</small></b>
                 <div class="desc-product"><small class="text-muted">${e.deskripsi}</small></div>
+                <div>${ket_habis}</div>
                 <div class="pb-2 price-product"><b>Rp${formatRupiah(e.harga)}</b></div>
               </div>
             </div>

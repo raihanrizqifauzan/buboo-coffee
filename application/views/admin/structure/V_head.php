@@ -22,6 +22,8 @@
     <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.css" />
     <style>
         label {
             font-weight: 500;
@@ -106,6 +108,37 @@
         
         .slider.round:before {
             border-radius: 50%;
+        }
+
+        .col-sm-12, .col-12 {
+            padding-left: 0px!important;
+            padding-right: 0px!important;
+        }
+
+        .container-fluid {
+            padding: 30px!important;
+        }
+
+        .card-body {
+            padding: 10px!important;
+        }
+
+        th {
+            display:none;
+            border:none;
+        }
+
+        td {
+            padding: 10px 3px !important;
+        }
+
+        .dataTables_filter label {
+            width:100%!important;
+        }
+
+        [type=search] {
+            margin-left:0px!important;
+            width:100%!important;
         }
     </style>
 </head>
