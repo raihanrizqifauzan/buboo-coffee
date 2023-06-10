@@ -13,6 +13,12 @@
                     </a>
                 </li>
                 <li class="sidebar-item"> 
+                    <a class="sidebar-link sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                        <i data-feather="shopping-cart" class="feather-icon"></i>
+                        <span class="hide-menu">Penjualan</span>
+                    </a>
+                </li>
+                <!-- <li class="sidebar-item"> 
                     <a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                         <i data-feather="info" class="feather-icon"></i>
                         <span class="hide-menu">Informasi Website </span>
@@ -29,7 +35,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
                 <li class="list-divider"></li>
                 <!-- <li class="nav-small-cap"><span class="hide-menu">Applications</span></li> -->
                 <li class="sidebar-item"> 
@@ -66,6 +72,12 @@
                     <a class="sidebar-link sidebar-link" href="<?= base_url('admin/pesanan/') ?>" aria-expanded="false">
                         <i data-feather="phone-incoming" class="feather-icon"></i>
                         <span class="hide-menu">Manage Pesanan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link sidebar-link" href="<?= base_url('admin/setting/') ?>" aria-expanded="false">
+                        <i data-feather="settings" class="feather-icon"></i>
+                        <span class="hide-menu">Setting Toko</span>
                     </a>
                 </li>
             </ul>

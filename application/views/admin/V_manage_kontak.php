@@ -39,12 +39,12 @@
                                 <?= $data->no_telp ?>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="">Hari Operasional</label>
                             <div id="">
                                 <?= $data->hari_operasional ?>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="edit-kontak" style="display:none">
                         <div class="mb-2 text-right">
@@ -68,10 +68,10 @@
                                     <input value="<?= substr($data->no_telp, 3) ?>" required type="text" class="form-control" name="no_telp" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="">Hari Operasional</label>
                                 <input value="<?= $data->hari_operasional ?>" required type="text" class="form-control" name="hari_operasional" autocomplete="off">
-                            </div>
+                            </div> -->
                             <div class="text-right">
                                 <button class="btn btn-success" type="submit">Simpan</button>
                             </div>

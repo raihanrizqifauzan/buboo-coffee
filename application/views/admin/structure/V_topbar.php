@@ -7,12 +7,12 @@
             <!-- This is for the sidebar toggle which is visible on mobile only -->
             <!-- <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a> -->
             
-            <div>
+            <div class="d-block d-md-none d-lg-none">
                 <?php if (!empty($back_url)) { ?> <a href="<?= $back_url ?>"><span class="iconify mx-3" data-icon="formkit:arrowleft"></span></a>  <?php } ?>
                 
                 <?php if (!empty($judul)) { ?> <b class="<?= empty($back_url) ? 'mx-3' : '' ?>"><?= $judul ?></b> <?php } ?>
             </div>
-            <div>
+            <div class="d-block d-md-none d-lg-none">
                 <ul class="navbar-nav float-right" style="line-height: 1rem!important;">
                     <!-- Notification -->
                     <li class="nav-item dropdown">
@@ -76,7 +76,7 @@
             <!-- ============================================================== -->
             <!-- Logo -->
             <!-- ============================================================== -->
-            <!-- <div class="navbar-brand">
+            <div class="navbar-brand d-none d-md-block d-lg-block">
                 <a href="index.html">
                     <b class="logo-icon">
                         <img src="<?= base_url() ?>assets/admin/images/logo-icon.png" alt="homepage" class="dark-logo" />
@@ -86,7 +86,7 @@
                         Buboo Coffee
                     </span>
                 </a>
-            </div> -->
+            </div>
             <!-- ============================================================== -->
             <!-- End Logo -->
             <!-- ============================================================== -->
@@ -98,20 +98,18 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
                     class="ti-more"></i></a> -->
         </div>
+
+        <!-- <div class="d-none d-md-block d-lg-block">
+            
+        </div> -->
         <!-- ============================================================== -->
         <!-- End Logo -->
         <!-- ============================================================== -->
-        <div class="navbar-collapse collapse" id="navbarSupportedContent">
+        <div class="navbar-collapse collapse justify-content-end" id="navbarSupportedContent">
             <!-- ============================================================== -->
             <!-- toggle and nav items -->
             <!-- ============================================================== -->
-            <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
-                
-            </ul>
-            <!-- ============================================================== -->
-            <!-- Right side toggle and nav items -->
-            <!-- ============================================================== -->
-            <ul class="navbar-nav float-right d-none">
+            <ul class="navbar-nav float-right" style="line-height: 1rem!important;">
                 <!-- Notification -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
@@ -120,21 +118,16 @@
                         <span><i data-feather="bell" class="svg-icon"></i></span>
                         <span class="badge badge-primary notify-no rounded-circle">5</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-left mailbox animated bounceInDown">
+                    <div class="dropdown-menu dropdown-menu-left mailbox animated bounceInDown" style="width:350px!important;left:-60px">
                         <ul class="list-style-none">
                             <li>
                                 <div class="message-center notifications position-relative">
                                     <!-- Message -->
-                                    <a href="javascript:void(0)"
-                                        class="message-item d-flex align-items-center border-bottom px-3 py-2">
-                                        <div class="btn btn-danger rounded-circle btn-circle"><i
-                                                data-feather="airplay" class="text-white"></i></div>
-                                        <div class="w-75 d-inline-block v-middle pl-2">
-                                            <h6 class="message-title mb-0 mt-1">Luanch Admin</h6>
-                                            <span class="font-12 text-nowrap d-block text-muted">Just see
-                                                the my new
-                                                admin!</span>
-                                            <span class="font-12 text-nowrap d-block text-muted">9:30 AM</span>
+                                    <a href="javascript:void(0)" class="message-item d-flex align-items-center border-bottom px-3 py-2">
+                                        <div class="btn btn-danger rounded-circle btn-circle"><i data-feather="airplay" class="text-white"></i></div>
+                                        <div class="w-100 d-inline-block v-middle pl-2">
+                                            <div class="mb-1"><b>Luanch Admin</b></div>
+                                            <small>Tes</small>
                                         </div>
                                     </a>
                                 </div>
@@ -149,6 +142,7 @@
                     </div>
                 </li>
                 <!-- End Notification -->
+    
                 <!-- User profile and search -->
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown">
@@ -161,26 +155,13 @@
                                 class="svg-icon"></i></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                        <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
-                                class="svg-icon mr-2 ml-1"></i>
-                            My Profile</a>
-                        <a class="dropdown-item" href="javascript:void(0)"><i data-feather="credit-card"
-                                class="svg-icon mr-2 ml-1"></i>
-                            My Balance</a>
-                        <a class="dropdown-item" href="javascript:void(0)"><i data-feather="mail"
-                                class="svg-icon mr-2 ml-1"></i>
-                            Inbox</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings" class="svg-icon mr-2 ml-1"></i>
+                            Account Setting
+                        </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
-                                class="svg-icon mr-2 ml-1"></i>
-                            Account Setting</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
-                                class="svg-icon mr-2 ml-1"></i>
-                            Logout</a>
-                        <div class="dropdown-divider"></div>
-                        <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
-                                Profile</a></div>
+                        <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power" class="svg-icon mr-2 ml-1"></i>
+                            Logout
+                        </a>
                     </div>
                 </li>
                 <!-- ============================================================== -->

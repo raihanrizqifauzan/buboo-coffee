@@ -132,6 +132,7 @@
     $(document).on("click", ".editKategori", function (e) {
         e.stopImmediatePropagation();
         var id = $(this).data("id");
+        $(this).closest(".dropdown-menu").removeClass("show");
         $.ajax({
             url: "<?= base_url('admin/kategori/detail/') ?>" + id,
             beforeSend: function () {
@@ -160,6 +161,7 @@
     $(document).on('click', '.deleteKategori', function(e) {
         e.stopImmediatePropagation();
         var id = $(this).data("id");
+        $(this).closest(".dropdown-menu").removeClass("show");
         swal({
             title: 'Konfirmasi',
             html: "Kategori akan dihapus ?",
