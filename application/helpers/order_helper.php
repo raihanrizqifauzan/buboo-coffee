@@ -8,6 +8,46 @@ function getNomorPesanan(){
     return $no_pesanan;
 }
 
+function getJamOperasional() {
+	date_default_timezone_set('Asia/Jakarta');
+    $CI = &get_instance();
+    $CI->load->model(['M_infoweb']);
+    $today = strtolower(date('D'));
+    $hari_operasional = $CI->M_infoweb->getInfoWeb()->hari_operasional;
+    $hari_operasional = json_decode($hari_operasional, TRUE);
+    return $hari_operasional[$today];
+}
+
+function getStatusToko() {
+	date_default_timezone_set('Asia/Jakarta');
+    $CI = &get_instance();
+    $CI->load->model(['M_infoweb']);
+    $today = strtolower(date('D'));
+    $data_toko = $CI->M_infoweb->getInfoWeb();
+    $hari_operasional = $data_toko->hari_operasional;
+    $jadwal_libur = empty($data_toko->jadwal_libur) ? "" : json_decode($data_toko->jadwal_libur, TRUE);
+    $hari_operasional = json_decode($hari_operasional, TRUE)[$today];
+
+    $sekarang = date("H:i");
+    $status_toko = "tutup";
+
+    if ($hari_operasional['status'] == "on" && $sekarang >= $hari_operasional['start_time'] && $sekarang <= $hari_operasional['end_time']) {
+        $status_toko = "buka";
+    }
+
+    if (is_array($jadwal_libur) && $sekarang >= $jadwal_libur['datetime_start'] && $sekarang <= $jadwal_libur['datetime_end']) {
+        $status_toko = "tutup";
+    }
+    return $status_toko;
+}
+
+function getDataToko() {
+    $CI = &get_instance();
+    $CI->load->model(['M_infoweb']);
+    $info_toko = $CI->M_infoweb->getInfoWeb();
+    return $info_toko;
+}
+
 function send_whatsapp($no_hp, $message) {
     $key_demo = 'db63f52c1a00d33cf143524083dd3ffd025d672e255cc688';
     $url='http://45.77.34.32:8000/demo/send_message';

@@ -201,6 +201,10 @@ class Order extends CI_Controller
 
         try {
 			$this->db->trans_start();
+            if (getStatusToko() == "tutup") {
+                throw new Exception("Mohon maaf. Kami sudah close order");
+            }
+
             if (empty($nama_customer) || empty($no_hp)) {
                 throw new Exception("Nama dan No HP wajib diisi");
             }

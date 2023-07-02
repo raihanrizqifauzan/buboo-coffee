@@ -27,7 +27,7 @@ class Welcome extends CI_Controller
 		}
 		$data['list_kategori'] = $this->M_kategori->getAllKategori();
 		$data['title_of_page'] = 'Menu | Buboo Coffee';
-		$data['judul_halaman'] = 'Buboo Coffee';
+		$data['judul_halaman'] = getDataToko()->nama_toko;
 		$data['back_url'] = base_url();
 		$this->load->view('public/structure/V_head', $data);
 		$this->load->view('public/structure/V_topbar');

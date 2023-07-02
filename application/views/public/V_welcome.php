@@ -14,25 +14,52 @@
                 <img src="<?= base_url('assets/public/img/logo2.png') ?>" alt="" class="img-fluid">
             </div>
             <div class="text-center">
-                <h5>Buboo Coffee</h5>
-                <small>Jl. dr. Sudarsono, Kota Banjar</small>
+                <?php 
+                $data_toko = getDataToko();
+                ?>
+                <h5><?= $data_toko->nama_toko ?></h5>
+                <small><?= $data_toko->alamat_lengkap ?></small>
                 <div>
                     <span class="iconify mx-2" data-icon="bi:alarm"></span> 
-                    <small>Sekarang - <span class="text-primary">Buka</span>, Tutup <span class="text-danger">23:59</span></small>
+                    <?php 
+                    date_default_timezone_set('Asia/Jakarta');
+                    $sekarang = date("H:i");
+                    $jam_operasional = getJamOperasional();
+                    if (getStatusToko() == "buka") { 
+                        $status_toko = "buka";
+                        ?>
+                        <small>Sekarang - <span class="text-primary">Buka</span>, Tutup <span class="text-danger"><?= $jam_operasional['end_time'] ?></span></small>
+                    <?php } else { 
+                        $status_toko = "tutup";
+                        ?>
+                        <small>Sekarang - <span class="text-danger">Tutup</span></small>
+                    <?php }
+                    ?>
                 </div>
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-between text-center mt-4 mx-3">
-        <div class="mx-2 w-100 py-3 pilih-opsi" data-url="scan" style="background:#FFF;border-radius:8px;cursor:pointer">
-            <span class="iconify fa-3x" data-icon="openmoji:fork-and-knife-with-plate"></span>
-            <div><b>Dine In</b></div>
+    <?php 
+    if ($status_toko == "buka") { ?>
+        <div class="d-flex justify-content-between text-center mt-4 mx-3">
+            <div class="mx-2 w-100 py-3 pilih-opsi" data-url="scan" style="background:#FFF;border-radius:8px;cursor:pointer">
+                <span class="iconify fa-3x" data-icon="openmoji:fork-and-knife-with-plate"></span>
+                <div><b>Dine In</b></div>
+            </div>
+            <div class="mx-2 w-100 py-3 pilih-opsi" data-url="daftar-menu?p=take-away" style="background:#FFF;border-radius:8px;cursor:pointer">
+                <span class="iconify fa-3x" data-icon="openmoji:takeout-box"></span>
+                <div><b>Take Away</b></div>
+            </div>
         </div>
-        <div class="mx-2 w-100 py-3 pilih-opsi" data-url="daftar-menu?p=take-away" style="background:#FFF;border-radius:8px;cursor:pointer">
-            <span class="iconify fa-3x" data-icon="openmoji:takeout-box"></span>
-            <div><b>Take Away</b></div>
+    <?php } else { ?>
+        <div class="d-flex justify-content-between text-center mt-4 mx-3">
+            <div class="mx-2 w-100 py-3 pilih-opsi" data-url="daftar-menu" style="background:#FFF;border-radius:8px;cursor:pointer">
+                <span class="iconify fa-3x" data-icon="openmoji:bubble-tea"></span>
+                <div><b>Lihat Menu</b></div>
+            </div>
         </div>
-    </div>
+    <?php }
+    ?>
 </div>
 
 <script>

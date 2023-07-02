@@ -69,7 +69,8 @@
                     </div>
                     <div>
                         <?php 
-                        if ($total_order == 0 || $jumlah_stok_habis > 0) { ?>
+                        if ($total_order == 0 || $jumlah_stok_habis > 0 || empty($this->session->userdata('no_meja'))) { 
+                            ?>
                             <button class="px-5 btn btn-primary" style="border-radius:6px;" disabled>Pesan</button>
                         <?php } else { ?>
                             <a href="<?= base_url('order') ?>"><button class="px-5 btn btn-primary" style="border-radius:6px;">Pesan</button></a>
