@@ -19,10 +19,13 @@
             
         </div>
     </div>
+    <div class="text-center">
+        <div>No. Pesanan : <small><b><?= $order->no_pesanan ?></b></small></div>
+    </div>
     <div class="mt-4">
         <div class="text-center ">
             <h5>Hi, <?= $order->nama_customer ?> !</h5>
-            <small>Terimakasih telah melakukan order di Buboo Coffee. Silahkan lakukan pembayaran dengan memberikan QR Code ini ke kasir agar pesananmu segera kami Proses.</small>
+            <small>Terimakasih telah melakukan order di Buboo Coffee. Silahkan lakukan pembayaran dengan ke kasir agar pesananmu segera kami Proses.</small>
         </div>
         <br>
         <small class="pt-2">

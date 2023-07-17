@@ -35,7 +35,7 @@
         }
 
         if (getStatusToko() == "buka") { ?>
-          <a id="btn-cart" <?= $btncart ?> style="display:none;border-radius:8px;" class="btn btn-block btn-primary w-100" href="<?= base_url('cart') ?>">
+          <a id="btn-cart" style="display:none;border-radius:8px;" class="btn btn-block btn-primary w-100" href="<?= base_url('cart') ?>">
             <div><small>Keranjang <span class="badge bg-danger cart_counter"><?= $counter ?></span></small></div>
           </a>
         <?php }

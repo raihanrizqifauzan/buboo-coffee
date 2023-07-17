@@ -172,6 +172,13 @@ class M_menu extends CI_Model
         $this->db->where('id_menu', $id_menu);
         return $this->db->update('tb_menu');
     }
+
+    public function getAllMenu() {
+        $this->db->select("*");
+        $this->db->from("tb_menu");
+        $this->db->where("status", 'aktif');
+        return $this->db->get()->result();
+    }
 }
 
 ?>

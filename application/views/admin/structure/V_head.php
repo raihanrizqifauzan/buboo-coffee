@@ -140,6 +140,27 @@
             margin-left:0px!important;
             width:100%!important;
         }
+
+        .select2-container--default .select2-selection--multiple {
+            margin-bottom: 10px;
+        }
+
+        .select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+            border-radius: 4px;
+        }
+
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #f77750;
+            border-width: 2px;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            border-width: 2px;
+        }
+
+        .select2-selection .select2-selection--multiple:after {
+            content: 'hhghgh';
+        }
     </style>
 </head>
 

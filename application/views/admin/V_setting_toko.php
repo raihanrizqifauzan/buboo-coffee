@@ -37,11 +37,11 @@
                 <div class="card-body">
                     <h4 class="card-title">Profil Toko</h4>
                     <div class="row p-3 align-items-center">
-                        <div class="col-lg-2 col-sm-12">
+                        <!-- <div class="col-lg-2 col-sm-12">
                             <div class="" style="border-radius:50%;background:#ddd;">
                                 <img src="http://localhost/buboo-coffee/assets/public/img/logo2.png" alt="" class="img-fluid">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-lg-10 col-sm-12">
                             <button class="btn btn-primary float-right mb-2" data-toggle="modal" data-target="#modalDataToko"><span class="iconify" data-icon="akar-icons:edit"></span></button>
                             <table class="table ml-3" id="tbKategori">
@@ -90,7 +90,7 @@
                         foreach ($list_hari as $key => $hari) { 
                             $status = $hari_operasional[$key]['status'] == "on" ? "checked" : "";
                             ?>
-                            <div class="col-sm-12 container-hari">
+                            <div class="col-sm-12 container-harim mt-2">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div>
                                         <label class="switch">

@@ -33,11 +33,11 @@
             </div>
         </div>
 
-        <div class="col-4" onclick="loadMenu('kasir')">
+        <div class="col-4" onclick="loadMenu('penjualan')">
             <div class="card">
                 <div class="card-body text-center">
                     <span class="iconify fa-2x" data-icon="streamline:money-cashier-shop-shopping-pay-payment-cashier-store-cash-register-machine"></span>
-                    <div class="mt-1">Kasir</div>
+                    <div class="mt-1">Kasir/Penjualan</div>
                 </div>
             </div>
         </div>
@@ -45,8 +45,8 @@
         <div class="col-4" onclick="loadMenu('promo')">
             <div class="card">
                 <div class="card-body text-center">
-                    <span class="iconify fa-2x" data-icon="system-uicons:graph-increase"></span>
-                    <div class="mt-1">Promo</div>
+                    <span class="iconify fa-2x" data-icon="iconamoon:discount-bold"></span>
+                    <div class="mt-1">Promosi Toko</div>
                 </div>
             </div>
         </div>

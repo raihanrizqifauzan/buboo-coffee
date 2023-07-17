@@ -13,9 +13,9 @@
                     </a>
                 </li>
                 <li class="sidebar-item"> 
-                    <a class="sidebar-link sidebar-link" href="javascript:void(0)" aria-expanded="false">
+                    <a class="sidebar-link sidebar-link" href="<?= base_url('admin/penjualan') ?>" aria-expanded="false">
                         <i data-feather="shopping-cart" class="feather-icon"></i>
-                        <span class="hide-menu">Penjualan</span>
+                        <span class="hide-menu">Kasir/Penjualan</span>
                     </a>
                 </li>
                 <!-- <li class="sidebar-item"> 
@@ -72,6 +72,12 @@
                     <a class="sidebar-link sidebar-link" href="<?= base_url('admin/pesanan/') ?>" aria-expanded="false">
                         <i data-feather="phone-incoming" class="feather-icon"></i>
                         <span class="hide-menu">Manage Pesanan</span>
+                    </a>
+                </li>
+                <li class="sidebar-item"> 
+                    <a class="sidebar-link sidebar-link" href="<?= base_url('admin/promo') ?>" aria-expanded="false">
+                        <i data-feather="percent" class="feather-icon"></i>
+                        <span class="hide-menu">Promosi Toko</span>
                     </a>
                 </li>
                 <li class="sidebar-item"> 
