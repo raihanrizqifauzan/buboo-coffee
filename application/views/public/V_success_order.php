@@ -37,11 +37,11 @@
                 <?php
                 $total = 0;
                 foreach ($detail_order as $key => $detail) { 
-                    $total += $detail->quantity * $detail->harga;
+                    $total += $detail->quantity * $detail->harga - $detail->potongan;
                     ?>
                     <tr>
                         <td><?= $detail->nama_menu." (x".$detail->quantity.")" ?></td>
-                        <td>Rp<?= number_format($detail->harga, 0,',','.'); ?></td>
+                        <td>Rp<?= number_format($detail->harga - $detail->potongan, 0,',','.'); ?></td>
                     </tr>
                 <?php }?>
                 <tr>

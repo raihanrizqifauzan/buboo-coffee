@@ -83,7 +83,7 @@ class Pesanan extends CI_Controller
         </div>
         <div class="d-flex justify-content-between py-2">
             <div>
-                <button class="btn btn-sm btn-outline-secondary">Lihat</button>
+                <button class="btn btn-sm btn-outline-secondary btnDetail" data-id="'.$item->no_pesanan.'">Lihat</button>
             </div>
             <div class="d-flex justify-content-end">
                 <div class="mx-2">

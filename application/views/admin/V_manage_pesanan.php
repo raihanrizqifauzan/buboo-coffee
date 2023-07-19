@@ -199,7 +199,7 @@
                     <div class="text-muted">${formatRupiah(e.quantity)}x</div>
                 </div>
                 <div class="p-1 align-self-end">
-                    <div class="text-muted">Rp${formatRupiah(e.harga)}</div>
+                    <div class="text-muted">Rp${formatRupiah(parseInt(e.harga) - parseInt(e.potongan))}</div>
                 </div>
             </div>`;
         });
