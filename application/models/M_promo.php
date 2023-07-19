@@ -101,4 +101,23 @@ class M_promo extends CI_Model
         $this->db->where("id_voucher", $id);
         return $this->db->get()->row();
     }
+
+    public function getPromoActive() {
+        date_default_timezone_set("Asia/Jakarta");
+        $tgl_sekarang = date("Y-m-d H:i:s");
+        $this->db->select("*");
+        $this->db->from("tb_promo_voucher");
+        $this->db->where("status_voucher", "on");
+        $this->db->where('datetime_start <=', $tgl_sekarang);
+        $this->db->where('datetime_end >=', $tgl_sekarang);
+        return $this->db->get()->result();
+    }
+
+    public function getPenggunaanVoucher($no_hp, $id_promo_voucher) {
+        $this->db->select("*");
+        $this->db->from("tb_order");
+        $this->db->where("no_hp", $no_hp);
+        $this->db->where('id_promo_voucher', $id_promo_voucher);
+        return $this->db->get()->num_rows();
+    }
 }
