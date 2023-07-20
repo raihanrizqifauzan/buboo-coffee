@@ -66,8 +66,8 @@
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
                         <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><sup
-                                class="set-doller">Rp</sup>150.000</h2>
-                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Omset
+                                class="set-doller">Rp</sup><?= number_format($total_omset, 0, "", ".") ?></h2>
+                        <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Omset hari Ini
                         </h6>
                     </div>
                     <div class="ml-auto mt-md-3 mt-lg-0">
@@ -81,13 +81,22 @@
                 <div class="d-flex d-lg-flex d-md-block align-items-center">
                     <div>
                         <div class="d-inline-flex align-items-center">
-                            <h2 class="text-dark mb-1 font-weight-medium">40</h2>
-                            <span class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">18.33%</span>
+                            <h2 class="text-dark mb-1 font-weight-medium"><?= $jumlah_order ?></h2>
+                            <?php 
+                            if ($persentase_jumlah_order < 0) {
+                                $bg = "bg-danger";
+                            } else if ($persentase_jumlah_order > 0) {
+                                $bg = "bg-success";
+                            } else {
+                                $bg = "bg-warning";
+                            }
+                            ?>
+                            <span class="badge <?= $bg ?> font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block"><?= $persentase_jumlah_order ?>% dari orderan kemarin</span>
                         </div>
                         <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Jumlah Order</h6>
                     </div>
                     <div class="ml-auto mt-md-3 mt-lg-0">
-                        <span class="opacity-7 text-muted"><i data-feather="file-plus"></i></span>
+                        <span class="opacity-7 text-muted"><i data-feather="shopping-cart"></i></span>
                     </div>
                 </div>
             </div>
@@ -100,36 +109,23 @@
     <!-- Start Sales Charts Section -->
     <!-- *************************************************************** -->
     <div class="row px-3">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Net Income</h4>
-                    <div class="net-income mt-4 position-relative" style="height:294px;"></div>
+                    <h4 class="card-title">Omset 1 Minggu</h4>
+                    <!-- <div class="net-income mt-4 position-relative" style="height:294px;"></div> -->
+                    <canvas id="net-income"></canvas>
                     <ul class="list-inline text-center mt-5 mb-2">
-                        <li class="list-inline-item text-muted font-italic">Sales for this month</li>
+                        <li class="list-inline-item text-muted font-italic">Total Omset 1 Minggu kebelakang</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 col-sm-12">
+        <!-- <div class="col-md-6 col-sm-12">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-start">
-                        <h4 class="card-title mb-0">Earning Statistics</h4>
-                        <div class="ml-auto">
-                            <div class="dropdown sub-dropdown">
-                                <button class="btn btn-link text-muted dropdown-toggle" type="button"
-                                    id="dd1" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    <i data-feather="more-vertical"></i>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
-                                    <a class="dropdown-item" href="#">Insert</a>
-                                    <a class="dropdown-item" href="#">Update</a>
-                                    <a class="dropdown-item" href="#">Delete</a>
-                                </div>
-                            </div>
-                        </div>
+                        <h4 class="card-title mb-0">Produk Terjual 1 Minggu</h4>
                     </div>
                     <div class="pl-4 mb-5">
                         <div class="stats ct-charts position-relative" style="height: 315px;"></div>
@@ -139,7 +135,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <!-- *************************************************************** -->
     <!-- End Sales Charts Section -->
@@ -207,11 +203,85 @@
 </div>
 <!-- ============================================================== -->
 <!-- End Container fluid  -->
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+    var chart_omset;
     function loadMenu(url) {
         window.location.href = "<?= base_url('admin/') ?>" + url;
     }
+
+    $(document).ready(function () {
+        loadChartOmset();
+        getIncomePerWeek().then(function(res) {
+            loadChartOmset(res);
+        })
+        // var data = loadOmsetPerWeek();
+    })
+
+    async function getIncomePerWeek() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: "GET",
+                url: "<?= base_url('admin/dashboard/get_omset_per_week') ?>",
+                dataType: 'json',
+                success: function (response){
+                    resolve(response);
+                }
+            });
+    
+        });
+    }
+
+    function loadChartOmset(omset = []) {
+        var ctx = document.getElementById('net-income');
+
+        var hari = {
+            'sun': 'Minggu',
+            'mon': 'Senin',
+            'tue': 'Selasa',
+            'wed': 'Rabu',
+            'thu': 'Kamis',
+            'fri': 'Jumat',
+            'sat': 'Sabtu',
+        };
+        if (omset.length == 0) {
+            var labels = [];
+            Object.keys(hari).forEach(function(key) {
+                labels.push(hari[key]);
+            });
+            var data = [0, 0, 0, 0, 0, 0, 0];
+        } else {
+            var labels = [], data = [];
+            omset.forEach(e => {
+                labels.push(hari[e.hari.toLowerCase()]);
+                data.push(e.omset);
+            });
+        }
+        if (chart_omset != undefined) {
+            chart_omset.destroy();
+        }
+        
+        chart_omset = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Omset',
+              data: data,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+    }
+
+
 </script>
         
         

@@ -334,8 +334,8 @@ class Order extends CI_Controller
                         }
     
                         $list_menu_kena_promo[$id_menu_kena_promo]['quantity'] = $quantity_gratisan;
-                        $list_menu_kena_promo[$id_menu_kena_promo]['nama_menu'] .= " (gratis)";
                         $list_menu_kena_promo[$id_menu_kena_promo]['harga'] = 0;
+                        $list_menu_kena_promo[$id_menu_kena_promo]['keterangan'] = 'free';
                         $decode_keranjang[] = $list_menu_kena_promo[$id_menu_kena_promo];
                     }
 
@@ -350,6 +350,11 @@ class Order extends CI_Controller
                             'harga' => $cart['harga'],
                             'quantity' => $cart['quantity'],
                         ];
+                        if (isset($cart['keterangan'])) {
+                            $temp['keterangan'] = $cart['keterangan'];
+                        } else {
+                            $temp['keterangan'] = NULL;
+                        }
                         if (isset($cart['harga_diskon']) && $cart['harga_diskon'] > 0) {
                             $temp['potongan'] = $data_menu->harga - $cart['harga_diskon'];
                             $total_order += $cart['harga_diskon'] * $cart['quantity'];

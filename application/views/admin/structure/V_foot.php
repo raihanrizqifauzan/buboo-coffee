@@ -30,11 +30,11 @@
     <!--This page JavaScript -->
     <script src="<?= base_url() ?>assets/admin/extra-libs/c3/d3.min.js"></script>
     <script src="<?= base_url() ?>assets/admin/extra-libs/c3/c3.min.js"></script>
-    <script src="<?= base_url() ?>assets/admin/libs/chartist/dist/chartist.min.js"></script>
+    <!-- <script src="<?= base_url() ?>assets/admin/libs/chartist/dist/chartist.min.js"></script> -->
     <script src="<?= base_url() ?>assets/admin/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="<?= base_url() ?>assets/admin/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
     <script src="<?= base_url() ?>assets/admin/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="<?= base_url('assets/admin/') ?>dist/js/pages/dashboards/dashboard1.min.js"></script>
+    <script src="<?= base_url('assets/admin/') ?>dist/js/pages/dashboards/dashboard1.js"></script>
     <!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
     <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.all.min.js"></script>
