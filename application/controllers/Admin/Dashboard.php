@@ -28,8 +28,10 @@ class Dashboard extends CI_Controller
         if ($today_order < $yesterday_order) {
             $persentase = round(($yesterday_order - $today_order) / $yesterday_order * 100, 2);
             $persentase *= -1; 
-        } else {
+        } else if ($today_order > $yesterday_order) {
             $persentase = "+".round(($today_order - $yesterday_order) / $today_order * 100, 2);
+        } else {
+            $persentase = 0;
         }
         $data['jumlah_order'] = $today_order;
         $data['persentase_jumlah_order'] = $persentase;

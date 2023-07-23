@@ -81,6 +81,12 @@
                     </a>
                 </li>
                 <li class="sidebar-item"> 
+                    <a class="sidebar-link sidebar-link" href="<?= base_url('admin/report') ?>" aria-expanded="false">
+                        <i data-feather="printer" class="feather-icon"></i>
+                        <span class="hide-menu">Report</span>
+                    </a>
+                </li>
+                <li class="sidebar-item"> 
                     <a class="sidebar-link sidebar-link" href="<?= base_url('admin/setting/') ?>" aria-expanded="false">
                         <i data-feather="settings" class="feather-icon"></i>
                         <span class="hide-menu">Setting Toko</span>
