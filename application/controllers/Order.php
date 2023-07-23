@@ -260,7 +260,7 @@ class Order extends CI_Controller
                         ];
                         $data_stock[$cart['id_menu']] = $data_menu->stock;
                         $list_menu_order[] = $temp;
-                        $total_order += $temp['harga'];
+                        // $total_order += $temp['harga'];
                     }
                 } else {
                     $data_promo = $this->M_promo->getDetailPromo($id_promo_selected);

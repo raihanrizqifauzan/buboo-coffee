@@ -6,6 +6,9 @@
     <!-- Start First Cards -->
     <!-- *************************************************************** -->
     <div class="row">
+        <!-- <div class="col-lg-12">
+            <a href="<?= base_url('/assets/tes.pdf') ?>">Klik</a>
+        </div> -->
         <div class="col-4" onclick="loadMenu('kategori')">
             <div class="card">
                 <div class="card-body text-center">
