@@ -13,6 +13,19 @@ class Pesanan extends CI_Controller
 
 	public function index()
 	{
+        $this->load->model("M_menu");
+        $result_keranjang = [];
+        if (isset($_COOKIE["keranjang"]) && !empty($_COOKIE["keranjang"])) {
+            $decode_keranjang = json_decode($_COOKIE["keranjang"], TRUE);
+            foreach ($decode_keranjang as $key => $c) {
+                $data_menu = $this->M_menu->getMenuById($c['id_menu']);
+                $temp = $data_menu;
+                $temp->quantity = $c['quantity'];
+                $result_keranjang[] = $temp;
+            }
+        } 
+        $data['keranjang'] = $result_keranjang;
+
         $data['title_page'] = "Manajemen Pesanan - Buboo Coffee";
         $data['judul'] = "Pesanan";
         $data['back_url'] = base_url('admin');
@@ -84,6 +97,7 @@ class Pesanan extends CI_Controller
         <div class="d-flex justify-content-between py-2">
             <div>
                 <button class="btn btn-sm btn-outline-secondary btnDetail" data-id="'.$item->no_pesanan.'">Lihat</button>
+                <button class="btn btn-sm btn-warning btnEdit" data-id="'.$item->no_pesanan.'">Edit</button>
             </div>
             <div class="d-flex justify-content-end">
                 <div class="mx-2">
@@ -129,7 +143,7 @@ class Pesanan extends CI_Controller
                 <button class="btn btn-sm btn-outline-secondary btnDetail" data-id="'.$item->no_pesanan.'">Lihat</button>
             </div>
             <div>
-                <button class="btn btn-sm btn-outline-danger btnCancel" data-id="'.$item->no_pesanan.'">Cancel</button>
+                <!-- <button class="btn btn-sm btn-outline-danger btnCancel" data-id="'.$item->no_pesanan.'">Cancel</button> -->
                 <button class="btn btn-sm btn-success btnSend" data-id="'.$item->no_pesanan.'">Siap Diantar</button>
             </div>
         </div>

@@ -15,6 +15,23 @@
     td {
         border:none !important;
     }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+    
+    input[type=number] {
+        -moz-appearance:textfield; /* Firefox */
+    }
+
+    .btn-qty {
+        width: 20px;
+        height: 20px;
+        padding: 1px;
+    }
 </style>
 <div class="page-breadcrumb">
     <div class="row">
@@ -26,7 +43,51 @@
 </div>
 <div class="container-fluid" style="padding-top:20px!important">
     <div class="row">
-        <div class="col-sm-12">
+        <div id="editForm" class="col-sm-12" style="display:none">
+            <div class="card p-1">
+                <div class="card-body">
+                    <h4 class="card-title">Edit Detail Pesanan #20230724001</h4>
+                    <div class="mt-2" id="area-keranjang">
+                        <div class="row mt-2 border-bottom">
+                            <div class="col-lg-12">
+                                <div class="d-flex justify-content-between">
+                                    <div><b>Caffe Latte</b></div>
+                                    <a href="javascript:void(0)" class="text-danger deleteFromCart mx-2"  data-id="${e.id_menu}"><i class="mx-1 fa fa-trash text-danger"></i></a>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <small><s></s></small> Rp15.000,00
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn btn-sm btn-circle btn-success btn-qty" id="btnMinus"><i class="fa fa-minus"></i></button>
+                                            <input type="number" class="form-control text-center" style="border:none;width:60px;" value="1" id="qtyEdit">
+                                            <button class="btn btn-sm btn-circle btn-success btn-qty" id="btnPlus"><i class="fa fa-plus"></i></button>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4 border-bottom pb-2">
+                        <div class="col-lg-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div><small>Total :</small> <span id="total_cart">Rp15.000,00</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-lg-12">
+                            <div class="d-flex justify-content-end align-items-end">
+                                <button class="btn btn-danger" id="btnBack">Back</button>
+                                <button class="btn btn-success" id="btnSubmit">Submit</button>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12" id="tableArea">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center w-100 text-center" style="overflow-x:auto;white-space:nowrap">
@@ -339,5 +400,51 @@
                 });
             }
         });
+    })
+
+    $("#tbPesanan").on("click", ".btnEdit", function (e) {
+        e.stopImmediatePropagation();
+        var no_pesanan = $(this).data("id");
+
+        swal({
+            title: `Edit pesanan dengan No. ${no_pesanan} ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5f76e8",
+            confirmButtonText: "Ya",
+            cancelButtonText: "Batal",
+            closeOnConfirm: false,
+        }).then((result) => {
+            if (result.value) {
+                $("#tableArea").hide();
+                $("#editForm").show();
+            }
+        });
+    })
+
+    $("#btnBack").click(function () {
+        $("#tableArea").show();
+        $("#editForm").hide();
+    })
+
+    // $("#btnSubmit")
+
+    $("#btnMinus").click(function () {
+        var harga = 15000;
+        var qty = parseInt($("#qtyEdit").val()) - 1;
+
+        if (qty > 0) {
+            $("#qtyEdit").val(qty)
+            $("#total_cart").html("Rp"+formatRupiah((qty * harga)));
+        }
+
+    })
+
+    $("#btnPlus").click(function () {
+        var harga = 15000;
+        var qty = parseInt($("#qtyEdit").val()) + 1;
+        $("#qtyEdit").val(qty)
+        $("#total_cart").html("Rp"+formatRupiah((qty * harga)));
+
     })
 </script>

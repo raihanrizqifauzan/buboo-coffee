@@ -35,13 +35,16 @@ class M_order extends CI_Model
         return $this->db->get()->num_rows();
     }
 
-    public function getOrderByNoPesanan($no_pesanan)
+    public function getOrderByNoPesanan($no_pesanan, $no_hp = false)
 	{
         $this->db->select("tb_order.*, tb_detailorder.nama_menu, tb_detailorder.nama_kategori, tb_menu.thumbnail");
         $this->db->from("tb_order");
         $this->db->join('tb_detailorder', 'tb_detailorder.id_order = tb_order.id_order');
         $this->db->join('tb_menu', 'tb_menu.id_menu = tb_detailorder.id_menu');
         $this->db->where("tb_order.no_pesanan", $no_pesanan);
+        if ($no_hp !== false) {
+            $this->db->where("tb_order.no_hp", $no_hp);
+        }
 		$this->db->group_by('tb_order.id_order');
         return $this->db->get()->row();
     }

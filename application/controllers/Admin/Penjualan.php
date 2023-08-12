@@ -234,4 +234,24 @@ class Penjualan extends CI_Controller
         }
     }
 
+    public function edit($no_pesanan = null) {
+        $this->load->model("M_order");
+        if (empty($no_pesanan)) {
+            redirect(base_url('admin/pesanan'));
+        }
+        $data_pesanan = $this->M_order->getOrderByNoPesanan($no_pesanan);
+        if (empty($data_pesanan)) {
+            redirect(base_url('admin/pesanan'));
+        }
+        $data['title_page'] = "Edit Pesanan - Buboo Coffee";
+        $data['judul'] = "Edit Pesanan";
+        $data['back_url'] = base_url('admin/pesanan');
+        $data['data_order'] = $data_pesanan;
+        $this->load->view('admin/structure/V_head', $data);
+        $this->load->view('admin/structure/V_topbar');
+        $this->load->view('admin/structure/V_sidebar');
+		$this->load->view('admin/V_penjualan_edit');
+        $this->load->view('admin/structure/V_foot');
+    }
+
 }

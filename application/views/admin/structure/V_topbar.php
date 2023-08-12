@@ -15,7 +15,7 @@
             <div class="d-block d-md-none d-lg-none">
                 <ul class="navbar-nav float-right" style="line-height: 1rem!important;">
                     <!-- Notification -->
-                    <li class="nav-item dropdown">
+                    <!-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
                             id="bell" role="button" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
@@ -26,7 +26,6 @@
                             <ul class="list-style-none">
                                 <li>
                                     <div class="message-center notifications position-relative">
-                                        <!-- Message -->
                                         <a href="javascript:void(0)" class="message-item d-flex align-items-center border-bottom px-3 py-2">
                                             <div class="btn btn-danger rounded-circle btn-circle"><i data-feather="airplay" class="text-white"></i></div>
                                             <div class="w-75 d-inline-block v-middle pl-2">
@@ -44,7 +43,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> -->
                     <!-- End Notification -->
 
                     <!-- User profile and search -->
@@ -59,10 +58,10 @@
                                     class="svg-icon"></i></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                            <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings" class="svg-icon mr-2 ml-1"></i>
+                            <!-- <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings" class="svg-icon mr-2 ml-1"></i>
                                 Account Setting
                             </a>
-                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-divider"></div> -->
                             <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power" class="svg-icon mr-2 ml-1"></i>
                                 Logout
                             </a>

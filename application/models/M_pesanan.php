@@ -5,7 +5,7 @@ class M_pesanan extends CI_Model
 {
 
     // Datatable Function //
-	public function _query_get_pesanan($status = "")
+	public function _query_get_pesanan($status = "", $no_hp = false)
 	{
         $column_order = array('datetime_order');
         $column_search = array('no_pesanan', 'nama_customer');
@@ -18,6 +18,9 @@ class M_pesanan extends CI_Model
         if (!empty($status)) {
             $this->db->where('tb_order.status_order', $status);
         }
+		if ($no_hp !== false) {
+            $this->db->where('tb_order.no_hp', $no_hp);
+		}
 		$i = 0;
 		foreach ($column_search as $item) { // loop column 
 			if (@$_POST['search']['value']) { // if datatable send POST for search
@@ -43,28 +46,32 @@ class M_pesanan extends CI_Model
 		}
 	}
 
-	public function get_datatables_pesanan($status = "")
+	public function get_datatables_pesanan($status = "", $no_hp = false)
 	{
-		$this->_query_get_pesanan($status);
+		$this->_query_get_pesanan($status, $no_hp);
 		if (@$_POST['length'] != -1)
 			$this->db->limit(@$_POST['length'], @$_POST['start']);
 		$query = $this->db->get();
 		return $query->result();
 	}
 
-	public function count_filtered_pesanan($status = "")
+	public function count_filtered_pesanan($status = "", $no_hp = false)
 	{
-		$this->_query_get_pesanan($status);
+		$this->_query_get_pesanan($status, $no_hp);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all_pesanan($status = "")
+	public function count_all_pesanan($status = "", $no_hp = false)
 	{
         $this->db->from('tb_order');
         if (!empty($status)) {
             $this->db->where('status_order', $status);
         }
+
+		if ($no_hp !== false) {
+            $this->db->where('no_hp', $no_hp);
+		}
 		return $this->db->count_all_results();
 	}
 	// End Datatable Function //

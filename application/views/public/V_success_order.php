@@ -10,8 +10,8 @@
             <img src="<?= base_url('assets/public/img/logo2.png') ?>" alt="" class="img-fluid">
         </div>
         <div>
-            <b>Buboo Coffee</b>
-            <div><small>Jl. dr. Sudarsono, Kota Banjar</small></div>
+            <b><?= $info->nama_toko ?></b>
+            <div><small><?= $info->alamat_lengkap ?></small></div>
         </div>
     </div>
     <div class="d-flex mt-4 w-100 justify-content-center align-items-center">

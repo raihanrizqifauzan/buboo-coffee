@@ -54,11 +54,27 @@
             </div>
         </div>
 
-        <div class="col-4" onclick="loadMenu('setting')">
+        <div class="col-4" onclick="loadMenu('report')">
             <div class="card">
                 <div class="card-body text-center">
-                    <span class="iconify fa-2x" data-icon="uil:setting"></span>
-                    <div class="mt-1">Setting</div>
+                    <span class="iconify fa-2x" data-icon="carbon:report"></span>
+                    <div class="mt-1">Report</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6" onclick="loadMenu('setting')">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mt-1"><span class="iconify" data-icon="uil:setting"></span> Atur Toko</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6" onclick="loadMenu('meja')">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mt-1"><span class="iconify" data-icon="material-symbols:table-bar-outline"></span> Atur Meja</div>
                 </div>
             </div>
         </div>

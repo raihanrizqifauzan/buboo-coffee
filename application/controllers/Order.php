@@ -11,7 +11,7 @@ class Order extends CI_Controller
     public function index()
     {
         if (!$this->session->userdata('no_hp')) {
-            redirect(base_url('login'));
+            redirect(base_url('login?from=order'));
         }
 
         if (!$this->session->userdata('no_meja')) {
@@ -456,6 +456,7 @@ class Order extends CI_Controller
 
     public function success()
     {
+        $data['info'] = $this->M_infoweb->getInfoWeb();
         $no_pesanan = $this->input->get('id', TRUE);
         $no_pesanan = base64_decode($no_pesanan);
         $data_order = $this->M_order->getOrderByNoPesanan($no_pesanan);
