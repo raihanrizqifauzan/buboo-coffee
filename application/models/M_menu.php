@@ -177,6 +177,7 @@ class M_menu extends CI_Model
         $this->db->select("*");
         $this->db->from("tb_menu");
         $this->db->where("status", 'aktif');
+        $this->db->where("stock > ", 0);
         return $this->db->get()->result();
     }
 }

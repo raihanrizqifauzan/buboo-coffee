@@ -46,33 +46,34 @@
         <div id="editForm" class="col-sm-12" style="display:none">
             <div class="card p-1">
                 <div class="card-body">
-                    <h4 class="card-title">Edit Detail Pesanan #20230724001</h4>
+                    <h4 class="card-title">Edit Detail Pesanan <span id="no_pesanan_edit"></span></h4>
                     <div class="mt-2" id="area-keranjang">
                         <div class="row mt-2 border-bottom">
-                            <div class="col-lg-12">
-                                <div class="d-flex justify-content-between">
-                                    <div><b>Caffe Latte</b></div>
-                                    <a href="javascript:void(0)" class="text-danger deleteFromCart mx-2"  data-id="${e.id_menu}"><i class="mx-1 fa fa-trash text-danger"></i></a>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <small><s></s></small> Rp15.000,00
-                                    </div>
-                                    <div>
-                                        <div class="d-flex align-items-center">
-                                            <button class="btn btn-sm btn-circle btn-success btn-qty" id="btnMinus"><i class="fa fa-minus"></i></button>
-                                            <input type="number" class="form-control text-center" style="border:none;width:60px;" value="1" id="qtyEdit">
-                                            <button class="btn btn-sm btn-circle btn-success btn-qty" id="btnPlus"><i class="fa fa-plus"></i></button>
-                                        </div> 
-                                    </div>
-                                </div>
+                            <div class="col-8">
+                                <select class="form-control" id="id_menu_edit">
+                                    <option value="">- Pilih Menu untuk Ditambahkan -</option>
+                                    <?php 
+                                    foreach ($list_menu as $key => $menu) { ?>
+                                        <option value="<?= $menu->id_menu ?>" data-nama="<?= $menu->nama_menu ?>" data-harga="<?= $menu->harga ?>"><?= $menu->nama_menu ?> (<?= "Rp".number_format($menu->harga, 0, ",", ".") ?>)</option>
+                                    <?php }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <input class="form-control" id="qtyCart" type="number" placeholder="Qty" />
+                            </div>
+                            <div class="col-2">
+                                <button class="btn btn-primary btn-sm btn-block" id="addToCart"><i class="fa fa-plus"></i></button>
+                            </div>
+                            <div class="col-lg-12 mt-4" id="areaPesanan">
+                                
                             </div>
                         </div>
                     </div>
                     <div class="row mt-4 border-bottom pb-2">
                         <div class="col-lg-12">
                             <div class="d-flex justify-content-between align-items-center">
-                                <div><small>Total :</small> <span id="total_cart">Rp15.000,00</span></div>
+                                <div><small>Total :</small> <span id="total_cart">Rp0</span></div>
                             </div>
                         </div>
                     </div>
@@ -160,6 +161,7 @@
 </div>
 
 <script>
+    var temp_order = [];
     $("[name='icon_kategori']").select2({
         width: "100%"
     });
@@ -196,6 +198,10 @@
                 $(".pagination").show()
             }
         }
+    });
+
+    $("#id_menu_edit").select2({
+        width: "100%"
     });
 
     $(".filter-status").click(function () {
@@ -405,9 +411,16 @@
     $("#tbPesanan").on("click", ".btnEdit", function (e) {
         e.stopImmediatePropagation();
         var no_pesanan = $(this).data("id");
+        var id_voucher = $(this).data("voucher");
+
+        var msg = "";
+        if (id_voucher != "") {
+            msg = "Warning : Dalam mengedit pesanan, Penggunaan voucher akan dihapus terlebih dahulu";
+        }
 
         swal({
             title: `Edit pesanan dengan No. ${no_pesanan} ?`,
+            text: msg,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#5f76e8",
@@ -416,8 +429,8 @@
             closeOnConfirm: false,
         }).then((result) => {
             if (result.value) {
-                $("#tableArea").hide();
-                $("#editForm").show();
+                window.location.href = "<?= base_url('admin/penjualan/edit/') ?>"+no_pesanan;
+                // getDetailPesanan(no_pesanan);
             }
         });
     })
@@ -445,6 +458,110 @@
         var qty = parseInt($("#qtyEdit").val()) + 1;
         $("#qtyEdit").val(qty)
         $("#total_cart").html("Rp"+formatRupiah((qty * harga)));
-
     })
+
+    $("#addToCart").click(function () {
+        var id_menu_selected = $("#id_menu_edit").val();
+        var qty = $("#qtyCart").val();
+        var id_menu_option = $("#id_menu_edit option:selected");
+        var nama_menu = $(id_menu_option).data('nama');
+        var harga_menu = $(id_menu_option).data('harga');
+        console.log(nama_menu);
+
+        if (id_menu_selected != "" && qty != "" && qty > 0) {
+            // var obj = {
+            //     id_menu: 
+            // };
+        }
+    })
+
+    function getDetailPesanan(no_pesanan) {
+        $.ajax({
+            type: 'GET',
+            url: `<?= base_url('admin/pesanan/ajax_detail_pesanan') ?>?no_pesanan=${no_pesanan}`,
+            dataType: "JSON",
+            success: function(res) {
+                if (res.status) {
+                    var html = "";
+                    var data = res.data;
+                    $("#no_pesanan_edit").html(`#${data.data_order.no_pesanan}`);
+                    var subtotal = 0;
+                    data.detail_order.forEach(e => {
+                        var temp = {
+                            id_menu: e.id_menu, 
+                            nama_menu: e.nama_menu, 
+                            harga: e.harga, 
+                            quantity: e.quantity, 
+                        };
+                        temp_order.push(temp);
+                        html += `
+                        <div class="d-flex justify-content-between">
+                            <div><b>${e.nama_menu}</b></div>
+                            <a href="javascript:void(0)" class="text-danger deleteFromCart mx-2"  data-id="${e.id_menu}"><i class="mx-1 fa fa-trash text-danger"></i></a>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <small><s></s></small> Rp${formatRupiah(e.harga)}
+                            </div>
+                            <div>
+                                <div class="d-flex align-items-center" class="ctaQty">
+                                    <button class="btn btn-sm btn-circle btn-success btn-qty btnMinus"><i class="fa fa-minus"></i></button>
+                                    <input type="number" class="form-control text-center" style="border:none;width:60px;" value="${e.quantity}" id="qtyEdit">
+                                    <button class="btn btn-sm btn-circle btn-success btn-qty btnPlus"><i class="fa fa-plus"></i></button>
+                                </div> 
+                            </div>
+                        </div>`;
+                        subtotal += parseInt(e.quantity) * parseInt(e.harga);
+                    });
+
+                    $("#total_cart").html("Rp"+formatRupiah(subtotal))
+                    $("#areaPesanan").html(html);
+                    $("#tableArea").hide();
+                    $("#editForm").show();
+                    console.log(temp_order);
+                } else {
+                    swal("Oops...", res.message, "error").then(function () {
+                        tbPesanan.ajax.reload();
+                    });
+                }
+            }
+        });
+        
+        function delay(callback, ms) {
+            var timer = 0;
+            return function() {
+                var context = this, args = arguments;
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    callback.apply(context, args);
+                }, ms || 0);
+            };
+        }
+
+        $(document).on("change", "#qtyEdit", delay(async function (e) {
+            var id_menu = $(this).data('id');
+            var quantity = $(this).val();
+            var obj = $(this);
+    
+            if (quantity < 1) {
+                $(this).val("1").trigger("change");
+                return false;
+            }
+    
+            $.ajax({
+                type: 'POST',
+                url: '<?= base_url() ?>order/update_cart',
+                data: {id_menu: id_menu, quantity: quantity},
+                beforeSend: function() {
+                },
+                success: function(response) {
+                    var res = JSON.parse(response);
+                    if (res.status) {
+                        console.log(res.data.subtotal);
+                        hitungTotalOrder(res.data.subtotal);
+                    }
+                },
+            });
+        }, 50))
+    }
 </script>

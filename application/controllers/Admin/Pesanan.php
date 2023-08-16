@@ -14,21 +14,11 @@ class Pesanan extends CI_Controller
 	public function index()
 	{
         $this->load->model("M_menu");
-        $result_keranjang = [];
-        if (isset($_COOKIE["keranjang"]) && !empty($_COOKIE["keranjang"])) {
-            $decode_keranjang = json_decode($_COOKIE["keranjang"], TRUE);
-            foreach ($decode_keranjang as $key => $c) {
-                $data_menu = $this->M_menu->getMenuById($c['id_menu']);
-                $temp = $data_menu;
-                $temp->quantity = $c['quantity'];
-                $result_keranjang[] = $temp;
-            }
-        } 
-        $data['keranjang'] = $result_keranjang;
 
         $data['title_page'] = "Manajemen Pesanan - Buboo Coffee";
         $data['judul'] = "Pesanan";
         $data['back_url'] = base_url('admin');
+        $data['list_menu'] = $this->M_menu->getAllMenu();
         $this->load->view('admin/structure/V_head', $data);
         $this->load->view('admin/structure/V_topbar');
         $this->load->view('admin/structure/V_sidebar');
@@ -97,7 +87,7 @@ class Pesanan extends CI_Controller
         <div class="d-flex justify-content-between py-2">
             <div>
                 <button class="btn btn-sm btn-outline-secondary btnDetail" data-id="'.$item->no_pesanan.'">Lihat</button>
-                <button class="btn btn-sm btn-warning btnEdit" data-id="'.$item->no_pesanan.'">Edit</button>
+                <button class="btn btn-sm btn-warning btnEdit" data-voucher="'.$item->id_promo_voucher.'" data-id="'.$item->no_pesanan.'">Edit</button>
             </div>
             <div class="d-flex justify-content-end">
                 <div class="mx-2">
@@ -346,7 +336,7 @@ class Pesanan extends CI_Controller
 
             $data_order->thumbnail = base_url('assets/public/img/menu/').$data_order->thumbnail;
             $data_order->datetime_order = date("d M Y H:i", strtotime($data_order->datetime_order));
-            $detail_order = $this->M_order->getDetailOrder($data_order->id_order);
+            $detail_order = $this->M_order->getDetailOrderWithoutPromo($data_order->id_order);
             foreach ($detail_order as $key => $dt) {
                 $detail_order[$key]->thumbnail = base_url('assets/public/img/menu/').$dt->thumbnail;
             }

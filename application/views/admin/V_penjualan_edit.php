@@ -34,6 +34,28 @@
         background:#eee;
         cursor:pointer;
     }
+
+    #voucher-label {
+        border:1px solid silver;
+        border-radius:10px;
+        cursor:pointer;
+    }
+
+    #voucher-label:hover {
+        background: #222;
+        color:#FFF;
+    }
+
+    .card-voucher {
+        /* box-shadow: 1px 1px 15px 2px #e0e0e0b5; */
+        border: 1px solid #ada8a8b5;
+        border-radius: 10px;
+        margin-bottom:5px;
+    }
+    
+    .card-voucher:hover {
+        color: #222 !important;
+    }
 </style>
 <div class="container-fluid">
     <div class="row h-100">
@@ -44,19 +66,19 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label for="">Tanggal</label>
-                                <div><?= date("d F Y") ?></div>
+                                <div><?= $data_order->datetime_order ?></div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">No. Meja</label>
-                                <input type="number" class="form-control" id="no_meja">
+                                <input type="text" readonly class="form-control" id="no_meja" value="<?= $data_order->no_meja ?>">
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="">Nama Customer</label>
-                                <input type="text" class="form-control" id="nama_customer">
+                                <input type="text" class="form-control" id="nama_customer" value="<?= $data_order->nama_customer ?>" readonly>
                             </div>
                         </div>
                     </div>
@@ -101,6 +123,11 @@
                                 <b>Total</b>
                                 <div id="total_cart">Rp0</div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-lg-12 text-right">
+                            <a href="javascript:void(0)" id="showVoucher">Gunakan Voucher <i class="fa fa-chevron-right"></i></a>
                         </div>
                     </div>
                     <div class="row mt-4 border-bottom pb-2">
@@ -157,8 +184,43 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalVoucher" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Voucher</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+            </div>
+            <div class="modal-body">
+                <!-- <div class="row mb-4" style="padding: 0px 4px;">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" placeholder="Kode Voucher" id="kode_voucher">
+                        <small class="text-danger" id="alert_cari_voucher" style="display:none">Voucher tidak ditemukan</small>
+                    </div>
+                    <div class="col-sm-12 mt-1">
+                        <button class="btn btn-primary w-100" id="pakai_voucher">Pakai</button>
+                    </div>
+                </div> -->
+                <div id="area-list-voucher">
+                    <div id="list-voucher"></div>
+                </div>
+                <div class="text-end mt-2">
+                    <a href="javascript:void(0)" class="text-info" id="resetVoucher" style="display:none"><u>Batal gunakan Voucher</u></a>
+                </div>
+            </div>
+            <div class="modal-footer" style="border:none!important">
+                <!-- <button type="button" class="btn btn-secondary" id="resetVoucher">Jangan Pakai</button> -->
+                <button type="button" class="btn btn-primary w-100" id="submitVoucher">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    var menu_cart = [];
+    var menu_cart = `<?= json_encode($detail_order) ?>`;
+    menu_cart = JSON.parse(menu_cart);
+    var id_promo_selected = null;
+    var no_hp = "<?= $data_order->no_pesanan ?>";
     var total_cart = 0, diskon_cart = 0;
     var table_menu = $('#table_menu').DataTable({
         language: {
@@ -225,17 +287,27 @@
         total_cart = 0;
         if (menu_cart.length > 0) {
             menu_cart.forEach(e => {
+                var harga = `<small>Rp${formatRupiah(e.harga)}</small> <a href="javascript:void(0)" class="text-danger deleteFromCart"  data-id="${e.id_menu}"><i class="mx-1 fa fa-trash text-danger"></i></a>`;
+                if (e.harga_diskon != undefined && parseInt(e.harga_diskon) > 0) {
+                    harga = `
+                    <div><small class="text-muted"><s>Rp${formatRupiah(e.harga)}</s></small></div>
+                    <div><small>Rp${formatRupiah(parseInt(e.harga_diskon))}</small> <a href="javascript:void(0)" class="text-danger deleteFromCart"  data-id="${e.id_menu}"><i class="mx-1 fa fa-trash text-danger"></i></a></div>
+                    `;
+                    total_cart += parseInt(e.harga_diskon) * parseInt(e.quantity);
+                } else {
+                    total_cart += parseInt(e.harga) * parseInt(e.quantity);
+                }
+
                 html += `
                 <div class="row mt-2 border-bottom">
                     <div class="col-lg-12">
                         <b>${e.nama_menu}</b>
                         <div class="d-flex justify-content-between">
                             <div><small>${formatRupiah(e.quantity)} pcs</small></div>
-                            <div>Rp${formatRupiah(e.harga)},00 <a href="javascript:void(0)" class="text-danger deleteFromCart"  data-id="${e.id_menu}"><i class="mx-1 fa fa-trash text-danger"></i></a></div>
+                            <div>${harga} </div>
                         </div>
                     </div>
                 </div>`;
-                total_cart += parseInt(e.harga) * parseInt(e.quantity);
             });
             total_cart -= parseInt(diskon_cart);
             $("#btnSubmit").prop("disabled", false);
@@ -327,12 +399,14 @@
             nama_customer: $("#nama_customer").val(),
             diskon_cart,
             list_menu: menu_cart,
+            id_promo_selected,
+            no_pesanan: "<?= $data_order->no_pesanan ?>"
         };
         console.log(obj);
 
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('admin/penjualan/create_order') ?>`,
+            url: `<?= base_url('admin/penjualan/update_order') ?>`,
             data: obj,
             beforeSend: function() {
                 showLoading();
@@ -341,7 +415,7 @@
                 var res = JSON.parse(response);
                 if (res.status) {
                     swal("Sukses", res.message, "success").then(function () {
-                        location.reload();
+                        window.location.href = "<?= base_url('admin/pesanan') ?>"
                     });
                 } else {
                     swal("Oops...", res.message, "error").then(function () {
@@ -349,6 +423,109 @@
                     });
                 }
             }
+        });
+    })
+
+    $("#showVoucher").click(function () {
+        getVoucherPromo();
+    })
+
+    function getVoucherPromo() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>order/get_list_promo',
+            data: {menu_checkout: menu_cart, no_hp},
+            beforeSend: function() {
+                showLoading();
+            },
+            success: function(response) {
+                swal.close();
+                var list_promo = JSON.parse(response);
+                if (list_promo.length == 0) {
+                    $("#list-voucher").html(`<div class="text-center">Voucher tidak tersedia</div>`);
+                } else {
+                    var html = "";
+                    list_promo.forEach(e => {
+                        if (e.jenis_promo == "potongan harga") {
+                            var color_label = "success";
+                            var desc = `Rp${formatRupiah(e.nilai_potongan)}`;
+                            if (e.tipe_potongan == "persen") {
+                                desc = `${formatRupiah(e.nilai_potongan)}% maks : Rp${formatRupiah(e.max_potongan)}`;
+                            }
+                            var jenis_promo = `Potongan Harga ${desc}`;
+                        } else {
+                            var color_label = "warning";
+                            var jenis_promo = `Promo gratis menu`;
+                        }
+
+                        var icon = `<span class="iconify" data-icon="material-symbols:circle-outline"></span>`;
+                        if (id_promo_selected == e.id_voucher) {
+                            icon = `<i class="fa fa-check-circle text-primary"></i>`;
+                        }
+                        html += `
+                        <div class="card-voucher" data-id="${e.id_voucher}">
+                            <div class="mb-0 d-flex justify-content-between align-items-end">
+                                <div class="px-2 pt-2">
+                                    <span class="badge bg-${color_label} text-light"><small>${jenis_promo}</small></span>
+                                    <div class="mt-1"><b><small>${e.judul_voucher}</small></b></div>
+                                </div>
+                                <div class="px-2 sign-voucher">
+                                    ${icon}
+                                </div>
+                            </div>
+                            <div class="px-2 pb-2 mt-0 text-muted"><small>${e.keterangan}</small></div>
+                        </div>`;
+                    });
+                    $("#list-voucher").html(html)
+                }
+                $("#modalVoucher").modal("show");
+            },
+        });
+    }
+
+    $(document).on("click", ".card-voucher", function (e) {
+        var icon = $(this).find(".sign-voucher").html();
+        var icon_checked = `<i class="fa fa-check-circle text-primary"></i>`;
+        var icon_empty = `<span class="iconify" data-icon="material-symbols:circle-outline"></span>`;
+        $(".sign-voucher").html(icon_empty)
+        if (icon != icon_checked) {
+            id_promo_selected = $(this).data("id");
+            $(this).find(".sign-voucher").html(icon_checked);
+            $("#resetVoucher").show();
+        } else {
+            id_promo_selected = "";
+            $(this).find(".sign-voucher").html(icon_empty);
+        }
+    })
+
+    $("#resetVoucher").click(function () {
+        id_promo_selected = "";
+        var icon_empty = `<span class="iconify" data-icon="material-symbols:circle-outline"></span>`;
+        $(".sign-voucher").html(icon_empty);
+        $("#resetVoucher").hide();
+        loadKeranjang(menu_cart);
+    })
+
+    $("#submitVoucher").click(function () {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url() ?>order/pakai_voucher',
+            data: {menu_checkout: menu_cart, no_hp, id_promo_selected},
+            beforeSend: function() {
+                showLoading();
+            },
+            success: function(response) {
+                var res = JSON.parse(response);
+                if (res.status) {
+                    swal.close();
+                    loadKeranjang(res.data);
+                    $("#modalVoucher").modal("hide");
+                } else {
+                    swal("Oops...", res.message, "error").then(function () {
+                        $("#resetVoucher").trigger("click");
+                    });
+                }
+            },
         });
     })
 </script>
