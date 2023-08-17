@@ -1,9 +1,13 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rasterizehtml/1.3.0/rasterizeHTML.allinone.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
-    @media print {
-        .pagebreak { page-break-before: always; } /* page-break-after works, as well */
+    /* @media print {
+        .pagebreak { page-break-before: always; } 
         
-    }
+    } */
 
     body {
         background: #ddd;
@@ -13,6 +17,7 @@
     }
     
 </style>
+<div id="print_area" style="background:#FFF;">
 <?php 
     $meja = $this->input->get('meja');
     if ($meja == "all") {
@@ -72,15 +77,50 @@
 
 
 ?>
+
+</div>
+<a class="btn btn-pirmary my-4" href="<?= base_url('admin/meja') ?>">Back</a>
 <script src="<?= base_url() ?>assets/admin/libs/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="<?= base_url('assets/admin/') ?>qrcode.js"></script>
 <script type="text/javascript" src="<?= base_url('assets/admin/') ?>jquery.qrcode.js"></script>
 
 <script>
-    $(".qrcode").each(function (i, obj) {
-        var no = $(obj).data("val");
-        $(obj).qrcode(`<?= base_url('order/book_table?id=') ?>` + btoa(no));
-    })
+    
+    $(document).ready(function () {
+        var pdf = new jsPDF();
+        $(".qrcode").each(function (i, obj) {
+            var no = $(obj).data("val");
+            $(obj).qrcode(`<?= base_url('order/book_table?id=') ?>` + btoa(no));
 
-    window.print();
+            pdf.addHTML($("#print_area"),function() {
+                var file = pdf.output('blob');
+                var fd = new FormData();
+                fd.append('mypdf',file);
+                
+                $.ajax({
+                    url: "<?= base_url('welcome/upload_qr') ?>",
+                    data: fd,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    success: function (response) {
+                        window.location.href=response.data;
+                    },
+                    error: function (jqXHR) {
+                        alter('Failure to send request');
+                    }
+                });
+            });
+        })
+        
+    })
 </script>
+
+<?php 
+
+// $mpdf = new \Mpdf\Mpdf();
+// $view = $this->load->view('admin/V_generate_qr', $data, TRUE);
+// $mpdf->WriteHTML();
+// $mpdf->Output();
+?>

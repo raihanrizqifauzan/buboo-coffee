@@ -444,8 +444,8 @@ class Order extends CI_Controller
                 $message = "Pesanan baru dari meja No. $no_meja";
             }
             $url_notif = base_url()."admin/pesanan";
-            send_message($message, $title, $temponesignal, $url_notif);
-            $message_whatsapp = "Pesananmu dengan No. Order $no_pesanan berhasil dibuat. Silahkan lakukan pembayaran di sini : ".$data['redirect_url'];
+            // send_message($message, $title, $temponesignal, $url_notif);
+            $message_whatsapp = "Pesananmu dengan No. Order $no_pesanan berhasil dibuat. Rincian pembayaran dapat dilihat di sini : ".$data['redirect_url'];
             send_whatsapp($no_hp, $message_whatsapp);
             echo json_encode(['status' => true, 'message' => "Berhasil melakukan order", 'data' => $data]);
         } catch (Exception $e) {

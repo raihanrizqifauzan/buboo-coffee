@@ -123,6 +123,16 @@ class M_order extends CI_Model
         $this->db->where("id_order", $id_order);
         return $this->db->update("tb_order");
     }
+
+    public function getItemOrder($id_order)
+    {
+        $this->db->select("tb_detailorder.*, SUM(tb_detailorder.quantity) as qty, tb_menu.thumbnail");
+        $this->db->from("tb_detailorder");
+        $this->db->join('tb_menu', 'tb_menu.id_menu = tb_detailorder.id_menu');
+        $this->db->where("id_order", $id_order);
+        $this->db->group_by("tb_detailorder.id_menu");
+        return $this->db->get()->result();
+    }
 }
 
 ?>

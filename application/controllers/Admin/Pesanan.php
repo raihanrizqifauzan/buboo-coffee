@@ -278,8 +278,22 @@ class Pesanan extends CI_Controller
             $this->M_order->updateDataOrder($data_order->id_order, $new_status);
             $this->db->trans_complete();
             $this->db->trans_commit();
-            $message_whatsapp = "Pembayaran Pesanan dengan No. $no_pesanan atas nama $data_order->nama_customer telah kami terima dan akan segera kami Proses. Mohon tunggu ya, Terimakasih";
+            $message_whatsapp = "Pesanan dengan No. #$no_pesanan atas nama $data_order->nama_customer akan segera kami Proses. Mohon tunggu ya, Terimakasih";
             send_whatsapp($data_order->no_hp, $message_whatsapp);
+            
+            $detail_order = $this->M_order->getItemOrder($data_order->id_order);
+            $message_whatsapp = "Ada pesanan baru dengan No. Order #$no_pesanan";
+            foreach ($detail_order as $key => $menu) {
+                $message_whatsapp .= "\n- $menu->nama_menu ($menu->qty pcs)";
+            }
+    
+            $list_pegawai = get_pegawai();
+            foreach ($list_pegawai as $key => $pegawai) {
+                if ($pegawai->role != "owner") {
+                    send_whatsapp($pegawai->no_hp, $message_whatsapp);
+                }
+            }
+
             echo json_encode(['status' => true, 'message' => 'No Pesanan '.$no_pesanan.' telah dipindahkan statusnya menjadi Diproses']);
         } catch (Exception $e) {
             $this->db->trans_rollback();

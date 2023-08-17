@@ -239,8 +239,8 @@ class Welcome extends CI_Controller
 
 	public function test_whatsapp(Type $var = null)
 	{
-		$message = "6588 adalah kode OTP kamu. Kode OTP berlaku selama 15 menit";
-		echo send_whatsapp("+6281223147686", $message);
+		$message = "Aku adalah Yinnn";
+		echo send_whatsapp("+6281802136200", $message);
 	}
 
 	function table_riwayat_order() {
@@ -344,5 +344,22 @@ class Welcome extends CI_Controller
         } catch (Exception $e) {
             echo json_encode(['status' => false, 'message' => $e->getMessage()]);
         }
+	}
+
+	public function upload_qr() {
+		$file_pdf = $_FILES['mypdf']['tmp_name'];
+		$file_type = $_FILES['mypdf']['type'];
+
+		$image_name = "qrmeja.pdf";
+		if (file_exists("./assets/public/img/menu/".$image_name)) {
+			unlink("./assets/public/img/menu/".$image_name);
+		}
+
+		if (!move_uploaded_file($file_pdf, "./assets/qrmeja/".$image_name)) {
+			$response = ['status' => false, 'message' => 'Terjadi kesalahan saat menyimpan file pdf', 'data' => ''];   
+		} else {
+			$response = ['status' => true, 'message' => 'success', 'data' => base_url('assets/qrmeja/qrmeja.pdf')];
+		}
+		echo json_encode($response);die;
 	}
 }

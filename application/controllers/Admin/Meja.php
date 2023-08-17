@@ -40,6 +40,12 @@ class Meja extends CI_Controller
                 }
             }
         }
+
+        // $mpdf = new \Mpdf\Mpdf();
+		// $view = $this->load->view('admin/V_generate_qr', $data, TRUE);
+		// $mpdf->WriteHTML($view);
+		// $mpdf->Output();
+
 		$this->load->view('admin/V_generate_qr', $data);
     }
 

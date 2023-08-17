@@ -95,7 +95,7 @@
                         <div class="w-100 nav-item filter-status p-2 active" data-filter="pending">
                             <a href="#home" data-toggle="tab" aria-expanded="false" class="nav-link">
                                 <i class="mdi mdi-home-variant d-lg-none d-block mr-1"></i>
-                                <span class="">Belum Dibayar</span>
+                                <span class="">Pesanan Baru</span>
                             </a>
                         </div>
                         <div class="w-100 nav-item filter-status p-2" data-filter="on process">
@@ -324,6 +324,9 @@
                     type: 'GET',
                     url: `<?= base_url('admin/pesanan/cancel_order') ?>?no_pesanan=${no_pesanan}`,
                     dataType: "JSON",
+                    beforeSend:function() {
+                        showLoading()
+                    },
                     success: function(res) {
                         if (res.status) {
                             swal("Sukses", res.message, "success").then(function () {
@@ -358,6 +361,9 @@
                     type: 'GET',
                     url: `<?= base_url('admin/pesanan/process_order') ?>?no_pesanan=${no_pesanan}`,
                     dataType: "JSON",
+                    beforeSend:function() {
+                        showLoading()
+                    },
                     success: function(res) {
                         if (res.status) {
                             swal("Sukses", res.message, "success").then(function () {
@@ -392,6 +398,9 @@
                     type: 'GET',
                     url: `<?= base_url('admin/pesanan/send_order') ?>?no_pesanan=${no_pesanan}`,
                     dataType: "JSON",
+                    beforeSend:function() {
+                        showLoading()
+                    },
                     success: function(res) {
                         if (res.status) {
                             swal("Sukses", res.message, "success").then(function () {
