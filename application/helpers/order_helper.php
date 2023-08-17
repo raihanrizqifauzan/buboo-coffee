@@ -49,11 +49,16 @@ function getDataToko() {
 }
 
 function send_whatsapp($no_hp, $message) {
-    $key_demo = 'db63f52c1a00d33cf143524083dd3ffd025d672e255cc688';
-    $url='http://45.77.34.32:8000/demo/send_message';
+    // $key_demo = 'db63f52c1a00d33cf143524083dd3ffd025d672e255cc688';
+    if ($no_hp[0] != "+") {
+        $no_hp = "+62".substr($no_hp, 1);
+    }
+
+    $key = '79038383fe08c036f2a948eb84b0505cfb42ef53c714bba1';
+    $url= 'http://116.203.191.58/api/send_message';
     $data = array(
         "phone_no"=> $no_hp,
-        "key"     => $key_demo,
+        "key"     => $key,
         "message" => $message
     );
     
@@ -81,4 +86,12 @@ function send_whatsapp($no_hp, $message) {
 function tgl_sekarang() {
     date_default_timezone_set('Asia/Jakarta');
     return date('Y-m-d H:i:s');
+}
+
+function get_pegawai() {
+    $CI = &get_instance();
+    $CI->load->model(['M_pegawai']);
+
+    $pegawai = $CI->M_pegawai->getAllAdmin();
+    return $pegawai;
 }

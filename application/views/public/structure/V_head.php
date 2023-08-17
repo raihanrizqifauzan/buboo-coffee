@@ -29,4 +29,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.11.0/sweetalert2.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js"></script>
+
+    <style>
+      .dataTables_filter label {
+        width:100%!important;
+      }
+      [type=search] {
+        margin-left:0px!important;
+        width:100%!important;
+      }
+      th {
+        display:none;
+        border:none;
+      }
+    
+      td {
+        padding: 10px 3px !important;
+      }
+    </style>
   </head>

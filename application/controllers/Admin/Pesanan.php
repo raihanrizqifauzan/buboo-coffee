@@ -13,9 +13,12 @@ class Pesanan extends CI_Controller
 
 	public function index()
 	{
+        $this->load->model("M_menu");
+
         $data['title_page'] = "Manajemen Pesanan - Buboo Coffee";
         $data['judul'] = "Pesanan";
         $data['back_url'] = base_url('admin');
+        $data['list_menu'] = $this->M_menu->getAllMenu();
         $this->load->view('admin/structure/V_head', $data);
         $this->load->view('admin/structure/V_topbar');
         $this->load->view('admin/structure/V_sidebar');
@@ -84,6 +87,7 @@ class Pesanan extends CI_Controller
         <div class="d-flex justify-content-between py-2">
             <div>
                 <button class="btn btn-sm btn-outline-secondary btnDetail" data-id="'.$item->no_pesanan.'">Lihat</button>
+                <button class="btn btn-sm btn-warning btnEdit" data-voucher="'.$item->id_promo_voucher.'" data-id="'.$item->no_pesanan.'">Edit</button>
             </div>
             <div class="d-flex justify-content-end">
                 <div class="mx-2">
@@ -129,7 +133,7 @@ class Pesanan extends CI_Controller
                 <button class="btn btn-sm btn-outline-secondary btnDetail" data-id="'.$item->no_pesanan.'">Lihat</button>
             </div>
             <div>
-                <button class="btn btn-sm btn-outline-danger btnCancel" data-id="'.$item->no_pesanan.'">Cancel</button>
+                <!-- <button class="btn btn-sm btn-outline-danger btnCancel" data-id="'.$item->no_pesanan.'">Cancel</button> -->
                 <button class="btn btn-sm btn-success btnSend" data-id="'.$item->no_pesanan.'">Siap Diantar</button>
             </div>
         </div>
@@ -274,8 +278,22 @@ class Pesanan extends CI_Controller
             $this->M_order->updateDataOrder($data_order->id_order, $new_status);
             $this->db->trans_complete();
             $this->db->trans_commit();
-            $message_whatsapp = "Pembayaran Pesanan dengan No. $no_pesanan atas nama $data_order->nama_customer telah kami terima dan akan segera kami Proses. Mohon tunggu ya, Terimakasih";
+            $message_whatsapp = "Pesanan dengan No. #$no_pesanan atas nama $data_order->nama_customer akan segera kami Proses. Mohon tunggu ya, Terimakasih";
             send_whatsapp($data_order->no_hp, $message_whatsapp);
+            
+            $detail_order = $this->M_order->getItemOrder($data_order->id_order);
+            $message_whatsapp = "Ada pesanan baru dengan No. Order #$no_pesanan";
+            foreach ($detail_order as $key => $menu) {
+                $message_whatsapp .= "\n- $menu->nama_menu ($menu->qty pcs)";
+            }
+    
+            $list_pegawai = get_pegawai();
+            foreach ($list_pegawai as $key => $pegawai) {
+                if ($pegawai->role != "owner") {
+                    send_whatsapp($pegawai->no_hp, $message_whatsapp);
+                }
+            }
+
             echo json_encode(['status' => true, 'message' => 'No Pesanan '.$no_pesanan.' telah dipindahkan statusnya menjadi Diproses']);
         } catch (Exception $e) {
             $this->db->trans_rollback();
@@ -332,7 +350,7 @@ class Pesanan extends CI_Controller
 
             $data_order->thumbnail = base_url('assets/public/img/menu/').$data_order->thumbnail;
             $data_order->datetime_order = date("d M Y H:i", strtotime($data_order->datetime_order));
-            $detail_order = $this->M_order->getDetailOrder($data_order->id_order);
+            $detail_order = $this->M_order->getDetailOrderWithoutPromo($data_order->id_order);
             foreach ($detail_order as $key => $dt) {
                 $detail_order[$key]->thumbnail = base_url('assets/public/img/menu/').$dt->thumbnail;
             }

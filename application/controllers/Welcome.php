@@ -5,7 +5,7 @@ class Welcome extends CI_Controller
 {
 	public function __construct(Type $var = null) {
         parent::__construct();
-        $this->load->model(["M_infoweb", "M_kategori", "M_menu", "M_notif"]);
+        $this->load->model(["M_infoweb", "M_kategori", "M_menu", "M_notif", "M_pesanan", "M_order"]);
     }
 
 	public function index()
@@ -116,15 +116,15 @@ class Welcome extends CI_Controller
 	public function my_order()
 	{
 		if (empty($this->session->userdata('no_hp'))) {
-			base_url('login');
+			redirect(base_url('login?from=my-order'));
 		}
 		$data['list_kategori'] = $this->M_kategori->getAllKategori();
-		$data['title_of_page'] = 'Menu | Buboo Coffee';
-		$data['judul_halaman'] = 'Buboo Coffee';
-		$data['back_url'] = base_url();
+		$data['title_of_page'] = 'History Order | Buboo Coffee';
+		$data['judul_halaman'] = 'History Order';
+		$data['back_url'] = base_url('daftar-menu');
 		$this->load->view('public/structure/V_head', $data);
 		$this->load->view('public/structure/V_topbar');
-		$this->load->view('public/V_list_menu');
+		$this->load->view('public/V_riwayat_order');
 		$this->load->view('public/structure/V_foot');
 	}
 
@@ -239,8 +239,136 @@ class Welcome extends CI_Controller
 
 	public function test_whatsapp(Type $var = null)
 	{
-		$url = "https://23c9-140-213-47-236.ngrok-free.app/buboo-coffee/";
-		$message = "Pesananmu dengan No. Order 20230526002 berhasil dibuat. Silahkan lakukan pembayaran di sini : ".$url."order/success?id=MjAyMzA1MjYwMDI";
+		$message = "Aku adalah Yinnn";
 		echo send_whatsapp("+6281802136200", $message);
+	}
+
+	function table_riwayat_order() {
+		if (empty($this->session->no_hp)) {
+			$output = array(
+				"draw" => $_POST['draw'],
+				"recordsTotal" => 0,
+				"recordsFiltered" => 0,
+				"data" => [],
+			);
+		} else {
+			$filter_status = $_POST['filter_status'];
+			$no_hp = $this->session->no_hp;
+			if ($filter_status == "semua" || empty($filter_status)) {
+				$filter_status = "";
+			}
+			$list = $this->M_pesanan->get_datatables_pesanan($filter_status, $no_hp);
+			$data = array();
+			$no = $_POST['start'];
+			foreach ($list as $item) {
+				$row = array();
+				$status_order = '<label class="badge bg-warning text-dark">Belum Dibayar</label>';
+				if ($item->status_order == "on process") {
+					$status_order = '<label class="badge bg-info text-light">Sedang Diproses</label>';
+				} else if ($item->status_order == "success") {
+					$status_order = '<label class="badge bg-success text-light">Sudah Diantarkan</label>';
+				} else if ($item->status_order == "cancel") {
+					$status_order = '<label class="badge bg-danger text-light">Dibatalkan</label>';
+				}
+				
+				$meja = $item->no_meja;
+				if ($meja == "take-away") {
+					$meja = "Take Away";
+				}
+				$nama_customer = strlen($item->nama_customer) > 10 ? explode(" ", $item->nama_customer)[0] : $item->nama_customer;
+				$row[] = '
+				<div style="box-shadow:0px 0px 17px 0px #c0c0c094;border-radius:10px;" class="p-2">
+				<div class="d-flex justify-content-between p-1 align-items-center" style="border-bottom:1px solid #e9ecef">
+					<div>
+						<small>'.$nama_customer.'</small>
+						<div><small>'.date("d/m/Y H:i", strtotime($item->datetime_order)).'</small></div>
+					</div>
+					<div><small>'.$status_order.'</small></div>
+				</div>
+				<div class="d-flex justify-content-between py-2" style="border-bottom:1px solid #e9ecef">
+					<div>
+						<img src="'.base_url('assets/public/img/menu/'.$item->thumbnail).'" alt="" width="80" height="80">
+					</div>
+					<div class="mx-3 w-100" style="position:relative">
+						<b>#'.$item->no_pesanan.'</b>
+						<div><small>Meja : '.$meja.'</small></div>
+						<div><small><b>Total : Rp'.number_format($item->total_order, 0, "", ".").'</b></small></div>
+					</div>
+				</div>
+				<div class="d-flex justify-content-end py-2">
+					<div>
+						<button class="btn btn-sm btn-outline-secondary btnDetail" data-id="'.$item->no_pesanan.'">Lihat</button>
+					</div>
+				</div>
+				</div>';
+				$data[] = $row;
+			}
+        }
+
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->M_pesanan->count_all_pesanan($filter_status, $no_hp),
+            "recordsFiltered" => $this->M_pesanan->count_filtered_pesanan($filter_status, $no_hp),
+            "data" => $data,
+        );
+
+        echo json_encode($output);
+	}
+
+	function ajax_detail_pesanan() {
+		$no_pesanan = $this->input->get('no_pesanan', TRUE);
+		$no_hp = $this->session->no_hp;
+
+        try {
+			if (empty($no_hp)) {
+				throw new Exception("Harap Login");
+			}
+
+			$data_order = $this->M_order->getOrderByNoPesanan($no_pesanan, $no_hp);
+            if (empty($data_order)) {
+                throw new Exception("Pesanan tidak ditemukan");
+            }
+
+            $data_order->thumbnail = base_url('assets/public/img/menu/').$data_order->thumbnail;
+            $data_order->datetime_order = date("d M Y H:i", strtotime($data_order->datetime_order));
+            $detail_order = $this->M_order->getDetailOrder($data_order->id_order);
+            foreach ($detail_order as $key => $dt) {
+                $detail_order[$key]->thumbnail = base_url('assets/public/img/menu/').$dt->thumbnail;
+            }
+
+            $result = [
+                'data_order' => $data_order,
+                'detail_order' => $detail_order,
+            ];
+            echo json_encode(['status' => true, 'message' => "Success get order", 'data' => $result]);
+        } catch (Exception $e) {
+            echo json_encode(['status' => false, 'message' => $e->getMessage()]);
+        }
+	}
+
+	public function upload_qr() {
+		// $file_pdf = $_FILES['mypdf']['tmp_name'];
+		// $file_type = $_FILES['mypdf']['type'];
+
+		$data = $this->input->post('data');
+		
+		# Decode the Base64 string, making sure that it contains only valid characters
+		$bin = base64_decode($data);
+		// echo json_encode($data);die;
+
+		$image_name = "qrmeja.pdf";
+		if (file_exists("./assets/public/img/menu/".$image_name)) {
+			unlink("./assets/public/img/menu/".$image_name);
+		}
+
+		file_put_contents("./assets/qrmeja/".$image_name, $bin);
+		$response = ['status' => true, 'message' => 'success', 'data' => base_url('assets/qrmeja/qrmeja.pdf')];
+
+		// if (!move_uploaded_file($file_pdf, "./assets/qrmeja/".$image_name)) {
+		// 	$response = ['status' => false, 'message' => 'Terjadi kesalahan saat menyimpan file pdf', 'data' => ''];   
+		// } else {
+		// 	$response = ['status' => true, 'message' => 'success', 'data' => base_url('assets/qrmeja/qrmeja.pdf')];
+		// }
+		echo json_encode($response);die;
 	}
 }

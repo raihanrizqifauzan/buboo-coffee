@@ -51,6 +51,7 @@
 <script>
     var timing;
     var myTimer;
+    var redirect_after_login = "<?= empty($this->input->get('from')) ? 'order' : $this->input->get('from') ?>";
     
     function beginCountdown() {
         timing = 60;
@@ -160,7 +161,7 @@
                 if (res.status) {
                     swal.close();
                     var data = res.data;
-                    window.location.href = "<?= base_url('order') ?>";
+                    window.location.href = "<?= base_url() ?>" + redirect_after_login;
                 } else {
                     messageError(res.message);
                 }
