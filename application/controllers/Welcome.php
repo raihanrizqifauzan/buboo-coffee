@@ -347,19 +347,28 @@ class Welcome extends CI_Controller
 	}
 
 	public function upload_qr() {
-		$file_pdf = $_FILES['mypdf']['tmp_name'];
-		$file_type = $_FILES['mypdf']['type'];
+		// $file_pdf = $_FILES['mypdf']['tmp_name'];
+		// $file_type = $_FILES['mypdf']['type'];
+
+		$data = $this->input->post('data');
+		
+		# Decode the Base64 string, making sure that it contains only valid characters
+		$bin = base64_decode($data);
+		// echo json_encode($data);die;
 
 		$image_name = "qrmeja.pdf";
 		if (file_exists("./assets/public/img/menu/".$image_name)) {
 			unlink("./assets/public/img/menu/".$image_name);
 		}
 
-		if (!move_uploaded_file($file_pdf, "./assets/qrmeja/".$image_name)) {
-			$response = ['status' => false, 'message' => 'Terjadi kesalahan saat menyimpan file pdf', 'data' => ''];   
-		} else {
-			$response = ['status' => true, 'message' => 'success', 'data' => base_url('assets/qrmeja/qrmeja.pdf')];
-		}
+		file_put_contents("./assets/qrmeja/".$image_name, $bin);
+		$response = ['status' => true, 'message' => 'success', 'data' => base_url('assets/qrmeja/qrmeja.pdf')];
+
+		// if (!move_uploaded_file($file_pdf, "./assets/qrmeja/".$image_name)) {
+		// 	$response = ['status' => false, 'message' => 'Terjadi kesalahan saat menyimpan file pdf', 'data' => ''];   
+		// } else {
+		// 	$response = ['status' => true, 'message' => 'success', 'data' => base_url('assets/qrmeja/qrmeja.pdf')];
+		// }
 		echo json_encode($response);die;
 	}
 }
