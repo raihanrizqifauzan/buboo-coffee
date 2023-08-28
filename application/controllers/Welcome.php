@@ -13,6 +13,7 @@ class Welcome extends CI_Controller
 		$data['title_of_page'] = 'Buboo Coffee';
 		// $data['list_kategori'] = $this->M_kategori->getAllKategori();
 		// $data['list_recommendation'] = $this->M_menu->getBestSellerMenu();
+		// echo json_encode(getStatusToko());die;
 		$this->load->view('public/structure/V_head', $data);
 		$this->load->view('public/structure/V_topbar');
 		$this->load->view('public/V_welcome');

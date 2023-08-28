@@ -148,7 +148,10 @@
                                 <textarea id="keterangan_libur" class="form-control"><?= $keterangan ?></textarea>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-end w-100 mt-4">
+                        <div class="d-flex justify-content-between w-100 mt-4">
+                            <div>
+                                <button class="btn btn-sm btn-danger" id="kosongkan">Kosongkan Jadwal Libur</button>
+                            </div>
                             <div>
                                 <button class="btn btn-sm btn-success" id="saveJadwalLibur">Simpan</button>
                             </div>
@@ -218,6 +221,13 @@
                 }
             }
         });
+    })
+
+    $("#kosongkan").click(function () {
+        $("#datetime_start_libur").val("");
+        $("#datetime_end_libur").val("");
+        $("#keterangan_libur").val("");
+        $("#saveJadwalLibur").trigger("click");
     })
 
     $("#saveJadwalLibur").click(function () {

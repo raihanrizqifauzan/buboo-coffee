@@ -1,5 +1,5 @@
             <footer class="footer text-center text-muted">
-                All Rights Reserved by Adminmart. Designed and Developed by <a
+                Developed by <a
                     href="https://instagram.com/raihanrizqifauzan">Raihan Rizqi Fauzan</a>.
             </footer>
             <!-- ============================================================== -->
