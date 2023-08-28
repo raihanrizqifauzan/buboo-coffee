@@ -129,6 +129,9 @@ class Setting extends CI_Controller
             $data = [];
             $i = 0;
             foreach ($list_hari as $key => $hari) {
+                if ($start_time[$i] > $end_time[$i]) {
+                    throw new Exception("Waktu Tutup harus lebih dari Waktu buka");
+                }
                 $temp = [
                     'start_time' => $start_time[$i],
                     'end_time' => $end_time[$i],

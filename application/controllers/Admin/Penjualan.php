@@ -227,6 +227,22 @@ class Penjualan extends CI_Controller
 
             $this->db->trans_complete();
             $this->db->trans_commit();
+
+            // $message_whatsapp = "Pesanan dengan No. #$no_pesanan atas nama ".$data_order['nama_customer']." akan segera kami Proses. Mohon tunggu ya, Terimakasih";
+            // send_whatsapp($data_order['no_hp'], $message_whatsapp);
+            
+            $detail_order = $this->M_order->getItemOrder($id_order_inserted);
+            $message_whatsapp = "Ada pesanan baru dengan No. Order #$no_pesanan";
+            foreach ($detail_order as $key => $menu) {
+                $message_whatsapp .= "\n- $menu->nama_menu ($menu->qty pcs)";
+            }
+            $list_pegawai = get_pegawai();
+            foreach ($list_pegawai as $key => $pegawai) {
+                if ($pegawai->role != "owner") {
+                    send_whatsapp($pegawai->no_hp, $message_whatsapp);
+                }
+            }
+
             echo json_encode(['status' => true, 'message' => "Berhasil membuat order No. Pesanan $no_pesanan"]);
         } catch (Exception $e) {
             $this->db->trans_rollback();
@@ -456,6 +472,21 @@ class Penjualan extends CI_Controller
 
             $this->db->trans_complete();
             $this->db->trans_commit();
+
+            $message_whatsapp = "Pesanan dengan No. #$data_pesanan->no_pesanan atas nama $data_pesanan->nama_customer akan segera kami Proses. Mohon tunggu ya, Terimakasih";
+            send_whatsapp($data_pesanan->no_hp, $message_whatsapp);
+            
+            $detail_order = $this->M_order->getItemOrder($data_pesanan->id_order);
+            $message_whatsapp = "Ada pesanan baru dengan No. Order #$data_pesanan->no_pesanan";
+            foreach ($detail_order as $key => $menu) {
+                $message_whatsapp .= "\n- $menu->nama_menu ($menu->qty pcs)";
+            }
+            $list_pegawai = get_pegawai();
+            foreach ($list_pegawai as $key => $pegawai) {
+                if ($pegawai->role != "owner") {
+                    send_whatsapp($pegawai->no_hp, $message_whatsapp);
+                }
+            }
 
             echo json_encode(['status' => true, 'message' => "Berhasil mengupdate order No. Pesanan $no_pesanan"]);
         } catch (Exception $e) {

@@ -18,7 +18,7 @@
                 if ($this->session->role == "owner") { ?>
                     <li class="sidebar-item"> 
                         <a class="sidebar-link sidebar-link" href="<?= base_url('admin/pegawai') ?>" aria-expanded="false">
-                            <i data-feather="home" class="feather-icon"></i>
+                            <i data-feather="user-check" class="feather-icon"></i>
                             <span class="hide-menu">Manage Admin</span>
                         </a>
                     </li>

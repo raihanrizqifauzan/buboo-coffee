@@ -34,10 +34,13 @@ function getStatusToko() {
     if ($hari_operasional['status'] == "on" && $sekarang >= $hari_operasional['start_time'] && $sekarang <= $hari_operasional['end_time']) {
         $status_toko = "buka";
     }
-
-    if (is_array($jadwal_libur) && $sekarang >= $jadwal_libur['datetime_start'] && $sekarang <= $jadwal_libur['datetime_end']) {
+    
+    $sekarang_date = date("Y-m-d H:i:s");
+    
+    if (is_array($jadwal_libur) && $sekarang_date >= date("Y-m-d H:i:s", strtotime($jadwal_libur['datetime_start'])) && $sekarang_date <= date("Y-m-d H:i:s", strtotime($jadwal_libur['datetime_end']))) {
         $status_toko = "tutup";
     }
+    // echo json_encode($status_toko);die;
     return $status_toko;
 }
 
